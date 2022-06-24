@@ -1,186 +1,81 @@
-import '../classes/stored_value.dart';
+import 'dart:convert';
 
-abstract class RpcResult {
-  String get apiVersion;
-}
-
-abstract class Peer {
-  late String nodeId;
-  late String address;
-}
-
-abstract class GetPeersResult extends RpcResult {
-  late List<Peer> peers;
-}
-
-class LastAddedBlockInfo {
-  late String hash;
-  late String timestamp;
-  late num eraId;
-  late num height;
-  late String stateRootHash;
-  late String creator;
-
-  LastAddedBlockInfo(this.hash, this.timestamp, this.eraId, this.height,
-      this.stateRootHash, this.creator);
-}
-
-abstract class GetStatusResult extends GetPeersResult {
-  late LastAddedBlockInfo lastAddedBlockInfo;
-  late String buildVersion;
-}
-
-abstract class GetStateRootHashResult extends RpcResult {
-  late String stateRootHash;
-}
-
-class ExecutionResultBody {
-  late num cost;
-  late String? errorMessage;
-  late List<String> transfers;
-
-  ExecutionResultBody(this.cost, this.errorMessage, this.transfers);
-}
-
-abstract class ExecutionResult {
-  late ExecutionResultBody success;
-  late ExecutionResultBody failure;
-}
-
-abstract class JsonExecutionResult {
-  late String blockHash;
-  late ExecutionResult result;
-}
-
-abstract class GetDeployResult extends RpcResult {
-  late JsonDeploy deploy;
-  late List<JsonExecutionResult> executionResults;
-}
-
-abstract class GetBlockResult extends RpcResult {
-  late JsonBlock block;
-}
-
-abstract class JsonSystemTransaction {
-  String? slash;
-  late Map<String, num>? reward;
-}
-
-class JsonDeployHeader {
-  late String account;
-  late num timestamp;
-  late num ttl;
-  late num gasPrice;
-  late String bodyHash;
-  late List<String> dependencies;
-  late String chainName;
-}
-
-abstract class JsonExecutableDeployItem {}
-
-class JsonApproval {
-  late String signer;
-  late String signature;
-
-  JsonApproval(this.signer, this.signature);
-}
-
-class JsonDeploy {
-  late String hash;
-  late JsonDeployHeader header;
-  late JsonExecutableDeployItem payment;
-  late JsonExecutableDeployItem session;
-  late List<JsonApproval> approvals;
-
-  JsonDeploy(
-      this.hash, this.header, this.payment, this.session, this.approvals);
-}
-
-class JsonHeader {
-  late String parentHash;
-  late String stateRootHash;
-  late String bodyHash;
-  late List<String> deployHashes;
-  late bool randomBit;
-  late bool switchBlock;
-  late num timestamp;
-  late List<JsonSystemTransaction> systemTransactions;
-  late num eraId;
-  late num height;
-  late String proposer;
-  late String protocolVersion;
-}
-
-class JsonBlock {
-  late String hash;
-  late JsonHeader header;
-  late List<String> proofs;
-}
-
-class BidInfo {
-  late String bondingPurse;
-  late String stakedAmount;
-  late num delegationRate;
-  late String fundsLocked;
-}
-
-class ValidatorWeight {
-  late String publicKey;
-  late String weight;
-}
-
-class EraSummary {
-  late String blockHash;
-  late num eraId;
-  late StoredValue storedValue;
-  late String stateRootHash;
-}
-
-class EraValidators {
-  late num eraId;
-  late List<ValidatorWeight> validatorWeights;
-}
-
-class Bid {
-  late String bondingPurse;
-  late String stakedAmount;
-  late num delegationRate;
-  late String reward;
-  late List<Delegators> delegators;
-}
-
-class Delegators {
-  late String bondingPurse;
-  late String delegatee;
-  late String stakedAmount;
-  late String publicKey;
-}
-
-class DelegatorInfo {
-  late String bondingPurse;
-  late String delegatee;
-  late String reward;
-  late String stakedAmount;
-}
-
-class ValidatorBid {
-  late String publicKey;
-  late Bid bid;
-}
-
-class AuctionState {
-  late String stateRootHash;
-  late num blockHeight;
-  late List<EraValidators> eraValidators;
-  late List<ValidatorBid> bids;
-}
-
-class ValidatorsInfoResult extends RpcResult {
-  @override
-  late String apiVersion;
-  late AuctionState auctionState;
-}
+import 'package:http/http.dart' as http;
 
 class CasperServiceByJsonRPC {
-  // late Client _client;
+  final String rpcUrl;
+  int _currentRequestId = 0;
+
+  CasperServiceByJsonRPC(this.rpcUrl);
+
+  Future<Map<String, dynamic>> call(
+      String function, Map<String, dynamic>? params) async {
+    params ??= {};
+
+    final requestPayload = {
+      'jsonrpc': '2.0',
+      'method': function,
+      'params': params,
+      'id': _currentRequestId++,
+    };
+
+    var request = http.Request('POST', Uri.parse(rpcUrl));
+    request.body = jsonEncode(requestPayload);
+    // we have add the
+    request.headers.addAll({'Content-Type': 'application/json'});
+
+    final stream = await request.send();
+    final response = await http.Response.fromStream(stream);
+    final data = jsonDecode(response.body) as Map<String, dynamic>;
+
+    if (data.containsKey('error')) {
+      final error = data['error'];
+
+      final code = error['code'] as int;
+      final message = error['message'] as String;
+      final errorData = error['data'];
+
+      throw RPCError(code, message, errorData);
+    }
+
+    final result = data['result'];
+    return result;
+  }
+
+  Future<Map<String, dynamic>> _makeRPCCall(
+      String function, Map<String, dynamic>? params) async {
+    try {
+      final data = await call(function, params);
+      // ignore: only_throw_errors
+      if (data is Error || data is Exception) throw data;
+
+      return data;
+      // ignore: avoid_catches_without_on_clauses
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
+  /// Get information about a single deploy by hash.
+  ///
+  /// @param deployHashBase16
+  Future<Map<String, dynamic>> getDeployInfo(String deployHashBase16) async {
+    return await _makeRPCCall(
+        'info_get_deploy', {'deploy_hash': deployHashBase16});
+  }
+}
+
+/// Exception thrown when an the server returns an error code to an rpc request.
+class RPCError implements Exception {
+  const RPCError(this.errorCode, this.message, this.data);
+
+  final int errorCode;
+  final String message;
+  final dynamic data;
+
+  @override
+  String toString() {
+    return 'RPCError: got code $errorCode with msg "$message".';
+  }
 }

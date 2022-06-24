@@ -8,7 +8,10 @@ environment:
 
 dependencies:
   asn1lib: ^1.1.0
+  build_runner: ^2.1.11
   hdkey: ^0.0.1
+  http: ^0.13.4
+  json_serializable: ^6.2.0
   oxidized: ^5.2.0
   pinenacl: ^0.3.4
   secp256k1: ^0.3.0
