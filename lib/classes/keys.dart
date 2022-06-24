@@ -375,7 +375,7 @@ class Secp256K1 extends AsymmetricKey {
   /// From hdKey derive a child Secp256K1 key
   /// @param hdKey
   /// @param index
-  static deriveIndex(CasperHDKey hdKey, int index) {
+  static Secp256K1 deriveIndex(CasperHDKey hdKey, int index) {
     return hdKey.deriveIndex(index);
   }
 }

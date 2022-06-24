@@ -20,7 +20,7 @@ class CasperHDKey {
     ].join('/');
   }
 
-  late HDKey _hdKey;
+  final HDKey _hdKey;
 
   CasperHDKey(this._hdKey);
 
