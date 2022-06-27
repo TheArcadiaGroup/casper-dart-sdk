@@ -9,6 +9,7 @@ environment:
 dependencies:
   asn1lib: ^1.1.0
   build_runner: ^2.1.11
+  duration: ^3.0.11
   hdkey: ^0.0.1
   http: ^0.13.4
   json_serializable: ^6.2.0
