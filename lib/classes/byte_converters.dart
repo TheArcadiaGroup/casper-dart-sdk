@@ -87,8 +87,6 @@ Uint8List toBytesU512(dynamic val) {
   return toBytesNumber(512, false)(val);
 }
 
-//toBytesDeployHash
-
 /// Serializes a string into an array of bytes.
 Uint8List toBytesString(String str) {
   var arr = Uint8List.fromList(str.codeUnits);
@@ -105,6 +103,20 @@ Uint8List toBytesArrayU8(Uint8List arr) {
 }
 
 /// Serializes a vector of values of type `T` into an array of bytes.
+Uint8List toBytesVector<T extends ToBytes>(List<T> vec) {
+  List<Uint8List> valueByteList = List.empty(growable: true);
+  for (var i = 0; i < vec.length; i++) {
+    var subList = vec[i].toBytes().unwrap();
+    valueByteList.add(subList);
+  }
+
+  var u32Vec = toBytesU32(vec.length);
+  valueByteList.insert(0, u32Vec);
+  var result = valueByteList.expand((element) => element).toList();
+  return Uint8List.fromList(result);
+}
+
+/// Serializes a vector of values of type `T` into an array of bytes.
 Uint8List toBytesVectorNew<T extends CLValue>(List<T> vec) {
   List<Uint8List> valueByteList = List.empty(growable: true);
   for (var i = 0; i < vec.length; i++) {
@@ -117,5 +129,3 @@ Uint8List toBytesVectorNew<T extends CLValue>(List<T> vec) {
   var result = valueByteList.expand((element) => element).toList();
   return Uint8List.fromList(result);
 }
-
-//toBytesVectorNew
