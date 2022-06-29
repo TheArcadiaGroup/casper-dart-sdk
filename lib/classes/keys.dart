@@ -150,7 +150,7 @@ class Ed25519 extends AsymmetricKey {
   /// @param publicKey
   /// @param privateKey
   static AsymmetricKey parseKeyPair(Uint8List publicKey, Uint8List privateKey) {
-    var publ = Ed25519.parsePrivateKey(publicKey);
+    var publ = Ed25519.parsePublicKey(publicKey);
     var priv = Ed25519.parsePrivateKey(privateKey);
 
     var secr = Uint8List.fromList([...priv, ...publ]);
@@ -226,7 +226,8 @@ class Ed25519 extends AsymmetricKey {
 
   @override
   Uint8List sign(Uint8List msg) {
-    return SigningKey.fromValidBytes(privateKey).sign(msg).toUint8List();
+    var sig = SigningKey.fromValidBytes(privateKey).sign(msg);
+    return sig.signature.toUint8List();
   }
 
   @override
@@ -361,25 +362,26 @@ class Secp256K1 extends AsymmetricKey {
 
   @override
   Uint8List sign(Uint8List msg) {
-    var pk = secp256k1.PrivateKey.fromHex(hex.encode(privateKey));
-    var msgHash = hex.encode(msg);
+    var pk = secp256k1.PrivateKey.fromHex(encodeBase16(privateKey));
+    var msgHash = encodeBase16(msg);
     var sig = pk.signature(msgHash);
-    return Uint8List.fromList(hex.decode(sig.toString()));
+    return Uint8List.fromList(decodeBase16(sig.toString()));
   }
 
   @override
   bool verify(Uint8List signature, Uint8List msg) {
-    var pk = secp256k1.PrivateKey.fromHex(hex.encode(privateKey));
-    var msgHash = hex.encode(msg);
+    var pk = secp256k1.PrivateKey.fromHex(encodeBase16(privateKey));
+    var msgHash = encodeBase16(msg);
     var sig = pk.signature(msgHash);
-    var sigBytes = Uint8List.fromList(hex.decode(sig.toString()));
+    var sigBytes = Uint8List.fromList(decodeBase16(sig.toString()));
     return sigBytes == signature;
   }
 
   /// Derive public key from private key
   /// @param privateKey
   static Uint8List privateToPublicKey(Uint8List privateKey) {
-    var pubKey = secp256k1.PrivateKey.fromHex(hex.encode(privateKey)).publicKey;
+    var pubKey =
+        secp256k1.PrivateKey.fromHex(encodeBase16(privateKey)).publicKey;
     return decodeBase16(pubKey.toCompressedHex());
   }
 
@@ -388,7 +390,7 @@ class Secp256K1 extends AsymmetricKey {
   static AsymmetricKey loadKeyPairFromPrivateFile(String privateKeyPath) {
     var privateKey = Secp256K1.parsePrivateKeyFile(privateKeyPath);
     var publicKey =
-        secp256k1.PrivateKey.fromHex(hex.encode(privateKey)).publicKey;
+        secp256k1.PrivateKey.fromHex(encodeBase16(privateKey)).publicKey;
     return Secp256K1.parseKeyPair(
         Uint8List.fromList(decodeBase16(publicKey.toCompressedHex())),
         privateKey);

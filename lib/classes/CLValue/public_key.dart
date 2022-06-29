@@ -161,7 +161,7 @@ class CLPublicKey extends CLValue {
 
   String toAccountHashStr() {
     var bytes = toAccountHash();
-    var hashHex = hex.encode(bytes);
+    var hashHex = encodeBase16(bytes);
     return 'account-hash-$hashHex';
   }
 

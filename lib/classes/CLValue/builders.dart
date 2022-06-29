@@ -57,6 +57,10 @@ class CLTypeBuilder {
     return CLUnitType();
   }
 
+  static CLStringType string() {
+    return CLStringType();
+  }
+
   static CLKeyType key() {
     return CLKeyType();
   }

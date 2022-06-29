@@ -775,13 +775,11 @@ class Deploy {
     return false;
   }
 
-  // Future<String> send(String nodeUrl) async {
-  //   const client = CasperClient(nodeUrl);
-
-  //   const deployHash = client.putDeploy(this);
-
-  //   return deployHash;
-  // }
+  Future<String> send(String nodeUrl) async {
+    var client = CasperClient(nodeUrl);
+    var deployHash = client.putDeploy(this);
+    return deployHash;
+  }
 
   Deploy sign(List<keys.AsymmetricKey> keys) {
     var signedDeploy = this;
@@ -856,19 +854,23 @@ class DeployParams {
   /// @param ttl Time that the `Deploy` will remain valid for, in milliseconds. The default value is 1800000, which is 30 minutes
   /// @param dependencies Hex-encoded `Deploy` hashes of deploys which must be executed before this one.
   /// @param timestamp  If `timestamp` is empty, the current time will be used. Note that timestamp is UTC, not local.
-  DeployParams(this.accountPublicKey, this.chainName, this.gasPrice, this.ttl,
-      List<Uint8List> dependencies,
-      [int? timestamp]) {
-    this.dependencies = dependencies
-        .where((d) =>
-            dependencies
-                .where((t) =>
-                    encodeBase16(Uint8List.fromList(d)) ==
-                    encodeBase16(Uint8List.fromList(t)))
-                .toList()
-                .length <
-            2)
-        .toList();
+  DeployParams(this.accountPublicKey, this.chainName,
+      [int? gasPrice,
+      int? ttl,
+      List<Uint8List>? dependencies,
+      int? timestamp]) {
+    if (dependencies != null) {
+      this.dependencies = dependencies
+          .where((d) =>
+              dependencies
+                  .where((t) =>
+                      encodeBase16(Uint8List.fromList(d)) ==
+                      encodeBase16(Uint8List.fromList(t)))
+                  .toList()
+                  .length <
+              2)
+          .toList();
+    }
     this.timestamp = timestamp ?? DateTime.now().millisecondsSinceEpoch;
   }
 }
