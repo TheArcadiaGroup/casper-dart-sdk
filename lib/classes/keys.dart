@@ -123,7 +123,7 @@ class Ed25519 extends AsymmetricKey {
   /// Generate the accountHex for the Ed25519 key
   ///
   /// @param publicKey
-  String accountHexStr(Uint8List publicKey) {
+  static String accountHexStr(Uint8List publicKey) {
     return '01' + encodeBase16(publicKey);
   }
 
@@ -176,12 +176,6 @@ class Ed25519 extends AsymmetricKey {
 
   static Uint8List readBase64WithPEM(String content) {
     return readBase64Content(content);
-  }
-
-  static loadKeyPairFromPrivateFile(String privateKeyPath) {
-    var privateKey = Ed25519.parsePrivateKeyFile(privateKeyPath);
-    var publicKey = PrivateKey.fromSeed(privateKey);
-    return Ed25519.parseKeyPair(publicKey.toUint8List(), privateKey);
   }
 
   /// Read the Base64 content of a file, get rid of PEM frames.
@@ -242,6 +236,24 @@ class Ed25519 extends AsymmetricKey {
     var signedMsg = SignedMessage.fromList(signedMessage: signature);
     return verifyKey.verify(signature: signedMsg.signature, message: msg);
   }
+
+  /// Derive public key from private key
+  /// @param privateKey
+  static Uint8List privateToPublicKey(Uint8List privateKey) {
+    if (privateKey.length == 64) {
+      return PrivateKey(privateKey).publicKey.toUint8List();
+    } else {
+      return PrivateKey.fromSeed(privateKey).publicKey.toUint8List();
+    }
+  }
+
+  /// Restore Ed25519 keyPair from private key file
+  /// @param privateKeyPath
+  static loadKeyPairFromPrivateFile(String privateKeyPath) {
+    var privateKey = Ed25519.parsePrivateKeyFile(privateKeyPath);
+    var publicKey = PrivateKey.fromSeed(privateKey).publicKey;
+    return Ed25519.parseKeyPair(publicKey.toUint8List(), privateKey);
+  }
 }
 
 class Secp256K1 extends AsymmetricKey {
@@ -273,7 +285,7 @@ class Secp256K1 extends AsymmetricKey {
     return accountHashHelper(SignatureAlgorithm.Secp256K1, publicKey);
   }
 
-  String accountHexStr(Uint8List publickKey) {
+  static String accountHexStr(Uint8List publickKey) {
     return '02' + encodeBase16(publickKey);
   }
 
@@ -364,12 +376,22 @@ class Secp256K1 extends AsymmetricKey {
     return sigBytes == signature;
   }
 
+  /// Derive public key from private key
+  /// @param privateKey
+  static Uint8List privateToPublicKey(Uint8List privateKey) {
+    var pubKey = secp256k1.PrivateKey.fromHex(hex.encode(privateKey)).publicKey;
+    return decodeBase16(pubKey.toCompressedHex());
+  }
+
+  /// Restore Secp256K1 keyPair from private key file
+  /// @param privateKeyPath a path to file of the private key
   static AsymmetricKey loadKeyPairFromPrivateFile(String privateKeyPath) {
     var privateKey = Secp256K1.parsePrivateKeyFile(privateKeyPath);
     var publicKey =
         secp256k1.PrivateKey.fromHex(hex.encode(privateKey)).publicKey;
-    return Ed25519.parseKeyPair(
-        Uint8List.fromList(publicKey.toHex().codeUnits), privateKey);
+    return Secp256K1.parseKeyPair(
+        Uint8List.fromList(decodeBase16(publicKey.toCompressedHex())),
+        privateKey);
   }
 
   /// From hdKey derive a child Secp256K1 key

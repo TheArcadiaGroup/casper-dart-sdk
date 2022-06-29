@@ -1,0 +1,436 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'casper_service_by_json_rpc.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+RpcResult _$RpcResultFromJson(Map<String, dynamic> json) =>
+    RpcResult()..apiVersion = json['api_version'] as String;
+
+Map<String, dynamic> _$RpcResultToJson(RpcResult instance) => <String, dynamic>{
+      'api_version': instance.apiVersion,
+    };
+
+Peer _$PeerFromJson(Map<String, dynamic> json) => Peer(
+      json['node_id'] as String,
+      json['address'] as String,
+    );
+
+Map<String, dynamic> _$PeerToJson(Peer instance) => <String, dynamic>{
+      'node_id': instance.nodeId,
+      'address': instance.address,
+    };
+
+GetPeersResult _$GetPeersResultFromJson(Map<String, dynamic> json) =>
+    GetPeersResult(
+      (json['peers'] as List<dynamic>)
+          .map((e) => Peer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    )..apiVersion = json['api_version'] as String;
+
+Map<String, dynamic> _$GetPeersResultToJson(GetPeersResult instance) =>
+    <String, dynamic>{
+      'api_version': instance.apiVersion,
+      'peers': instance.peers.map((e) => e.toJson()).toList(),
+    };
+
+LastAddedBlockInfo _$LastAddedBlockInfoFromJson(Map<String, dynamic> json) =>
+    LastAddedBlockInfo(
+      json['hash'] as String,
+      json['timestamp'] as String,
+      json['era_id'] as int,
+      json['height'] as int,
+      json['state_root_hash'] as String,
+      json['creator'] as String,
+    );
+
+Map<String, dynamic> _$LastAddedBlockInfoToJson(LastAddedBlockInfo instance) =>
+    <String, dynamic>{
+      'hash': instance.hash,
+      'timestamp': instance.timestamp,
+      'era_id': instance.eraId,
+      'height': instance.height,
+      'state_root_hash': instance.stateRootHash,
+      'creator': instance.creator,
+    };
+
+GetStatusResult _$GetStatusResultFromJson(Map<String, dynamic> json) =>
+    GetStatusResult(
+      (json['peers'] as List<dynamic>)
+          .map((e) => Peer.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    )
+      ..apiVersion = json['api_version'] as String
+      ..lastAddedBlockInfo = LastAddedBlockInfo.fromJson(
+          json['last_added_block_info'] as Map<String, dynamic>)
+      ..buildVersion = json['build_version'] as String;
+
+Map<String, dynamic> _$GetStatusResultToJson(GetStatusResult instance) =>
+    <String, dynamic>{
+      'api_version': instance.apiVersion,
+      'peers': instance.peers.map((e) => e.toJson()).toList(),
+      'last_added_block_info': instance.lastAddedBlockInfo.toJson(),
+      'build_version': instance.buildVersion,
+    };
+
+GetStateRootHashResult _$GetStateRootHashResultFromJson(
+        Map<String, dynamic> json) =>
+    GetStateRootHashResult(
+      json['state_root_hash'] as String,
+    )..apiVersion = json['api_version'] as String;
+
+Map<String, dynamic> _$GetStateRootHashResultToJson(
+        GetStateRootHashResult instance) =>
+    <String, dynamic>{
+      'api_version': instance.apiVersion,
+      'state_root_hash': instance.stateRootHash,
+    };
+
+ExecutionResultBody _$ExecutionResultBodyFromJson(Map<String, dynamic> json) =>
+    ExecutionResultBody(
+      json['cost'] as int,
+      json['error_message'] as String?,
+      (json['transfers'] as List<dynamic>).map((e) => e as String).toList(),
+    );
+
+Map<String, dynamic> _$ExecutionResultBodyToJson(
+        ExecutionResultBody instance) =>
+    <String, dynamic>{
+      'cost': instance.cost,
+      'error_message': instance.errorMessage,
+      'transfers': instance.transfers,
+    };
+
+ExecutionResult _$ExecutionResultFromJson(Map<String, dynamic> json) =>
+    ExecutionResult(
+      json['success'] == null
+          ? null
+          : ExecutionResultBody.fromJson(
+              json['success'] as Map<String, dynamic>),
+      json['Failure'] == null
+          ? null
+          : ExecutionResultBody.fromJson(
+              json['Failure'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$ExecutionResultToJson(ExecutionResult instance) =>
+    <String, dynamic>{
+      'success': instance.success?.toJson(),
+      'Failure': instance.failure?.toJson(),
+    };
+
+JsonExecutionResult _$JsonExecutionResultFromJson(Map<String, dynamic> json) =>
+    JsonExecutionResult(
+      json['block_hash'] as String,
+      ExecutionResult.fromJson(json['result'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$JsonExecutionResultToJson(
+        JsonExecutionResult instance) =>
+    <String, dynamic>{
+      'block_hash': instance.blockHash,
+      'result': instance.result.toJson(),
+    };
+
+GetDeployResult _$GetDeployResultFromJson(Map<String, dynamic> json) =>
+    GetDeployResult(
+      JsonDeploy.fromJson(json['deploy'] as Map<String, dynamic>),
+    )
+      ..apiVersion = json['api_version'] as String
+      ..executionResults = (json['execution_results'] as List<dynamic>)
+          .map((e) => JsonExecutionResult.fromJson(e as Map<String, dynamic>))
+          .toList();
+
+Map<String, dynamic> _$GetDeployResultToJson(GetDeployResult instance) =>
+    <String, dynamic>{
+      'api_version': instance.apiVersion,
+      'deploy': instance.deploy.toJson(),
+      'execution_results':
+          instance.executionResults.map((e) => e.toJson()).toList(),
+    };
+
+GetBlockResult _$GetBlockResultFromJson(Map<String, dynamic> json) =>
+    GetBlockResult(
+      json['block'] == null
+          ? null
+          : JsonBlock.fromJson(json['block'] as Map<String, dynamic>),
+    )..apiVersion = json['api_version'] as String;
+
+Map<String, dynamic> _$GetBlockResultToJson(GetBlockResult instance) =>
+    <String, dynamic>{
+      'api_version': instance.apiVersion,
+      'block': instance.block?.toJson(),
+    };
+
+JsonSystemTransaction _$JsonSystemTransactionFromJson(
+        Map<String, dynamic> json) =>
+    JsonSystemTransaction(
+      json['Slash'] as String?,
+      (json['Reward'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k, e as num),
+      ),
+    );
+
+Map<String, dynamic> _$JsonSystemTransactionToJson(
+        JsonSystemTransaction instance) =>
+    <String, dynamic>{
+      'Slash': instance.slash,
+      'Reward': instance.reward,
+    };
+
+JsonDeployHeader _$JsonDeployHeaderFromJson(Map<String, dynamic> json) =>
+    JsonDeployHeader(
+      json['account'] as String,
+      json['timestamp'] as int,
+      json['ttl'] as int,
+      json['gas_price'] as int,
+      json['body_hash'] as String,
+      (json['dependencies'] as List<dynamic>).map((e) => e as String).toList(),
+      json['chain_name'] as String,
+    );
+
+Map<String, dynamic> _$JsonDeployHeaderToJson(JsonDeployHeader instance) =>
+    <String, dynamic>{
+      'account': instance.account,
+      'timestamp': instance.timestamp,
+      'ttl': instance.ttl,
+      'gas_price': instance.gasPrice,
+      'body_hash': instance.bodyHash,
+      'dependencies': instance.dependencies,
+      'chain_name': instance.chainName,
+    };
+
+JsonExecutableDeployItem _$JsonExecutableDeployItemFromJson(
+        Map<String, dynamic> json) =>
+    JsonExecutableDeployItem();
+
+Map<String, dynamic> _$JsonExecutableDeployItemToJson(
+        JsonExecutableDeployItem instance) =>
+    <String, dynamic>{};
+
+JsonApproval _$JsonApprovalFromJson(Map<String, dynamic> json) => JsonApproval(
+      json['signer'] as String,
+      json['signature'] as String,
+    );
+
+Map<String, dynamic> _$JsonApprovalToJson(JsonApproval instance) =>
+    <String, dynamic>{
+      'signer': instance.signer,
+      'signature': instance.signature,
+    };
+
+JsonDeploy _$JsonDeployFromJson(Map<String, dynamic> json) => JsonDeploy(
+      json['hash'] as String,
+      JsonDeployHeader.fromJson(json['header'] as Map<String, dynamic>),
+      JsonExecutableDeployItem.fromJson(
+          json['payment'] as Map<String, dynamic>),
+      JsonExecutableDeployItem.fromJson(
+          json['session'] as Map<String, dynamic>),
+      (json['approvals'] as List<dynamic>)
+          .map((e) => JsonApproval.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$JsonDeployToJson(JsonDeploy instance) =>
+    <String, dynamic>{
+      'hash': instance.hash,
+      'header': instance.header.toJson(),
+      'payment': instance.payment.toJson(),
+      'session': instance.session.toJson(),
+      'approvals': instance.approvals.map((e) => e.toJson()).toList(),
+    };
+
+JsonHeader _$JsonHeaderFromJson(Map<String, dynamic> json) => JsonHeader(
+      json['parent_hash'] as String,
+      json['state_root_hash'] as String,
+      json['body_hash'] as String,
+      (json['deploy_hashes'] as List<dynamic>).map((e) => e as String).toList(),
+      json['random_bit'] as bool,
+      json['timestamp'] as int,
+      (json['system_transactions'] as List<dynamic>)
+          .map((e) => JsonSystemTransaction.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      json['era_id'] as int,
+      json['height'] as int,
+      json['proposer'] as String,
+      json['protocol_version'] as String,
+      json['switch_block'] as bool,
+    );
+
+Map<String, dynamic> _$JsonHeaderToJson(JsonHeader instance) =>
+    <String, dynamic>{
+      'parent_hash': instance.parentHash,
+      'state_root_hash': instance.stateRootHash,
+      'body_hash': instance.bodyHash,
+      'deploy_hashes': instance.deployHashes,
+      'random_bit': instance.randomBit,
+      'switch_block': instance.switchBlock,
+      'timestamp': instance.timestamp,
+      'system_transactions':
+          instance.systemTransactions.map((e) => e.toJson()).toList(),
+      'era_id': instance.eraId,
+      'height': instance.height,
+      'proposer': instance.proposer,
+      'protocol_version': instance.protocolVersion,
+    };
+
+JsonBlock _$JsonBlockFromJson(Map<String, dynamic> json) => JsonBlock(
+      json['hash'] as String,
+      JsonHeader.fromJson(json['header'] as Map<String, dynamic>),
+      (json['proofs'] as List<dynamic>).map((e) => e as String).toList(),
+    );
+
+Map<String, dynamic> _$JsonBlockToJson(JsonBlock instance) => <String, dynamic>{
+      'hash': instance.hash,
+      'header': instance.header.toJson(),
+      'proofs': instance.proofs,
+    };
+
+BidInfo _$BidInfoFromJson(Map<String, dynamic> json) => BidInfo(
+      json['bonding_purse'] as String,
+      json['staked_amount'] as String,
+      json['delegation_rate'] as num,
+      json['funds_locked'] as String?,
+    );
+
+Map<String, dynamic> _$BidInfoToJson(BidInfo instance) => <String, dynamic>{
+      'bonding_purse': instance.bondingPurse,
+      'staked_amount': instance.stakedAmount,
+      'delegation_rate': instance.delegationRate,
+      'funds_locked': instance.fundsLocked,
+    };
+
+ValidatorWeight _$ValidatorWeightFromJson(Map<String, dynamic> json) =>
+    ValidatorWeight(
+      json['public_key'] as String,
+      json['weight'] as String,
+    );
+
+Map<String, dynamic> _$ValidatorWeightToJson(ValidatorWeight instance) =>
+    <String, dynamic>{
+      'public_key': instance.publicKey,
+      'weight': instance.weight,
+    };
+
+EraSummary _$EraSummaryFromJson(Map<String, dynamic> json) => EraSummary(
+      json['block_hash'] as String,
+      json['era_id'] as int,
+      StoredValue.fromJson(json['stored_value'] as Map<String, dynamic>),
+      json['state_root_hash'] as String,
+    );
+
+Map<String, dynamic> _$EraSummaryToJson(EraSummary instance) =>
+    <String, dynamic>{
+      'block_hash': instance.blockHash,
+      'era_id': instance.eraId,
+      'stored_value': instance.storedValue.toJson(),
+      'state_root_hash': instance.stateRootHash,
+    };
+
+EraValidators _$EraValidatorsFromJson(Map<String, dynamic> json) =>
+    EraValidators(
+      json['era_id'] as int,
+      (json['validator_weights'] as List<dynamic>)
+          .map((e) => ValidatorWeight.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$EraValidatorsToJson(EraValidators instance) =>
+    <String, dynamic>{
+      'era_id': instance.eraId,
+      'validator_weights':
+          instance.validatorWeights.map((e) => e.toJson()).toList(),
+    };
+
+Bid _$BidFromJson(Map<String, dynamic> json) => Bid(
+      json['bonding_purse'] as String,
+      json['staked_amount'] as String,
+      json['delegation_rate'] as num,
+      json['reward'] as String,
+      (json['delegators'] as List<dynamic>)
+          .map((e) => Delegators.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$BidToJson(Bid instance) => <String, dynamic>{
+      'bonding_purse': instance.bondingPurse,
+      'staked_amount': instance.stakedAmount,
+      'delegation_rate': instance.delegationRate,
+      'reward': instance.reward,
+      'delegators': instance.delegators.map((e) => e.toJson()).toList(),
+    };
+
+Delegators _$DelegatorsFromJson(Map<String, dynamic> json) => Delegators(
+      json['bonding_purse'] as String,
+      json['delegatee'] as String,
+      json['staked_amount'] as String,
+      json['public_key'] as String,
+    );
+
+Map<String, dynamic> _$DelegatorsToJson(Delegators instance) =>
+    <String, dynamic>{
+      'bonding_purse': instance.bondingPurse,
+      'delegatee': instance.delegatee,
+      'staked_amount': instance.stakedAmount,
+      'public_key': instance.publicKey,
+    };
+
+DelegatorInfo _$DelegatorInfoFromJson(Map<String, dynamic> json) =>
+    DelegatorInfo(
+      json['bonding_purse'] as String,
+      json['delegatee'] as String,
+      json['reward'] as String,
+    )..stakedAmount = json['staked_amount'] as String;
+
+Map<String, dynamic> _$DelegatorInfoToJson(DelegatorInfo instance) =>
+    <String, dynamic>{
+      'bonding_purse': instance.bondingPurse,
+      'delegatee': instance.delegatee,
+      'reward': instance.reward,
+      'staked_amount': instance.stakedAmount,
+    };
+
+ValidatorBid _$ValidatorBidFromJson(Map<String, dynamic> json) => ValidatorBid(
+      json['public_key'] as String,
+      Bid.fromJson(json['bid'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$ValidatorBidToJson(ValidatorBid instance) =>
+    <String, dynamic>{
+      'public_key': instance.publicKey,
+      'bid': instance.bid.toJson(),
+    };
+
+AuctionState _$AuctionStateFromJson(Map<String, dynamic> json) => AuctionState(
+      json['state_root_hash'] as String,
+      json['block_height'] as int,
+      (json['era_validators'] as List<dynamic>)
+          .map((e) => EraValidators.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      (json['bids'] as List<dynamic>)
+          .map((e) => ValidatorBid.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$AuctionStateToJson(AuctionState instance) =>
+    <String, dynamic>{
+      'state_root_hash': instance.stateRootHash,
+      'block_height': instance.blockHeight,
+      'era_validators': instance.eraValidators.map((e) => e.toJson()).toList(),
+      'bids': instance.bids.map((e) => e.toJson()).toList(),
+    };
+
+ValidatorsInfoResult _$ValidatorsInfoResultFromJson(
+        Map<String, dynamic> json) =>
+    ValidatorsInfoResult(
+      AuctionState.fromJson(json['auction_state'] as Map<String, dynamic>),
+    )..apiVersion = json['api_version'] as String;
+
+Map<String, dynamic> _$ValidatorsInfoResultToJson(
+        ValidatorsInfoResult instance) =>
+    <String, dynamic>{
+      'api_version': instance.apiVersion,
+      'auction_state': instance.auctionState.toJson(),
+    };

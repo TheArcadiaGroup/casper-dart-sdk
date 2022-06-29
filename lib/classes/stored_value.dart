@@ -90,6 +90,12 @@ class TransferJson {
 @JsonSerializable(explicitToJson: true)
 class Transfers {
   late List<TransferJson> transfers;
+
+  Transfers(this.transfers);
+
+  factory Transfers.fromJson(Map<String, dynamic> json) =>
+      _$TransfersFromJson(json);
+  Map<String, dynamic> toJson() => _$TransfersToJson(this);
 }
 
 @JsonSerializable(explicitToJson: true)

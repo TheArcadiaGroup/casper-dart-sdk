@@ -83,10 +83,11 @@ Map<String, dynamic> _$TransferJsonToJson(TransferJson instance) =>
       'id': instance.id,
     };
 
-Transfers _$TransfersFromJson(Map<String, dynamic> json) => Transfers()
-  ..transfers = (json['transfers'] as List<dynamic>)
-      .map((e) => TransferJson.fromJson(e as Map<String, dynamic>))
-      .toList();
+Transfers _$TransfersFromJson(Map<String, dynamic> json) => Transfers(
+      (json['transfers'] as List<dynamic>)
+          .map((e) => TransferJson.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
 
 Map<String, dynamic> _$TransfersToJson(Transfers instance) => <String, dynamic>{
       'transfers': instance.transfers.map((e) => e.toJson()).toList(),
