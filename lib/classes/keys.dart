@@ -4,9 +4,10 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:asn1lib/asn1lib.dart';
-import 'package:convert/convert.dart';
 import 'package:pinenacl/ed25519.dart';
-import 'package:secp256k1/secp256k1.dart' as secp256k1;
+import 'package:ecdsa/ecdsa.dart' as ecdsa;
+import 'package:elliptic/elliptic.dart' as elliptic;
+import 'package:pinenacl/tweetnacl.dart';
 
 import 'CLValue/public_key.dart';
 import 'casper_hdkey.dart';
@@ -232,10 +233,14 @@ class Ed25519 extends AsymmetricKey {
 
   @override
   bool verify(Uint8List signature, Uint8List msg) {
-    var signingKey = SigningKey.fromValidBytes(privateKey);
-    var verifyKey = signingKey.verifyKey;
-    var signedMsg = SignedMessage.fromList(signedMessage: signature);
-    return verifyKey.verify(signature: signedMsg.signature, message: msg);
+    try {
+      // var verifyKey = VerifyKey(publicKey.data);
+      // return verifyKey.verify(
+      //     signature: elliptic.Signature(signature), message: msg);
+      return false;
+    } catch (e) {
+      return false;
+    }
   }
 
   /// Derive public key from private key
@@ -263,7 +268,8 @@ class Secp256K1 extends AsymmetricKey {
 
   /// Generating a new Secp256K1 key pair
   static Secp256K1 newKey() {
-    var privateKey = secp256k1.PrivateKey.generate();
+    var ec = elliptic.getSecp256k1();
+    var privateKey = ec.generatePrivateKey();
     var publicKey = privateKey.publicKey;
     var privateKeyHex = privateKey.toHex();
     var publicKeyHex = publicKey.toCompressedHex();
@@ -290,9 +296,10 @@ class Secp256K1 extends AsymmetricKey {
     return '02' + encodeBase16(publickKey);
   }
 
-  static AsymmetricKey parseKeyPair(Uint8List publicKey, Uint8List privateKey) {
-    var publ = Secp256K1.parsePublicKey(publicKey);
-    var priv = Secp256K1.parsePrivateKey(privateKey);
+  static AsymmetricKey parseKeyPair(Uint8List publicKey, Uint8List privateKey,
+      [String? originalFormat = 'der']) {
+    var publ = Secp256K1.parsePublicKey(publicKey, originalFormat);
+    var priv = Secp256K1.parsePrivateKey(privateKey, originalFormat);
     return Secp256K1(publ, priv);
   }
 
@@ -304,14 +311,20 @@ class Secp256K1 extends AsymmetricKey {
     return Secp256K1.parsePublicKey(Secp256K1.readBase64File(path));
   }
 
-  static Uint8List parsePrivateKey(Uint8List bytes) {
-    String rawKeyHex = encodeBase16(bytes);
-    return Uint8List.fromList(rawKeyHex.codeUnits);
+  static Uint8List parsePrivateKey(Uint8List bytes,
+      [String? originalFormat = 'der']) {
+    var subBytes = bytes.sublist(7, 39);
+    return subBytes;
   }
 
-  static Uint8List parsePublicKey(Uint8List bytes) {
-    String rawKeyHex = encodeBase16(bytes);
-    return Uint8List.fromList(rawKeyHex.codeUnits);
+  static Uint8List parsePublicKey(Uint8List bytes,
+      [String? originalFormat = 'der']) {
+    Uint8List result = Uint8List.fromList(bytes);
+    if (originalFormat == 'der') {
+      var subBytes = bytes.sublist(23, bytes.length);
+      result = subBytes;
+    }
+    return result;
   }
 
   static Uint8List readBase64WithPEM(String content) {
@@ -362,35 +375,40 @@ class Secp256K1 extends AsymmetricKey {
 
   @override
   Uint8List sign(Uint8List msg) {
-    var pk = secp256k1.PrivateKey.fromHex(encodeBase16(privateKey));
-    var msgHash = encodeBase16(msg);
-    var sig = pk.signature(msgHash);
-    return Uint8List.fromList(decodeBase16(sig.toString()));
+    var ec = elliptic.getSecp256k1();
+    var priv = elliptic.PrivateKey.fromBytes(ec, privateKey);
+    var out = Uint8List.fromList(List.filled(32, 0, growable: true));
+    TweetNaClExt.crypto_hash_sha256(out, msg);
+    var sig = ecdsa.signature(priv, out);
+    return Uint8List.fromList(sig.toCompact());
   }
 
   @override
   bool verify(Uint8List signature, Uint8List msg) {
-    var pk = secp256k1.PrivateKey.fromHex(encodeBase16(privateKey));
-    var msgHash = encodeBase16(msg);
-    var sig = pk.signature(msgHash);
-    var sigBytes = Uint8List.fromList(decodeBase16(sig.toString()));
-    return sigBytes == signature;
+    var ec = elliptic.getSecp256k1();
+    var pk = elliptic.PublicKey.fromHex(ec, encodeBase16(publicKey.value()));
+    var out = Uint8List.fromList(List.filled(32, 0, growable: true));
+    TweetNaClExt.crypto_hash_sha256(out, msg);
+    var result = ecdsa.verify(pk, out, ecdsa.Signature.fromCompact(signature));
+    return result;
   }
 
   /// Derive public key from private key
   /// @param privateKey
   static Uint8List privateToPublicKey(Uint8List privateKey) {
+    var ec = elliptic.getSecp256k1();
     var pubKey =
-        secp256k1.PrivateKey.fromHex(encodeBase16(privateKey)).publicKey;
+        elliptic.PrivateKey.fromHex(ec, encodeBase16(privateKey)).publicKey;
     return decodeBase16(pubKey.toCompressedHex());
   }
 
   /// Restore Secp256K1 keyPair from private key file
   /// @param privateKeyPath a path to file of the private key
   static AsymmetricKey loadKeyPairFromPrivateFile(String privateKeyPath) {
+    var ec = elliptic.getSecp256k1();
     var privateKey = Secp256K1.parsePrivateKeyFile(privateKeyPath);
     var publicKey =
-        secp256k1.PrivateKey.fromHex(encodeBase16(privateKey)).publicKey;
+        elliptic.PrivateKey.fromHex(ec, encodeBase16(privateKey)).publicKey;
     return Secp256K1.parseKeyPair(
         Uint8List.fromList(decodeBase16(publicKey.toCompressedHex())),
         privateKey);

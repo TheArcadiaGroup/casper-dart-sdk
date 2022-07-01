@@ -2,7 +2,6 @@
 
 import 'dart:typed_data';
 
-import 'package:convert/convert.dart';
 import 'package:oxidized/oxidized.dart';
 import 'package:collection/collection.dart';
 

@@ -1,13 +1,10 @@
 import 'dart:convert';
-import 'package:convert/convert.dart';
 import 'package:casper_dart_sdk/classes/CLValue/abstract.dart';
 import 'dart:typed_data';
 
 import 'package:casper_dart_sdk/classes/CLValue/public_key.dart';
-import 'package:casper_dart_sdk/classes/conversions.dart';
 import 'package:casper_dart_sdk/classes/keys.dart';
 import 'package:test/test.dart';
-import 'package:asn1lib/asn1lib.dart';
 
 void main() {
   group('CLPublicKey', () {
