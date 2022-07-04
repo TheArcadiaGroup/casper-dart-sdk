@@ -172,7 +172,7 @@ class CLValueBuilder {
     return CLTuple3(t);
   }
 
-  static CLOption<CLValue> option(Option<CLValue> data, CLType innerType) {
+  static CLOption<CLValue> option(Option<CLValue> data, [CLType? innerType]) {
     return CLOption(data, innerType);
   }
 

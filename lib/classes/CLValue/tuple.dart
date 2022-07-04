@@ -38,6 +38,19 @@ class CLTupleType extends CLType {
       ..._inner.expand((element) => element)
     ]);
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    if (other.runtimeType != runtimeType) return false;
+
+    other as CLTupleType;
+    return toString() == other.toString();
+  }
+
+  @override
+  int get hashCode => tag.hashCode;
 }
 
 class CLTupleBytesParser extends CLValueBytesParsers {

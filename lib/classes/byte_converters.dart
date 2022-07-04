@@ -1,10 +1,11 @@
+import 'dart:convert';
 import 'dart:typed_data';
 
 import 'bignumber.dart';
 import 'CLValue/abstract.dart';
 
 Function(dynamic val) toBytesNumber(int bitSize, bool signed) {
-  return (dynamic val) {
+  Uint8List nestedFunction(dynamic val) {
     var valBN = BigNumber.from(val);
     var maxUintValue = maxUint256BN.mask(bitSize);
 
@@ -31,8 +32,10 @@ Function(dynamic val) toBytesNumber(int bitSize, bool signed) {
         }
 
         // for u128, u256, u512, we have to and append extra byte for length
-        return Uint8List.fromList([...bytes, ...List.filled(bytes.length, 0)])
-            .reversed;
+        return Uint8List.fromList([
+          ...bytes,
+          ...Uint8List.fromList([bytes.length])
+        ].reversed.toList());
       } else {
         // for other types, we have to add padding 0s
         var byteLength = bitSize ~/ 8;
@@ -42,9 +45,11 @@ Function(dynamic val) toBytesNumber(int bitSize, bool signed) {
         ]);
       }
     } else {
-      return bytes.reversed;
+      return Uint8List.fromList(bytes.reversed.toList());
     }
-  };
+  }
+
+  return nestedFunction;
 }
 
 /// Converts `u8` to little endian.
@@ -89,13 +94,13 @@ Uint8List toBytesU512(dynamic val) {
 
 /// Serializes a string into an array of bytes.
 Uint8List toBytesString(String str) {
-  var arr = Uint8List.fromList(str.codeUnits);
+  var arr = Uint8List.fromList(utf8.encode(str));
   var u32Vec = toBytesU32(arr.length);
   return Uint8List.fromList([...u32Vec, ...arr]);
 }
 
 String fromBytesString(Uint8List bytes) {
-  return String.fromCharCodes(bytes);
+  return utf8.decode(bytes);
 }
 
 Uint8List toBytesArrayU8(Uint8List arr) {

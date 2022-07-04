@@ -31,12 +31,11 @@ class CLStringBytesParser extends CLValueBytesParsers {
       Uint8List bytes,
       [CLType? innerType]) {
     var clU32res = CLU32BytesParser().fromBytesWithRemainder(bytes);
-    var len = clU32res.result.unwrap();
-    var end = len.value().toNumber() as int;
+    var len = clU32res.result.unwrap().value().toNumber() as int;
 
     if (clU32res.remainder != null) {
-      var val = fromBytesString(clU32res.remainder!.sublist(0, end));
-      return resultHelper(Ok(CLString(val)), clU32res.remainder?.sublist(end));
+      var val = fromBytesString(clU32res.remainder!.sublist(0, len));
+      return resultHelper(Ok(CLString(val)), clU32res.remainder?.sublist(len));
     }
 
     return resultHelper(Err(CLErrorCodes.EarlyEndOfStream));

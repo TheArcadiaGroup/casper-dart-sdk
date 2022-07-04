@@ -206,7 +206,7 @@ class BigNumber {
     }
 
     if (value is List || value is Iterable) {
-      return BigNumber.from(uint8ListToHex(value));
+      return BigNumber.from(uint8ListToHex(Uint8List.fromList(value)));
     }
 
     throw Exception('invalid BigNumber value');

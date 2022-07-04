@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:oxidized/oxidized.dart';
@@ -14,6 +15,7 @@ abstract class NumericBytesParser extends CLValueBytesParsers {
     val as Numeric;
     Function eq = const ListEquality().equals;
     if ((val.bitSize == 128 || val.bitSize == 256 || val.bitSize == 512) &&
+        val.originalBytes != null &&
         val.originalBytes!.isNotEmpty &&
         eq(val.originalBytes, Uint8List.fromList([1, 0]))) {
       return Ok(val.originalBytes ?? Uint8List.fromList([]));

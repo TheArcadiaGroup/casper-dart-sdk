@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:oxidized/oxidized.dart';
+import 'package:collection/collection.dart';
 
 import 'abstract.dart';
 import 'constants.dart';
@@ -58,9 +59,9 @@ class CLMapBytesParser extends CLValueBytesParsers {
     innerType as CLMapType<CLType, CLType>;
     var u32Res = CLU32BytesParser().fromBytesWithRemainder(bytes);
 
-    CLU32 val = u32Res.result.unwrap() as CLU32;
+    CLU32 val = u32Res.result.unwrap();
     var size = val.value().toNumber();
-    Map<CLValue, CLValue> vec = {};
+    List<Map<CLValue, CLValue>> vec = [];
 
     var remainder = u32Res.remainder;
 
@@ -94,10 +95,10 @@ class CLMapBytesParser extends CLValueBytesParsers {
       CLValue finalValue = vRes.result.unwrap();
       remainder = vRes.remainder;
 
-      vec = {finalKey: finalValue};
+      vec.add({finalKey: finalValue});
     }
 
-    return resultHelper(Ok(CLMap.fromList([vec])), remainder);
+    return resultHelper(Ok(CLMap.fromList(vec)), remainder);
   }
 
   @override
@@ -188,10 +189,9 @@ class CLMap<K extends CLValue, V extends CLValue> extends CLValue {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    if (other.runtimeType != runtimeType) return false;
-
     other as CLMap<CLValue, CLValue>;
-    return data == other.data;
+    Function eq = const ListEquality().equals;
+    return data.length == other.data.length && eq(data, other.data);
   }
 
   @override
