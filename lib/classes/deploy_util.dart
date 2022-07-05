@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:casper_dart_sdk/classes/CLValue/numeric.dart';
 import 'package:casper_dart_sdk/classes/CLValue/option.dart';
 import 'package:duration/duration.dart';
@@ -64,7 +62,7 @@ class ShortEnDurationLocale extends EnglishDurationLocale {
 /// @param ttl in milliseconds
 String humanizerTTL(int ttl) {
   var duration = Duration(milliseconds: ttl);
-  return printDuration(duration, locale: ShortEnDurationLocale());
+  return prettyDuration(duration, locale: ShortEnDurationLocale(), spacer: '');
 }
 
 int dehumanizeUnit(String s) {
@@ -91,7 +89,8 @@ int dehumanizerTTL(String ttl) {
   List<int> units = List.empty(growable: true);
 
   for (var i = 0; i < strArray.length; i++) {
-    units.add(dehumanizeUnit(strArray[i]));
+    var t = dehumanizeUnit(strArray[i]);
+    units.add(t);
   }
 
   return units.reduce((value, element) => (value + element));
@@ -203,6 +202,19 @@ class DeployHeader implements ToBytes {
   factory DeployHeader.fromJson(Map<String, dynamic> json) =>
       _$DeployHeaderFromJson(json);
   Map<String, dynamic> toJson() => _$DeployHeaderToJson(this);
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    if (other.runtimeType != runtimeType) return false;
+
+    other as DeployHeader;
+    return toJson().toString() == other.toJson().toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(bodyHash, account);
 }
 
 /// The cryptographic hash of a Deploy.
@@ -270,9 +282,16 @@ RuntimeArgs desRA(List<dynamic> data) {
   return RuntimeArgs.fromJson({'args': list});
 }
 
-Map<String, dynamic> serRA(RuntimeArgs ra) {
-  var raSerialzier = ra.toJson();
-  return raSerialzier;
+List<List<dynamic>> serRA(RuntimeArgs ra) {
+  List<List<dynamic>> result = List.empty(growable: true);
+  var raSerialzier = ra.args;
+  for (var arg in raSerialzier.entries) {
+    var subList = List.empty(growable: true);
+
+    subList.addAll([arg.key, CLValueParsers.toJSON(arg.value).unwrap()]);
+    result.add(subList);
+  }
+  return result;
 }
 
 @JsonSerializable(explicitToJson: true)
@@ -810,6 +829,19 @@ class Deploy {
     }
     return signedDeploy;
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    if (other.runtimeType != runtimeType) return false;
+
+    other as Deploy;
+    return toJson().toString() == other.toJson().toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(hash, header);
 }
 
 /// Serialize deployHeader into a array of bytes
@@ -892,6 +924,8 @@ class DeployParams {
                   .length <
               2)
           .toList();
+    } else {
+      this.dependencies = [];
     }
     this.timestamp = timestamp ?? DateTime.now().millisecondsSinceEpoch;
   }

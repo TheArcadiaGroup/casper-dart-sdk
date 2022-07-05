@@ -130,33 +130,33 @@ Map<String, dynamic> _$TransferToJson(Transfer instance) => <String, dynamic>{
       'args': serRA(instance.args),
     };
 
-ExecutableDeployItem _$ExecutableDeployItemFromJson(Map<String, dynamic> json) {
-  print(json['ModuleBytes']);
-  return ExecutableDeployItem()
-    ..moduleBytes = json['ModuleBytes'] == null
-        ? null
-        : ModuleBytes.fromJson(json['ModuleBytes'] as Map<String, dynamic>)
-    ..storedContractByHash = json['StoredContractByHash'] == null
-        ? null
-        : StoredContractByHash.fromJson(
-            json['StoredContractByHash'] as Map<String, dynamic>)
-    ..storedContractByName = json['StoredContractByName'] == null
-        ? null
-        : StoredContractByName.fromJson(
-            json['StoredContractByName'] as Map<String, dynamic>)
-    ..storedVersionedContractByHash =
-        json['StoredVersionedContractByHash'] == null
-            ? null
-            : StoredVersionedContractByHash.fromJson(
-                json['StoredVersionedContractByHash'] as Map<String, dynamic>)
-    ..storedVersionedContractByName =
-        json['StoredVersionedContractByName'] == null
-            ? null
-            : StoredVersionedContractByName.fromJson(
-                json['StoredVersionedContractByName'] as Map<String, dynamic>)
-    ..transfer = json['Transfer'] == null
-        ? null
-        : Transfer.fromJson(json['Transfer'] as Map<String, dynamic>);
+ExecutableDeployItem _$ExecutableDeployItemFromJson(
+        Map<String, dynamic> json) =>
+    ExecutableDeployItem()
+      ..moduleBytes = json['ModuleBytes'] == null
+          ? null
+          : ModuleBytes.fromJson(json['ModuleBytes'] as Map<String, dynamic>)
+      ..storedContractByHash = json['StoredContractByHash'] == null
+          ? null
+          : StoredContractByHash.fromJson(
+              json['StoredContractByHash'] as Map<String, dynamic>)
+      ..storedContractByName = json['StoredContractByName'] == null
+          ? null
+          : StoredContractByName.fromJson(
+              json['StoredContractByName'] as Map<String, dynamic>)
+      ..storedVersionedContractByHash =
+          json['StoredVersionedContractByHash'] == null
+              ? null
+              : StoredVersionedContractByHash.fromJson(
+                  json['StoredVersionedContractByHash'] as Map<String, dynamic>)
+      ..storedVersionedContractByName =
+          json['StoredVersionedContractByName'] == null
+              ? null
+              : StoredVersionedContractByName.fromJson(
+                  json['StoredVersionedContractByName'] as Map<String, dynamic>)
+      ..transfer = json['Transfer'] == null
+          ? null
+          : Transfer.fromJson(json['Transfer'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$ExecutableDeployItemToJson(
         ExecutableDeployItem instance) =>
