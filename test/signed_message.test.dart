@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-import 'package:casper_dart_sdk/classes/conversions.dart';
 import 'package:casper_dart_sdk/classes/keys.dart';
 import 'package:casper_dart_sdk/classes/signed_message.dart';
 import 'package:test/test.dart';

@@ -12,7 +12,7 @@ DeployHeader _$DeployHeaderFromJson(Map<String, dynamic> json) => DeployHeader(
       dehumanizerTTL(json['ttl'] as String),
       json['gas_price'] as int,
       byteArrayJsonDeserializer(json['body_hash'] as String),
-      DeployHeader.dependenciesFromJson(json['dependencies'] as List<String>),
+      DeployHeader.dependenciesFromJson(json['dependencies'] as List),
       json['chain_name'] as String,
     );
 
@@ -39,7 +39,7 @@ Map<String, dynamic> _$ApprovalToJson(Approval instance) => <String, dynamic>{
 
 ModuleBytes _$ModuleBytesFromJson(Map<String, dynamic> json) => ModuleBytes(
       byteArrayJsonDeserializer(json['module_bytes'] as String),
-      desRA(json['args'] as Map<String, dynamic>),
+      desRA(json['args'] as List),
     )..tag = json['tag'] as int;
 
 Map<String, dynamic> _$ModuleBytesToJson(ModuleBytes instance) =>
@@ -54,7 +54,7 @@ StoredContractByHash _$StoredContractByHashFromJson(
     StoredContractByHash(
       byteArrayJsonDeserializer(json['hash'] as String),
       json['entry_point'] as String,
-      desRA(json['args'] as Map<String, dynamic>),
+      desRA(json['args'] as List),
     )..tag = json['tag'] as int;
 
 Map<String, dynamic> _$StoredContractByHashToJson(
@@ -71,7 +71,7 @@ StoredContractByName _$StoredContractByNameFromJson(
     StoredContractByName(
       json['name'] as String,
       json['entry_point'] as String,
-      desRA(json['args'] as Map<String, dynamic>),
+      desRA(json['args'] as List),
     )..tag = json['tag'] as int;
 
 Map<String, dynamic> _$StoredContractByNameToJson(
@@ -89,7 +89,7 @@ StoredVersionedContractByName _$StoredVersionedContractByNameFromJson(
       json['name'] as String,
       json['version'] as num?,
       json['entry_point'] as String,
-      desRA(json['args'] as Map<String, dynamic>),
+      desRA(json['args'] as List),
     )..tag = json['tag'] as int;
 
 Map<String, dynamic> _$StoredVersionedContractByNameToJson(
@@ -108,7 +108,7 @@ StoredVersionedContractByHash _$StoredVersionedContractByHashFromJson(
       byteArrayJsonDeserializer(json['hash'] as String),
       json['version'] as num?,
       json['entry_point'] as String,
-      desRA(json['args'] as Map<String, dynamic>),
+      desRA(json['args'] as List),
     )..tag = json['tag'] as int;
 
 Map<String, dynamic> _$StoredVersionedContractByHashToJson(
@@ -122,7 +122,7 @@ Map<String, dynamic> _$StoredVersionedContractByHashToJson(
     };
 
 Transfer _$TransferFromJson(Map<String, dynamic> json) => Transfer(
-      desRA(json['args'] as Map<String, dynamic>),
+      desRA(json['args'] as List),
     )..tag = json['tag'] as int;
 
 Map<String, dynamic> _$TransferToJson(Transfer instance) => <String, dynamic>{

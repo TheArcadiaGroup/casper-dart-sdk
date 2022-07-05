@@ -4,7 +4,6 @@ import 'package:casper_dart_sdk/classes/CLValue/abstract.dart';
 import 'package:casper_dart_sdk/classes/CLValue/builders.dart';
 import 'package:casper_dart_sdk/classes/CLValue/byte_array.dart';
 import 'package:casper_dart_sdk/classes/CLValue/list.dart';
-import 'package:casper_dart_sdk/classes/CLValue/numeric.dart';
 import 'package:casper_dart_sdk/classes/CLValue/option.dart';
 import 'package:casper_dart_sdk/classes/conversions.dart';
 import 'package:casper_dart_sdk/classes/keys.dart';

@@ -111,7 +111,7 @@ abstract class AsymmetricKey {
 
 class Ed25519 extends AsymmetricKey {
   Ed25519(SigningKey signingKey)
-      : super(signingKey.publicKey.toUint8List(), signingKey.toUint8List(),
+      : super(signingKey.publicKey.toUint8List(), signingKey.seed.toUint8List(),
             SignatureAlgorithm.Ed25519);
 
   ///
@@ -227,7 +227,7 @@ class Ed25519 extends AsymmetricKey {
 
   @override
   Uint8List sign(Uint8List msg) {
-    var sig = SigningKey.fromValidBytes(privateKey).sign(msg);
+    var sig = SigningKey.fromSeed(privateKey).sign(msg);
     return sig.signature.toUint8List();
   }
 
@@ -246,18 +246,14 @@ class Ed25519 extends AsymmetricKey {
   /// Derive public key from private key
   /// @param privateKey
   static Uint8List privateToPublicKey(Uint8List privateKey) {
-    if (privateKey.length == 64) {
-      return PrivateKey(privateKey).publicKey.toUint8List();
-    } else {
-      return PrivateKey.fromSeed(privateKey).publicKey.toUint8List();
-    }
+    return SigningKey.fromSeed(privateKey).publicKey.toUint8List();
   }
 
   /// Restore Ed25519 keyPair from private key file
   /// @param privateKeyPath
   static loadKeyPairFromPrivateFile(String privateKeyPath) {
     var privateKey = Ed25519.parsePrivateKeyFile(privateKeyPath);
-    var publicKey = PrivateKey.fromSeed(privateKey).publicKey;
+    var publicKey = SigningKey.fromSeed(privateKey).publicKey;
     return Ed25519.parseKeyPair(publicKey.toUint8List(), privateKey);
   }
 }
@@ -313,8 +309,12 @@ class Secp256K1 extends AsymmetricKey {
 
   static Uint8List parsePrivateKey(Uint8List bytes,
       [String? originalFormat = 'der']) {
-    var subBytes = bytes.sublist(7, 39);
-    return subBytes;
+    Uint8List result = Uint8List.fromList(bytes);
+    if (originalFormat == 'der') {
+      var subBytes = bytes.sublist(7, 39);
+      result = subBytes;
+    }
+    return result;
   }
 
   static Uint8List parsePublicKey(Uint8List bytes,
@@ -411,7 +411,8 @@ class Secp256K1 extends AsymmetricKey {
         elliptic.PrivateKey.fromHex(ec, encodeBase16(privateKey)).publicKey;
     return Secp256K1.parseKeyPair(
         Uint8List.fromList(decodeBase16(publicKey.toCompressedHex())),
-        privateKey);
+        privateKey,
+        'raw');
   }
 
   /// From hdKey derive a child Secp256K1 key

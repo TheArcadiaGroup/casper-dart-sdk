@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:casper_dart_sdk/classes/CLValue/numeric.dart';
 import 'package:casper_dart_sdk/classes/CLValue/option.dart';
 import 'package:duration/duration.dart';
@@ -162,7 +164,7 @@ class DeployHeader implements ToBytes {
     return DateTime.fromMillisecondsSinceEpoch(timestamp).toIso8601String();
   }
 
-  static List<Uint8List> dependenciesFromJson(List<String> json) {
+  static List<Uint8List> dependenciesFromJson(List<dynamic> json) {
     List<Uint8List> result = List.empty(growable: true);
     for (var i = 0; i < json.length; i++) {
       result.add(byteArrayJsonDeserializer(json[i]));
@@ -256,8 +258,16 @@ abstract class ExecutableDeployItemInternal implements ToBytes {
   }
 }
 
-RuntimeArgs desRA(Map<String, dynamic> data) {
-  return RuntimeArgs.fromJson(data);
+RuntimeArgs desRA(List<dynamic> data) {
+  List<List<dynamic>> list = [];
+  for (var item in data) {
+    List<dynamic> subList = [];
+    subList.add(item[0]);
+    subList.add(item[1]);
+
+    list.add(subList);
+  }
+  return RuntimeArgs.fromJson({'args': list});
 }
 
 Map<String, dynamic> serRA(RuntimeArgs ra) {
@@ -291,8 +301,10 @@ class ModuleBytes extends ExecutableDeployItemInternal {
     ]));
   }
 
-  factory ModuleBytes.fromJson(Map<String, dynamic> json) =>
-      _$ModuleBytesFromJson(json);
+  factory ModuleBytes.fromJson(Map<String, dynamic> json) {
+    json['tag'] = 0;
+    return _$ModuleBytesFromJson(json);
+  }
   Map<String, dynamic> toJson() => _$ModuleBytesToJson(this);
 }
 
@@ -323,8 +335,10 @@ class StoredContractByHash extends ExecutableDeployItemInternal {
     ]));
   }
 
-  factory StoredContractByHash.fromJson(Map<String, dynamic> json) =>
-      _$StoredContractByHashFromJson(json);
+  factory StoredContractByHash.fromJson(Map<String, dynamic> json) {
+    json['tag'] = 1;
+    return _$StoredContractByHashFromJson(json);
+  }
   Map<String, dynamic> toJson() => _$StoredContractByHashToJson(this);
 }
 
@@ -354,8 +368,10 @@ class StoredContractByName extends ExecutableDeployItemInternal {
     ]));
   }
 
-  factory StoredContractByName.fromJson(Map<String, dynamic> json) =>
-      _$StoredContractByNameFromJson(json);
+  factory StoredContractByName.fromJson(Map<String, dynamic> json) {
+    json['tag'] = 2;
+    return _$StoredContractByNameFromJson(json);
+  }
   Map<String, dynamic> toJson() => _$StoredContractByNameToJson(this);
 }
 
@@ -395,8 +411,10 @@ class StoredVersionedContractByName extends ExecutableDeployItemInternal {
     ]));
   }
 
-  factory StoredVersionedContractByName.fromJson(Map<String, dynamic> json) =>
-      _$StoredVersionedContractByNameFromJson(json);
+  factory StoredVersionedContractByName.fromJson(Map<String, dynamic> json) {
+    json['tag'] = 4;
+    return _$StoredVersionedContractByNameFromJson(json);
+  }
   Map<String, dynamic> toJson() => _$StoredVersionedContractByNameToJson(this);
 }
 
@@ -437,8 +455,10 @@ class StoredVersionedContractByHash extends ExecutableDeployItemInternal {
     ]));
   }
 
-  factory StoredVersionedContractByHash.fromJson(Map<String, dynamic> json) =>
-      _$StoredVersionedContractByHashFromJson(json);
+  factory StoredVersionedContractByHash.fromJson(Map<String, dynamic> json) {
+    json['tag'] = 3;
+    return _$StoredVersionedContractByHashFromJson(json);
+  }
   Map<String, dynamic> toJson() => _$StoredVersionedContractByHashToJson(this);
 }
 
@@ -461,8 +481,10 @@ class Transfer extends ExecutableDeployItemInternal {
     ]));
   }
 
-  factory Transfer.fromJson(Map<String, dynamic> json) =>
-      _$TransferFromJson(json);
+  factory Transfer.fromJson(Map<String, dynamic> json) {
+    json['tag'] = 5;
+    return _$TransferFromJson(json);
+  }
   Map<String, dynamic> toJson() => _$TransferToJson(this);
 }
 
@@ -961,14 +983,15 @@ Map<String, dynamic> deployToJson(Deploy deploy) {
 ///
 /// @param json
 Result<Deploy, Exception> deployFromJson(dynamic json) {
-  if (json.deploy == null) {
+  if (json['deploy'] == null) {
     return Err(Exception("The Deploy JSON doesn't have 'deploy' field."));
   }
   Deploy deploy;
   try {
-    deploy = Deploy.fromJson(json);
+    deploy = Deploy.fromJson(json['deploy']);
   } catch (serializationError) {
-    return Err(serializationError as Exception);
+    return Err(
+        Exception('Serialization Error: ' + serializationError.toString()));
   }
 
   var valid = validateDeploy(deploy);

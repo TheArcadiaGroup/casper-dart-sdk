@@ -46,7 +46,8 @@ Map<String, CLValue> desRA(List<List<dynamic>> data) {
   Map<String, CLValue> result = {};
 
   for (var item in data) {
-    var val = CLValueParsers.fromJSON(item[1].toJSON());
+    var val = CLValueParsers.fromJSON(
+        item[1] is CLJSONFormat ? item[1].toJSON() : item[1]);
     result[item[0]] = val.unwrap();
   }
   return result;
