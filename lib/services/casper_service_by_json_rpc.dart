@@ -100,13 +100,17 @@ class GetStateRootHashResult extends RpcResult {
 
 @JsonSerializable(explicitToJson: true)
 class ExecutionResultBody {
-  late int cost;
+  late String cost;
 
-  @JsonKey(name: 'error_message')
+  @JsonKey(name: 'error_message', includeIfNull: false)
   late String? errorMessage;
   late List<String> transfers;
 
-  ExecutionResultBody(this.cost, this.errorMessage, this.transfers);
+  @JsonKey(includeIfNull: false)
+  late Map<String, dynamic>? effects;
+
+  ExecutionResultBody(
+      this.cost, this.errorMessage, this.transfers, this.effects);
 
   factory ExecutionResultBody.fromJson(Map<String, dynamic> json) =>
       _$ExecutionResultBodyFromJson(json);
@@ -115,9 +119,9 @@ class ExecutionResultBody {
 
 @JsonSerializable(explicitToJson: true)
 class ExecutionResult {
-  @JsonKey(name: 'success')
+  @JsonKey(name: 'Success', includeIfNull: false)
   late ExecutionResultBody? success;
-  @JsonKey(name: 'Failure')
+  @JsonKey(name: 'Failure', includeIfNull: false)
   late ExecutionResultBody? failure;
 
   ExecutionResult(this.success, this.failure);
@@ -186,8 +190,8 @@ class JsonSystemTransaction {
 @JsonSerializable(explicitToJson: true)
 class JsonDeployHeader {
   late String account;
-  late int timestamp;
-  late int ttl;
+  late String timestamp;
+  late String ttl;
 
   @JsonKey(name: 'gas_price')
   late int gasPrice;
@@ -209,7 +213,125 @@ class JsonDeployHeader {
 }
 
 @JsonSerializable(explicitToJson: true)
+class JsonModuleBytes {
+  @JsonKey(name: 'module_bytes')
+  late List<dynamic> moduleBytes;
+
+  late List<dynamic> args;
+
+  JsonModuleBytes(this.moduleBytes, this.args);
+
+  factory JsonModuleBytes.fromJson(Map<String, dynamic> json) =>
+      _$JsonModuleBytesFromJson(json);
+  Map<String, dynamic> toJson() => _$JsonModuleBytesToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class JsonStoredContractByHash {
+  late List<dynamic> hash;
+
+  late List<dynamic> args;
+
+  @JsonKey(name: 'entry_point')
+  late String entryPoint;
+
+  JsonStoredContractByHash(this.hash, this.entryPoint, this.args);
+
+  factory JsonStoredContractByHash.fromJson(Map<String, dynamic> json) =>
+      _$JsonStoredContractByHashFromJson(json);
+  Map<String, dynamic> toJson() => _$JsonStoredContractByHashToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class JsonStoredContractByName {
+  late String name;
+  late List<dynamic> hash;
+
+  @JsonKey(name: 'entry_point')
+  late String entryPoint;
+
+  late List<dynamic> args;
+
+  JsonStoredContractByName(this.name, this.entryPoint, this.args);
+
+  factory JsonStoredContractByName.fromJson(Map<String, dynamic> json) =>
+      _$JsonStoredContractByNameFromJson(json);
+  Map<String, dynamic> toJson() => _$JsonStoredContractByNameToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class JsonStoredVersionedContractByName {
+  late String name;
+
+  late num? version;
+
+  @JsonKey(name: 'entry_point')
+  late String entryPoint;
+
+  late List<dynamic> args;
+
+  JsonStoredVersionedContractByName(
+      this.name, this.version, this.entryPoint, this.args);
+
+  factory JsonStoredVersionedContractByName.fromJson(
+          Map<String, dynamic> json) =>
+      _$JsonStoredVersionedContractByNameFromJson(json);
+  Map<String, dynamic> toJson() =>
+      _$JsonStoredVersionedContractByNameToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class JsonStoredVersionedContractByHash {
+  late List hash;
+
+  late num? version;
+
+  @JsonKey(name: 'entry_point')
+  late String entryPoint;
+
+  late List<dynamic> args;
+
+  JsonStoredVersionedContractByHash(
+      this.hash, this.version, this.entryPoint, this.args);
+
+  factory JsonStoredVersionedContractByHash.fromJson(
+          Map<String, dynamic> json) =>
+      _$JsonStoredVersionedContractByHashFromJson(json);
+  Map<String, dynamic> toJson() =>
+      _$JsonStoredVersionedContractByHashToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
+class JsonTransfer {
+  late List<dynamic> args;
+
+  JsonTransfer(this.args);
+
+  factory JsonTransfer.fromJson(Map<String, dynamic> json) =>
+      _$JsonTransferFromJson(json);
+  Map<String, dynamic> toJson() => _$JsonTransferToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class JsonExecutableDeployItem {
+  @JsonKey(name: 'ModuleBytes', includeIfNull: false)
+  late ModuleBytes? moduleBytes;
+
+  @JsonKey(name: 'StoredContractByHash', includeIfNull: false)
+  JsonStoredContractByHash? storedContractByHash;
+
+  @JsonKey(name: 'StoredContractByName', includeIfNull: false)
+  JsonStoredContractByName? storedContractByName;
+
+  @JsonKey(name: 'StoredVersionedContractByHash', includeIfNull: false)
+  JsonStoredVersionedContractByHash? storedVersionedContractByHash;
+
+  @JsonKey(name: 'StoredVersionedContractByName', includeIfNull: false)
+  JsonStoredVersionedContractByName? storedVersionedContractByName;
+
+  @JsonKey(name: 'Transfer', includeIfNull: false)
+  JsonTransfer? transfer;
+
   JsonExecutableDeployItem();
 
   factory JsonExecutableDeployItem.fromJson(Map<String, dynamic> json) =>
@@ -257,22 +379,22 @@ class JsonHeader {
   late String bodyHash;
 
   @JsonKey(name: 'deploy_hashes')
-  late List<String> deployHashes;
+  late List<String>? deployHashes;
 
   @JsonKey(name: 'random_bit')
   late bool randomBit;
 
   @JsonKey(name: 'switch_block')
-  late bool switchBlock;
-  late int timestamp;
+  late bool? switchBlock;
+  late String timestamp;
 
   @JsonKey(name: 'system_transactions')
-  late List<JsonSystemTransaction> systemTransactions;
+  late List<JsonSystemTransaction>? systemTransactions;
 
   @JsonKey(name: 'era_id')
   late int eraId;
   late int height;
-  late String proposer;
+  late String? proposer;
 
   @JsonKey(name: 'protocol_version')
   late String protocolVersion;
@@ -300,7 +422,7 @@ class JsonHeader {
 class JsonBlock {
   late String hash;
   late JsonHeader header;
-  late List<String> proofs;
+  late List<dynamic> proofs;
 
   JsonBlock(this.hash, this.header, this.proofs);
 
@@ -622,7 +744,7 @@ class CasperServiceByJsonRPC {
   Future<String?> getAccountBalanceUrefByPublicKeyHash(
       String stateRootHash, String accountHash) async {
     var res =
-        await getBlockState(stateRootHash, 'account-hash$accountHash', []);
+        await getBlockState(stateRootHash, 'account-hash-$accountHash', []);
     var account = res.account;
     return account?.mainPurse;
   }

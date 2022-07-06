@@ -90,36 +90,54 @@ Map<String, dynamic> _$GetStateRootHashResultToJson(
 
 ExecutionResultBody _$ExecutionResultBodyFromJson(Map<String, dynamic> json) =>
     ExecutionResultBody(
-      json['cost'] as int,
+      json['cost'] as String,
       json['error_message'] as String?,
       (json['transfers'] as List<dynamic>).map((e) => e as String).toList(),
+      json['effects'] as Map<String, dynamic>?,
     );
 
-Map<String, dynamic> _$ExecutionResultBodyToJson(
-        ExecutionResultBody instance) =>
-    <String, dynamic>{
-      'cost': instance.cost,
-      'error_message': instance.errorMessage,
-      'transfers': instance.transfers,
-    };
+Map<String, dynamic> _$ExecutionResultBodyToJson(ExecutionResultBody instance) {
+  final val = <String, dynamic>{
+    'cost': instance.cost,
+  };
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('error_message', instance.errorMessage);
+  val['transfers'] = instance.transfers;
+  val['effects'] = instance.effects;
+  return val;
+}
 
 ExecutionResult _$ExecutionResultFromJson(Map<String, dynamic> json) =>
     ExecutionResult(
-      json['success'] == null
+      json['Success'] == null
           ? null
           : ExecutionResultBody.fromJson(
-              json['success'] as Map<String, dynamic>),
+              json['Success'] as Map<String, dynamic>),
       json['Failure'] == null
           ? null
           : ExecutionResultBody.fromJson(
               json['Failure'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$ExecutionResultToJson(ExecutionResult instance) =>
-    <String, dynamic>{
-      'success': instance.success?.toJson(),
-      'Failure': instance.failure?.toJson(),
-    };
+Map<String, dynamic> _$ExecutionResultToJson(ExecutionResult instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Success', instance.success?.toJson());
+  writeNotNull('Failure', instance.failure?.toJson());
+  return val;
+}
 
 JsonExecutionResult _$JsonExecutionResultFromJson(Map<String, dynamic> json) =>
     JsonExecutionResult(
@@ -183,8 +201,8 @@ Map<String, dynamic> _$JsonSystemTransactionToJson(
 JsonDeployHeader _$JsonDeployHeaderFromJson(Map<String, dynamic> json) =>
     JsonDeployHeader(
       json['account'] as String,
-      json['timestamp'] as int,
-      json['ttl'] as int,
+      json['timestamp'] as String,
+      json['ttl'] as String,
       json['gas_price'] as int,
       json['body_hash'] as String,
       (json['dependencies'] as List<dynamic>).map((e) => e as String).toList(),
@@ -202,13 +220,144 @@ Map<String, dynamic> _$JsonDeployHeaderToJson(JsonDeployHeader instance) =>
       'chain_name': instance.chainName,
     };
 
+JsonModuleBytes _$JsonModuleBytesFromJson(Map<String, dynamic> json) =>
+    JsonModuleBytes(
+      json['module_bytes'] as List<dynamic>,
+      json['args'] as List<dynamic>,
+    );
+
+Map<String, dynamic> _$JsonModuleBytesToJson(JsonModuleBytes instance) =>
+    <String, dynamic>{
+      'module_bytes': instance.moduleBytes,
+      'args': instance.args,
+    };
+
+JsonStoredContractByHash _$JsonStoredContractByHashFromJson(
+        Map<String, dynamic> json) =>
+    JsonStoredContractByHash(
+      json['hash'] as List<dynamic>,
+      json['entry_point'] as String,
+      json['args'] as List<dynamic>,
+    );
+
+Map<String, dynamic> _$JsonStoredContractByHashToJson(
+        JsonStoredContractByHash instance) =>
+    <String, dynamic>{
+      'hash': instance.hash,
+      'args': instance.args,
+      'entry_point': instance.entryPoint,
+    };
+
+JsonStoredContractByName _$JsonStoredContractByNameFromJson(
+        Map<String, dynamic> json) =>
+    JsonStoredContractByName(
+      json['name'] as String,
+      json['entry_point'] as String,
+      json['args'] as List<dynamic>,
+    )..hash = json['hash'] as List<dynamic>;
+
+Map<String, dynamic> _$JsonStoredContractByNameToJson(
+        JsonStoredContractByName instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'hash': instance.hash,
+      'entry_point': instance.entryPoint,
+      'args': instance.args,
+    };
+
+JsonStoredVersionedContractByName _$JsonStoredVersionedContractByNameFromJson(
+        Map<String, dynamic> json) =>
+    JsonStoredVersionedContractByName(
+      json['name'] as String,
+      json['version'] as num?,
+      json['entry_point'] as String,
+      json['args'] as List<dynamic>,
+    );
+
+Map<String, dynamic> _$JsonStoredVersionedContractByNameToJson(
+        JsonStoredVersionedContractByName instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'version': instance.version,
+      'entry_point': instance.entryPoint,
+      'args': instance.args,
+    };
+
+JsonStoredVersionedContractByHash _$JsonStoredVersionedContractByHashFromJson(
+        Map<String, dynamic> json) =>
+    JsonStoredVersionedContractByHash(
+      json['hash'] as List<dynamic>,
+      json['version'] as num?,
+      json['entry_point'] as String,
+      json['args'] as List<dynamic>,
+    );
+
+Map<String, dynamic> _$JsonStoredVersionedContractByHashToJson(
+        JsonStoredVersionedContractByHash instance) =>
+    <String, dynamic>{
+      'hash': instance.hash,
+      'version': instance.version,
+      'entry_point': instance.entryPoint,
+      'args': instance.args,
+    };
+
+JsonTransfer _$JsonTransferFromJson(Map<String, dynamic> json) => JsonTransfer(
+      json['args'] as List<dynamic>,
+    );
+
+Map<String, dynamic> _$JsonTransferToJson(JsonTransfer instance) =>
+    <String, dynamic>{
+      'args': instance.args,
+    };
+
 JsonExecutableDeployItem _$JsonExecutableDeployItemFromJson(
         Map<String, dynamic> json) =>
-    JsonExecutableDeployItem();
+    JsonExecutableDeployItem()
+      ..moduleBytes = json['ModuleBytes'] == null
+          ? null
+          : ModuleBytes.fromJson(json['ModuleBytes'] as Map<String, dynamic>)
+      ..storedContractByHash = json['StoredContractByHash'] == null
+          ? null
+          : JsonStoredContractByHash.fromJson(
+              json['StoredContractByHash'] as Map<String, dynamic>)
+      ..storedContractByName = json['StoredContractByName'] == null
+          ? null
+          : JsonStoredContractByName.fromJson(
+              json['StoredContractByName'] as Map<String, dynamic>)
+      ..storedVersionedContractByHash =
+          json['StoredVersionedContractByHash'] == null
+              ? null
+              : JsonStoredVersionedContractByHash.fromJson(
+                  json['StoredVersionedContractByHash'] as Map<String, dynamic>)
+      ..storedVersionedContractByName =
+          json['StoredVersionedContractByName'] == null
+              ? null
+              : JsonStoredVersionedContractByName.fromJson(
+                  json['StoredVersionedContractByName'] as Map<String, dynamic>)
+      ..transfer = json['Transfer'] == null
+          ? null
+          : JsonTransfer.fromJson(json['Transfer'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$JsonExecutableDeployItemToJson(
-        JsonExecutableDeployItem instance) =>
-    <String, dynamic>{};
+    JsonExecutableDeployItem instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ModuleBytes', instance.moduleBytes?.toJson());
+  writeNotNull('StoredContractByHash', instance.storedContractByHash?.toJson());
+  writeNotNull('StoredContractByName', instance.storedContractByName?.toJson());
+  writeNotNull('StoredVersionedContractByHash',
+      instance.storedVersionedContractByHash?.toJson());
+  writeNotNull('StoredVersionedContractByName',
+      instance.storedVersionedContractByName?.toJson());
+  writeNotNull('Transfer', instance.transfer?.toJson());
+  return val;
+}
 
 JsonApproval _$JsonApprovalFromJson(Map<String, dynamic> json) => JsonApproval(
       json['signer'] as String,
@@ -246,17 +395,20 @@ JsonHeader _$JsonHeaderFromJson(Map<String, dynamic> json) => JsonHeader(
       json['parent_hash'] as String,
       json['state_root_hash'] as String,
       json['body_hash'] as String,
-      (json['deploy_hashes'] as List<dynamic>).map((e) => e as String).toList(),
+      (json['deploy_hashes'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       json['random_bit'] as bool,
-      json['timestamp'] as int,
-      (json['system_transactions'] as List<dynamic>)
-          .map((e) => JsonSystemTransaction.fromJson(e as Map<String, dynamic>))
+      json['timestamp'] as String,
+      (json['system_transactions'] as List<dynamic>?)
+          ?.map(
+              (e) => JsonSystemTransaction.fromJson(e as Map<String, dynamic>))
           .toList(),
       json['era_id'] as int,
       json['height'] as int,
-      json['proposer'] as String,
+      json['proposer'] as String?,
       json['protocol_version'] as String,
-      json['switch_block'] as bool,
+      json['switch_block'] as bool?,
     );
 
 Map<String, dynamic> _$JsonHeaderToJson(JsonHeader instance) =>
@@ -269,7 +421,7 @@ Map<String, dynamic> _$JsonHeaderToJson(JsonHeader instance) =>
       'switch_block': instance.switchBlock,
       'timestamp': instance.timestamp,
       'system_transactions':
-          instance.systemTransactions.map((e) => e.toJson()).toList(),
+          instance.systemTransactions?.map((e) => e.toJson()).toList(),
       'era_id': instance.eraId,
       'height': instance.height,
       'proposer': instance.proposer,
@@ -279,7 +431,7 @@ Map<String, dynamic> _$JsonHeaderToJson(JsonHeader instance) =>
 JsonBlock _$JsonBlockFromJson(Map<String, dynamic> json) => JsonBlock(
       json['hash'] as String,
       JsonHeader.fromJson(json['header'] as Map<String, dynamic>),
-      (json['proofs'] as List<dynamic>).map((e) => e as String).toList(),
+      json['proofs'] as List<dynamic>,
     );
 
 Map<String, dynamic> _$JsonBlockToJson(JsonBlock instance) => <String, dynamic>{

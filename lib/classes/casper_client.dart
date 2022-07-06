@@ -168,7 +168,7 @@ class CasperClient {
 
       return await nodeClient.getAccountBalance(stateRootHash, balanceUref);
     } catch (e) {
-      return BigNumber.from(0);
+      rethrow;
     }
   }
 
@@ -177,7 +177,7 @@ class CasperClient {
   /// @returns Tuple of Deploy and raw RPC response.
   Future<Map<Deploy, GetDeployResult>> getDeploy(String deployHash) async {
     GetDeployResult deployResult = await nodeClient.getDeployInfo(deployHash);
-    var deploy = deploy_util.deployFromJson(deployResult).unwrap();
+    var deploy = deploy_util.deployFromJson(deployResult.toJson()).unwrap();
     return {deploy: deployResult};
   }
 

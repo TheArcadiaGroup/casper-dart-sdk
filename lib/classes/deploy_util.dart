@@ -229,17 +229,6 @@ class DeployHash implements ToBytes {
   }
 }
 
-class DeployJson {
-  late Map<String, dynamic> session;
-  late List<Map<String, dynamic>> approvals;
-  late DeployHeader header;
-  late Map<String, dynamic> payment;
-  late String hash;
-
-  DeployJson(
-      this.session, this.approvals, this.header, this.payment, this.hash);
-}
-
 /// A struct containing a signature and the public key of the signer.
 @JsonSerializable(explicitToJson: true)
 class Approval {

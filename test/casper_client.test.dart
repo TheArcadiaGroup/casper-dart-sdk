@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:casper_dart_sdk/classes/CLValue/public_key.dart';
 import 'package:casper_dart_sdk/classes/casper_client.dart';
 import 'package:casper_dart_sdk/classes/conversions.dart';
 import 'package:casper_dart_sdk/classes/deploy_util.dart';
@@ -116,6 +117,33 @@ void main() {
       var res = casperClient.deployFromJson(jsonDecode(json));
       var fromJson = res.unwrap();
       expect(fromJson, isA<Deploy>());
+    });
+
+    // putDeploy
+
+    test('getBalance', () async {
+      var publicKey = CLPublicKey.fromHex(
+          '02025d0f7d345c9863814ff3ccd934664bbd28fb911d8320b7cab9828f021341705d');
+      var accountHash = publicKey.toAccountHash();
+      var balance1 = await casperClient.balanceOfByPublicKey(publicKey);
+      var balance2 =
+          await casperClient.balanceOfByAccountHash(encodeBase16(accountHash));
+      var uref = await casperClient.getAccountMainPurseUref(publicKey);
+
+      expect(balance1, balance2);
+      expect(uref,
+          'uref-a20ce653139e28678d5f197d0e86e01a781bbb34649341f3ed89b980cca64c5a-007');
+    });
+
+    // makeTransferDeploy
+
+    // getDeploy
+    test('getDeploy', () async {
+      var deployHash =
+          '0a9ec2dc69f3d7a6ade91d2bffa35829ef8111e217b22b1d79eacce0515763df';
+      var res = await casperClient.getDeploy(deployHash);
+      expect(res, isNotNull);
+      expect(encodeBase16(res.keys.first.hash), deployHash);
     });
   });
 }
