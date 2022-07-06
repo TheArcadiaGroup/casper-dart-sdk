@@ -677,7 +677,8 @@ class ExecutableDeployItem implements ToBytes {
   /// transfer will be used as the source purse
   /// @param id user-defined transfer id. This parameter is optional.
   static ExecutableDeployItem newTransferWithOptionalTransferId(
-      BigNumber amount, dynamic target, CLURef? sourcePurse, BigNumber? id) {
+      BigNumber amount, dynamic target,
+      [CLURef? sourcePurse, BigNumber? id]) {
     var runtimeArgs = RuntimeArgs.fromMap({});
     runtimeArgs.insert('amount', CLValueBuilder.u512(amount));
     if (sourcePurse != null) {
@@ -858,7 +859,7 @@ Uint8List serializeBody(
 
 Uint8List serializeApprovals(List<Approval> approvals) {
   var len = toBytesU32(approvals.length);
-  var bytes = Uint8List.fromList([]);
+  var bytes = List.empty(growable: true);
 
   for (var approval in approvals) {
     var list = Uint8List.fromList([
