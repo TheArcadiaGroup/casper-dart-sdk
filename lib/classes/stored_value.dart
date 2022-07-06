@@ -77,7 +77,7 @@ class TransferJson {
   late String target;
   late String amount;
   late String gas;
-  late int id;
+  late int? id;
 
   TransferJson(this.deployHash, this.from, this.source, this.target,
       this.amount, this.gas);
@@ -100,7 +100,7 @@ class Transfers {
 
 @JsonSerializable(explicitToJson: true)
 class DeployInfoJson {
-  @JsonKey(name: 'depyloy_hash')
+  @JsonKey(name: 'deploy_hash')
   late String deployHash;
   late List<String> transfers;
   late String from;
@@ -238,13 +238,13 @@ class ContractMetadataJson {
   late String contractWasmHash;
 
   @JsonKey(name: 'entry_points')
-  late List<EntryPoint> entrypoints;
+  late List<EntryPoint>? entrypoints;
 
   @JsonKey(name: 'protocol_version')
   late String protocolVersion;
 
   @JsonKey(name: 'named_keys')
-  late List<NamedKey> namedKeys;
+  late List<NamedKey>? namedKeys;
 
   ContractMetadataJson(this.contractPackageHash, this.contractWasmHash,
       this.entrypoints, this.protocolVersion, this.namedKeys);

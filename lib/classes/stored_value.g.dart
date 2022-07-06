@@ -70,7 +70,7 @@ TransferJson _$TransferJsonFromJson(Map<String, dynamic> json) => TransferJson(
       json['target'] as String,
       json['amount'] as String,
       json['gas'] as String,
-    )..id = json['id'] as int;
+    )..id = json['id'] as int?;
 
 Map<String, dynamic> _$TransferJsonToJson(TransferJson instance) =>
     <String, dynamic>{
@@ -95,7 +95,7 @@ Map<String, dynamic> _$TransfersToJson(Transfers instance) => <String, dynamic>{
 
 DeployInfoJson _$DeployInfoJsonFromJson(Map<String, dynamic> json) =>
     DeployInfoJson(
-      json['depyloy_hash'] as String,
+      json['deploy_hash'] as String,
       (json['transfers'] as List<dynamic>).map((e) => e as String).toList(),
       json['from'] as String,
       json['source'] as String,
@@ -103,7 +103,7 @@ DeployInfoJson _$DeployInfoJsonFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$DeployInfoJsonToJson(DeployInfoJson instance) =>
     <String, dynamic>{
-      'depyloy_hash': instance.deployHash,
+      'deploy_hash': instance.deployHash,
       'transfers': instance.transfers,
       'from': instance.from,
       'source': instance.source,
@@ -198,12 +198,12 @@ ContractMetadataJson _$ContractMetadataJsonFromJson(
     ContractMetadataJson(
       json['contract_package_hash'] as String,
       json['contract_wasm_hash'] as String,
-      (json['entry_points'] as List<dynamic>)
-          .map((e) => EntryPoint.fromJson(e as Map<String, dynamic>))
+      (json['entry_points'] as List<dynamic>?)
+          ?.map((e) => EntryPoint.fromJson(e as Map<String, dynamic>))
           .toList(),
       json['protocol_version'] as String,
-      (json['named_keys'] as List<dynamic>)
-          .map((e) => NamedKey.fromJson(e as Map<String, dynamic>))
+      (json['named_keys'] as List<dynamic>?)
+          ?.map((e) => NamedKey.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
@@ -212,9 +212,9 @@ Map<String, dynamic> _$ContractMetadataJsonToJson(
     <String, dynamic>{
       'contract_package_hash': instance.contractPackageHash,
       'contract_wasm_hash': instance.contractWasmHash,
-      'entry_points': instance.entrypoints.map((e) => e.toJson()).toList(),
+      'entry_points': instance.entrypoints?.map((e) => e.toJson()).toList(),
       'protocol_version': instance.protocolVersion,
-      'named_keys': instance.namedKeys.map((e) => e.toJson()).toList(),
+      'named_keys': instance.namedKeys?.map((e) => e.toJson()).toList(),
     };
 
 ContractVersionJson _$ContractVersionJsonFromJson(Map<String, dynamic> json) =>
