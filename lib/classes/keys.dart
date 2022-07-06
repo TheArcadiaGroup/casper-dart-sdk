@@ -34,14 +34,14 @@ extension SignatureAlgorithmExtension on SignatureAlgorithm {
 
 Uint8List accountHashHelper(
     SignatureAlgorithm signatureAlgorithm, Uint8List publicKey) {
-  var separator = [0];
+  var separator = decodeBase16('00');
   var prefix =
       Uint8List.fromList([...signatureAlgorithm.value.codeUnits, ...separator]);
 
   if (publicKey.isEmpty) {
     return Uint8List.fromList([]);
   } else {
-    return byteHash(Uint8List.fromList([...prefix, ...prefix]));
+    return byteHash(Uint8List.fromList([...prefix, ...publicKey]));
   }
 }
 
@@ -234,11 +234,10 @@ class Ed25519 extends AsymmetricKey {
   @override
   bool verify(Uint8List signature, Uint8List msg) {
     try {
-      // var verifyKey = VerifyKey(publicKey.data);
-      // return verifyKey.verify(
-      //     signature: elliptic.Signature(signature), message: msg);
-      return false;
+      var vKey = VerifyKey(publicKey.value());
+      return vKey.verify(signature: Signature(signature), message: msg);
     } catch (e) {
+      print(e);
       return false;
     }
   }

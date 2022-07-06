@@ -42,7 +42,7 @@ bool verifyMessageSignature(
   var messageWithHeader = formatMessageWithHeaders(message);
   if (key.isEd25519()) {
     try {
-      var vKey = VerifyKey(key.data);
+      var vKey = VerifyKey(key.value());
       return vKey.verify(
           signature: Signature(signature), message: messageWithHeader);
     } catch (e) {
