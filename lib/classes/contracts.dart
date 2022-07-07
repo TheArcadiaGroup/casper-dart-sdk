@@ -135,11 +135,11 @@ CLMap<CLValue, CLValue> toCLMap(Map<String, String> map) {
   return clMap;
 }
 
-CLMap<CLValue, CLValue> fromCLMap(List<List<CLValue>> map) {
-  CLMap<CLValue, CLValue> clMap = CLMap.fromList([]);
+Map<CLValue, CLValue> fromCLMap(List<Map<CLValue, CLValue>> map) {
+  Map<CLValue, CLValue> clMap = {};
 
   for (var item in map) {
-    clMap.set(item.first.value(), item.last.value());
+    clMap[item.keys.first.value()] = item.values.first.value();
   }
 
   return clMap;

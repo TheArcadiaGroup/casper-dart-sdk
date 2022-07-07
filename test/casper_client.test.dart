@@ -11,7 +11,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('CasperClient', () {
-    var casperClient = CasperClient('https://casper-node.tor.us');
+    var casperClient = CasperClient('https://testnet.casper-node.tor.us');
 
     test(
         'should generate new Ed25519 key pair, and compute public key from private key',
@@ -129,10 +129,10 @@ void main() {
       var balance2 =
           await casperClient.balanceOfByAccountHash(encodeBase16(accountHash));
       var uref = await casperClient.getAccountMainPurseUref(publicKey);
-
+      print(balance1);
       expect(balance1, balance2);
       expect(uref,
-          'uref-a20ce653139e28678d5f197d0e86e01a781bbb34649341f3ed89b980cca64c5a-007');
+          'uref-06f0da0c9284f0a59fbaed773bd411b2370350225407af6d0db08ebd90077250-007');
     });
 
     // makeTransferDeploy
@@ -140,7 +140,7 @@ void main() {
     // getDeploy
     test('getDeploy', () async {
       var deployHash =
-          '0a9ec2dc69f3d7a6ade91d2bffa35829ef8111e217b22b1d79eacce0515763df';
+          'd9a7a80869d31bba809bc3fa9eebb5cb4408b34a63d26133a342a6b57b345575';
       var res = await casperClient.getDeploy(deployHash);
       expect(res, isNotNull);
       expect(encodeBase16(res.keys.first.hash), deployHash);

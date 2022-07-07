@@ -653,13 +653,9 @@ class CasperServiceByJsonRPC {
       [Map<String, dynamic>? params]) async {
     try {
       final data = await call(function, params);
-      // ignore: only_throw_errors
       if (data is Error || data is Exception) throw data;
-
       return data;
-      // ignore: avoid_catches_without_on_clauses
     } catch (e) {
-      print(e);
       rethrow;
     }
   }
@@ -743,10 +739,14 @@ class CasperServiceByJsonRPC {
   /// Get the reference to the balance so we can cache it.
   Future<String?> getAccountBalanceUrefByPublicKeyHash(
       String stateRootHash, String accountHash) async {
-    var res =
-        await getBlockState(stateRootHash, 'account-hash-$accountHash', []);
-    var account = res.account;
-    return account?.mainPurse;
+    try {
+      var res =
+          await getBlockState(stateRootHash, 'account-hash-$accountHash', []);
+      var account = res.account;
+      return account?.mainPurse;
+    } catch (e) {
+      return null;
+    }
   }
 
   Future<String?> getAccountBalanceUrefByPublicKey(
@@ -784,7 +784,7 @@ class CasperServiceByJsonRPC {
       var storedValue = StoredValue.fromJson(storedValueJson);
       return storedValue;
     } catch (e) {
-      rethrow;
+      return StoredValue(null, null, null, null, null, null, null, null);
     }
   }
 

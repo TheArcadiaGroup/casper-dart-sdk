@@ -168,7 +168,7 @@ class CasperClient {
 
       return await nodeClient.getAccountBalance(stateRootHash, balanceUref);
     } catch (e) {
-      rethrow;
+      return BigNumber.from(0);
     }
   }
 
