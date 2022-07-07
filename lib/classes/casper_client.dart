@@ -199,4 +199,12 @@ class CasperClient {
       rethrow;
     }
   }
+
+  static BigNumber fromWei(BigNumber number, [int decimals = 9]) {
+    return number.div(BigNumber.from(10).pow(BigNumber.from(decimals)));
+  }
+
+  static BigNumber toWei(BigNumber number, [int decimals = 9]) {
+    return number.mul(BigNumber.from(10).pow(BigNumber.from(decimals)));
+  }
 }

@@ -119,8 +119,6 @@ void main() {
       expect(fromJson, isA<Deploy>());
     });
 
-    // putDeploy
-
     test('getBalance', () async {
       var publicKey = CLPublicKey.fromHex(
           '02025d0f7d345c9863814ff3ccd934664bbd28fb911d8320b7cab9828f021341705d');
@@ -129,21 +127,26 @@ void main() {
       var balance2 =
           await casperClient.balanceOfByAccountHash(encodeBase16(accountHash));
       var uref = await casperClient.getAccountMainPurseUref(publicKey);
-      print(balance1);
+
+      var balanceFromWei = CasperClient.fromWei(balance1);
+      var balanceToWei = CasperClient.toWei(balanceFromWei);
+
       expect(balance1, balance2);
+      expect(balance1, balanceToWei);
       expect(uref,
           'uref-06f0da0c9284f0a59fbaed773bd411b2370350225407af6d0db08ebd90077250-007');
     });
 
-    // makeTransferDeploy
+    // test('getDeploy', () async {
+    //   var deployHash =
+    //       'd9a7a80869d31bba809bc3fa9eebb5cb4408b34a63d26133a342a6b57b345575';
+    //   var res = await casperClient.getDeploy(deployHash);
+    //   expect(res, isNotNull);
+    //   expect(encodeBase16(res.keys.first.hash), deployHash);
+    // });
 
-    // getDeploy
-    test('getDeploy', () async {
-      var deployHash =
-          'd9a7a80869d31bba809bc3fa9eebb5cb4408b34a63d26133a342a6b57b345575';
-      var res = await casperClient.getDeploy(deployHash);
-      expect(res, isNotNull);
-      expect(encodeBase16(res.keys.first.hash), deployHash);
-    });
+    test('putDeploy', () async {});
+
+    // makeTransferDeploy
   });
 }

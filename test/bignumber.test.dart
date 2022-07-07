@@ -23,6 +23,14 @@ void main() {
       expect(number1.div(number2).toNumber(), equals(5));
     });
 
+    test('fromWei', () {
+      var a = BigNumber.from(1000000000000);
+      var b = BigNumber.from(10).pow(BigNumber.from(9));
+      var c = a.div(b);
+
+      expect(c, BigNumber.from(1000));
+    });
+
     test('mul', () {
       var number1 = BigNumber.from(5);
       var number2 = BigNumber.from(2);

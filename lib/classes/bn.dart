@@ -2,6 +2,8 @@ import 'dart:ffi';
 import 'dart:math' as math;
 import 'dart:typed_data';
 
+import 'package:casper_dart_sdk/classes/bignumber.dart';
+
 enum ArrayType { list, buffer }
 
 class DivMod {
@@ -1923,7 +1925,7 @@ class BN {
     var r = bits % 26;
     var s = (bits - r) ~/ 26;
     var carryMask = (0x3ffffff >>> (26 - r)) << (26 - r);
-    var i;
+    var i = 0;
 
     if (r != 0) {
       var carry = 0;
@@ -1936,7 +1938,7 @@ class BN {
       }
 
       if (carry > 0) {
-        words[i] = carry;
+        words.add(carry);
         length++;
       }
     }
@@ -2029,8 +2031,6 @@ class BN {
   BN shln(int bits) {
     return clone().ishln(bits);
   }
-
-  //ushln
 
   /// Shift-right
   BN shrn(int bits) {
@@ -2165,7 +2165,7 @@ class BN {
     return clone().iabs();
   }
 
-  _ishlnsubmul(BN other, mul, shift) {
+  BN _ishlnsubmul(BN other, int mul, int shift) {
     var len = other.length + shift;
     var i;
 
@@ -2176,7 +2176,7 @@ class BN {
     for (i = 0; i < other.length; i++) {
       w = (words[i + shift] | 0) + carry;
       var right = (other.words[i] | 0) * mul;
-      w -= right > 0 ? right : 0x3ffffff;
+      w -= right & 0x3ffffff;
       carry = (w >> 26) - ((right ~/ 0x4000000) | 0);
       words[i + shift] = w & 0x3ffffff;
     }
@@ -2212,7 +2212,7 @@ class BN {
     var bhiBits = _countBits(bhi);
     shift = 26 - bhiBits;
     if (shift != 0) {
-      b = ushln(shift);
+      b = b.ushln(shift);
       a.iushln(shift);
       bhi = b.words[b.length - 1] | 0;
     }
@@ -2260,7 +2260,7 @@ class BN {
       }
     }
     if (q != null) {
-      q.strip();
+      q = q.strip();
     }
     a.strip();
 
