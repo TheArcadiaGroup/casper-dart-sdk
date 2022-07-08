@@ -3,7 +3,6 @@
 import 'dart:typed_data';
 
 import 'package:oxidized/oxidized.dart';
-import 'package:collection/collection.dart';
 
 import 'abstract.dart';
 import 'account_hash.dart';
@@ -21,14 +20,10 @@ class CLKeyType extends CLType {
   CLTypeTag get tag => CLTypeTag.Key;
 
   @override
-  toJSON() {
-    return '"$KEY_ID"';
-  }
+  String toJson() => KEY_ID;
 
   @override
-  String toString() {
-    return KEY_ID;
-  }
+  String toString() => KEY_ID;
 }
 
 class CLKeyBytesParser extends CLValueBytesParsers {

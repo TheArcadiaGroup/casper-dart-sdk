@@ -35,7 +35,7 @@ void main() {
           jsonDecode('{"bytes":"070000004142432d444546","cl_type":"String"}');
       var fromJSON = CLValueParsers.fromJSON(expectedJson).unwrap();
 
-      expect(json.toJSON(), expectedJson);
+      expect(json.toJson(), expectedJson);
       expect(fromJSON, str);
     });
   });

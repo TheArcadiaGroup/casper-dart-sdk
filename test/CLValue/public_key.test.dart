@@ -217,7 +217,7 @@ void main() {
       var expectedJson = jsonDecode(
           '{"bytes":"012a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a","cl_type":"PublicKey"}');
 
-      expect(json.toJSON(), expectedJson);
+      expect(json.toJson(), expectedJson);
       expect(CLValueParsers.fromJSON(expectedJson).unwrap(), publicKey);
     });
   });

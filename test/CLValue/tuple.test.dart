@@ -174,13 +174,13 @@ void main() {
     var expectedMyTup3JSON = jsonDecode(
         '{"bytes":"0102030102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20212203000000414243","cl_type":{"Tuple3":[{"ByteArray":3},{"ByteArray":34},"String"]}}');
 
-    expect(myTup1JSON.toJSON(), expectedMyTup1JSON);
+    expect(myTup1JSON.toJson(), expectedMyTup1JSON);
     expect(CLValueParsers.fromJSON(expectedMyTup1JSON).unwrap(), myTup1);
 
-    expect(myTup2JSON.toJSON(), expectedMyTup2JSON);
+    expect(myTup2JSON.toJson(), expectedMyTup2JSON);
     expect(CLValueParsers.fromJSON(expectedMyTup2JSON).unwrap(), myTup2);
 
-    expect(myTup3JSON.toJSON(), expectedMyTup3JSON);
+    expect(myTup3JSON.toJson(), expectedMyTup3JSON);
     expect(CLValueParsers.fromJSON(expectedMyTup3JSON).unwrap(), myTup3);
   });
 }

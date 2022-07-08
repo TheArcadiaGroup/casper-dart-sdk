@@ -65,7 +65,7 @@ void main() {
 
       var myOkFromJson = CLValueParsers.fromJSON(expectedOkJson).unwrap();
 
-      expect(myOkJson.toJSON(), expectedOkJson);
+      expect(myOkJson.toJson(), expectedOkJson);
       expect(myOkFromJson, myOkRes);
     });
 
@@ -76,7 +76,7 @@ void main() {
 
       var myErrFromJson = CLValueParsers.fromJSON(expectedErrJson).unwrap();
 
-      expect(myErrJson.toJSON(), expectedErrJson);
+      expect(myErrJson.toJson(), expectedErrJson);
       expect(myErrFromJson, myErrRes);
     });
 

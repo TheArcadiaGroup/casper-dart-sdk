@@ -74,7 +74,7 @@ void main() {
           '{"bytes":"2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a07","cl_type":"URef"}');
 
       expect(CLValueParsers.fromJSON(expectedJson).unwrap(), RWExampleURef);
-      expect(json.toJSON(), expectedJson);
+      expect(json.toJson(), expectedJson);
     });
   });
 }

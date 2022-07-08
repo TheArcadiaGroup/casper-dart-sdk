@@ -67,7 +67,7 @@ void main() {
 
       var myBool2 = CLValueParsers.fromJSON(expectedJSON).unwrap();
 
-      expect(json.toJSON(), equals(expectedJSON));
+      expect(json.toJson(), equals(expectedJSON));
       expect(myBool2, equals(myBool));
     });
   });

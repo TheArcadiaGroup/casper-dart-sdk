@@ -55,14 +55,10 @@ class CLURefType extends CLType {
   CLTypeTag get tag => CLTypeTag.URef;
 
   @override
-  toJSON() {
-    return '"$UREF_ID"';
-  }
+  String toString() => UREF_ID;
 
   @override
-  String toString() {
-    return UREF_ID;
-  }
+  String toJson() => UREF_ID;
 }
 
 String FORMATTED_STRING_PREFIX = 'uref';

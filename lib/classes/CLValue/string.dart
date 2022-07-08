@@ -15,14 +15,10 @@ class CLStringType extends CLType {
   CLTypeTag get tag => CLTypeTag.String;
 
   @override
-  String toString() {
-    return STRING_ID;
-  }
+  String toString() => STRING_ID;
 
   @override
-  toJSON() {
-    return '"$STRING_ID"';
-  }
+  String toJson() => STRING_ID;
 }
 
 class CLStringBytesParser extends CLValueBytesParsers {

@@ -76,7 +76,7 @@ void main() {
           Secp256K1.accountHashSecp256K1(signKeyPair.publicKey.value()), hash);
     });
 
-    test('should generate PEM file for Ed25519 correctly', () {
+    test('should generate PEM file for Secp256k1 correctly', () {
       var keyPair = Secp256K1.newKey();
       var publicKeyInPem = keyPair.exportPublicKeyInPem();
       var privateKeyInPem = keyPair.exportPrivateKeyInPem();

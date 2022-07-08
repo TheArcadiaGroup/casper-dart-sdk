@@ -36,9 +36,7 @@ class CLPublicKeyType extends CLType {
   CLTypeTag get tag => CLTypeTag.PublicKey;
 
   @override
-  String toJSON() {
-    return '"$PUBLIC_KEY_ID"';
-  }
+  String toJson() => PUBLIC_KEY_ID;
 
   @override
   String toString() {

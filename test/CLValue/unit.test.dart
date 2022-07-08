@@ -21,7 +21,7 @@ void main() {
       var json = CLValueParsers.toJSON(unit).unwrap();
       var expectedJson = jsonDecode('{"bytes":"","cl_type":"Unit"}');
 
-      expect(json.toJSON(), expectedJson);
+      expect(json.toJson(), expectedJson);
       expect(CLValueParsers.fromJSON(expectedJson).unwrap(), unit);
     });
   });

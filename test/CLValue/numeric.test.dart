@@ -123,7 +123,7 @@ void main() {
       var expectedJson = jsonDecode('{"bytes":"0a000000","cl_type":"I32"}');
       var num2 = CLValueParsers.fromJSON(expectedJson).unwrap() as CLI32;
 
-      expect(num1JSON.toJSON(), equals(expectedJson));
+      expect(num1JSON.toJson(), equals(expectedJson));
       expect(num2, equals(num1));
     });
 
@@ -134,7 +134,7 @@ void main() {
           jsonDecode('{"bytes":"ffffffffffffff7f","cl_type":"I64"}');
       var num2 = CLValueParsers.fromJSON(expectedJson).unwrap() as CLI64;
 
-      expect(num1JSON.toJSON(), equals(expectedJson));
+      expect(num1JSON.toJson(), equals(expectedJson));
       expect(num2.value().toBigInt(), equals(num1.value().toBigInt()));
     });
 
@@ -144,7 +144,7 @@ void main() {
       var expectedJson = jsonDecode('{"bytes":"ff","cl_type":"U8"}');
       CLU8 num2 = CLValueParsers.fromJSON(expectedJson).unwrap() as CLU8;
 
-      expect(num1JSON.toJSON(), equals(expectedJson));
+      expect(num1JSON.toJson(), equals(expectedJson));
       expect(num2, equals(num1));
     });
 
@@ -154,7 +154,7 @@ void main() {
       var expectedJson = jsonDecode('{"bytes":"ffffffff","cl_type":"U32"}');
       CLU32 num2 = CLValueParsers.fromJSON(expectedJson).unwrap() as CLU32;
 
-      expect(num1JSON.toJSON(), equals(expectedJson));
+      expect(num1JSON.toJson(), equals(expectedJson));
       expect(num2, equals(num1));
     });
 
@@ -165,7 +165,7 @@ void main() {
           jsonDecode('{"bytes":"ffffffffffffffff","cl_type":"U64"}');
       CLU64 num2 = CLValueParsers.fromJSON(expectedJson).unwrap() as CLU64;
 
-      expect(num1JSON.toJSON(), equals(expectedJson));
+      expect(num1JSON.toJson(), equals(expectedJson));
       expect(num2, equals(num1));
     });
   });

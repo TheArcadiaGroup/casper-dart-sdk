@@ -47,8 +47,8 @@ void main() {
       var expectedJsonNone =
           jsonDecode('{"bytes":"00","cl_type":{"Option":"Bool"}}');
 
-      expect(jsonSome.toJSON(), expectedJsonSome);
-      expect(jsonNone.toJSON(), expectedJsonNone);
+      expect(jsonSome.toJson(), expectedJsonSome);
+      expect(jsonNone.toJson(), expectedJsonNone);
 
       var eJsonSomeData = CLValueParsers.fromJSON(expectedJsonSome).unwrap()
           as CLOption<CLValue>;

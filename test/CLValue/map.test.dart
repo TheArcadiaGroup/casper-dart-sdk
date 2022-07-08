@@ -139,7 +139,7 @@ void main() {
           '{"bytes":"01000000030000004142430a000000","cl_type":{"Map":{"key":"String","value":"I32"}}}');
       CLMap fromJson = CLValueParsers.fromJSON(expectedJson).unwrap() as CLMap;
 
-      expect(json.toJSON(), equals(expectedJson));
+      expect(json.toJson(), equals(expectedJson));
       expect(fromJson, myMap);
     });
 

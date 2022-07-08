@@ -15,14 +15,10 @@ class CLAccountHashType extends CLType {
   CLTypeTag get tag => CLTypeTag.AccountHash;
 
   @override
-  String toString() {
-    return ACCOUNT_HASH_ID;
-  }
+  String toString() => ACCOUNT_HASH_ID;
 
   @override
-  toJSON() {
-    return toString();
-  }
+  String toJson() => toString();
 }
 
 class CLAccountHashBytesParser extends CLValueBytesParsers {

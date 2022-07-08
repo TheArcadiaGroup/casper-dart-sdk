@@ -17,9 +17,9 @@ class CLTupleType extends CLType {
   late List<CLType> inner;
 
   @override
-  String toJSON() {
+  Map<String, dynamic> toJson() {
     var id = TUPLE_MATCH_LEN_TO_ID[inner.length - 1];
-    return '{"$id":${inner.map((t) => t.toJSON()).toList()}}';
+    return {id: inner.map((t) => t.toJson()).toList()};
   }
 
   CLTupleType(this.inner, this.linksTo, this.tag);

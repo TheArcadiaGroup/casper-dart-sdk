@@ -22,9 +22,9 @@ class CLListType<T extends CLType> extends CLType {
   CLListType(this.inner);
 
   @override
-  toJSON() {
-    var json = inner.toJSON();
-    return '{"$LIST_ID": $json}';
+  Map<String, dynamic> toJson() {
+    var json = inner.toJson();
+    return {LIST_ID: json};
   }
 
   @override

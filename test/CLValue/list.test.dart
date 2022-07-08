@@ -8,7 +8,6 @@ import 'package:casper_dart_sdk/classes/CLValue/key.dart';
 import 'package:casper_dart_sdk/classes/CLValue/list.dart';
 import 'package:casper_dart_sdk/classes/CLValue/numeric.dart';
 import 'package:casper_dart_sdk/classes/CLValue/string.dart';
-import 'package:casper_dart_sdk/classes/bignumber.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -169,7 +168,7 @@ void main() {
       var expectedJson =
           jsonDecode('{"bytes":"00000000","cl_type":{"List": "String" }}');
       var newList1 =
-          CLValueParsers.fromJSON(json.toJSON()).unwrap() as CLList<CLValue>;
+          CLValueParsers.fromJSON(json.toJson()).unwrap() as CLList<CLValue>;
       var newList2 = CLValueParsers.fromJSON(expectedJson).unwrap();
 
       expect(newList1, myList);
@@ -183,13 +182,13 @@ void main() {
       ]);
 
       var json = CLValueParsers.toJSON(myList).unwrap();
-      var newList = CLValueParsers.fromJSON(json.toJSON()).unwrap();
+      var newList = CLValueParsers.fromJSON(json.toJson()).unwrap();
 
       var expectedJson = jsonDecode(
           '{"bytes":"020000000200000001000100000000","cl_type":{"List":{"List":"Bool"}}}');
       var newList2 = CLValueParsers.fromJSON(expectedJson).unwrap();
 
-      expect(json.toJSON(), equals(expectedJson));
+      expect(json.toJson(), equals(expectedJson));
       expect(newList, myList);
       expect(newList2, myList);
     });
@@ -232,7 +231,7 @@ void main() {
       var myList = CLList.fromList([clKey, clKey, clKey]);
 
       var json = CLValueParsers.toJSON(myList).unwrap();
-      var newList = CLValueParsers.fromJSON(json.toJSON()).unwrap();
+      var newList = CLValueParsers.fromJSON(json.toJson()).unwrap();
 
       expect(newList, myList);
     });

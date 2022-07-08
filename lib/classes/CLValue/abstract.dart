@@ -1,12 +1,14 @@
-import 'dart:convert';
 import 'dart:typed_data';
 import 'package:oxidized/oxidized.dart';
+import 'package:json_annotation/json_annotation.dart';
 import '../byte_converters.dart';
 import '../conversions.dart';
 
 import 'constants.dart';
 import 'numeric.dart';
 import 'utils.dart';
+
+part 'abstract.g.dart';
 
 class ResultAndRemainder<T extends Object, E extends Object> {
   late Result<T, E> result;
@@ -18,23 +20,23 @@ class ResultAndRemainder<T extends Object, E extends Object> {
   }
 }
 
+@JsonSerializable(explicitToJson: true)
 class CLJSONFormat {
   late String bytes;
+
+  @JsonKey(name: 'cl_type')
   late dynamic clType;
 
-  CLJSONFormat(String _bytes, dynamic _clType) {
-    bytes = _bytes;
-    clType = _clType;
-  }
+  CLJSONFormat(this.bytes, this.clType);
 
   @override
   String toString() {
     return '{"bytes":"$bytes","cl_type":$clType}';
   }
 
-  toJSON() {
-    return jsonDecode(toString());
-  }
+  factory CLJSONFormat.fromJson(Map<String, dynamic> json) =>
+      _$CLJSONFormatFromJson(json);
+  Map<String, dynamic> toJson() => _$CLJSONFormatToJson(this);
 }
 
 ResultAndRemainder<T, E> resultHelper<T extends Object, E extends Object>(
@@ -46,7 +48,7 @@ ResultAndRemainder<T, E> resultHelper<T extends Object, E extends Object>(
 abstract class CLType {
   @override
   String toString();
-  dynamic toJSON();
+  dynamic toJson();
   dynamic get linksTo;
   CLTypeTag get tag;
 
@@ -82,7 +84,7 @@ class CLValueParsers {
   static Result<CLJSONFormat, CLErrorCodes> toJSON(CLValue val) {
     var rawBytes = CLValueParsers.toBytes(val).unwrap();
     var bytes = encodeBase16(rawBytes);
-    var clType = val.clType().toJSON();
+    var clType = val.clType().toJson();
 
     return Ok(CLJSONFormat(bytes, clType));
   }

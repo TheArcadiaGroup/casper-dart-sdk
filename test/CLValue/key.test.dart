@@ -59,7 +59,7 @@ void main() {
       var expectedJSON = jsonDecode('{"bytes":"01151f","cl_type":"Key"}');
       var fromJSON = CLValueParsers.fromJSON(expectedJSON).unwrap() as CLKey;
 
-      expect(json.toJSON(), equals(expectedJSON));
+      expect(json.toJson(), equals(expectedJSON));
       expect(fromJSON, equals(myKey));
     });
 
@@ -84,7 +84,7 @@ void main() {
 
       var fromJSON = CLValueParsers.fromJSON(expectedJSON).unwrap() as CLKey;
 
-      expect(json.toJSON(), equals(expectedJSON));
+      expect(json.toJson(), equals(expectedJSON));
       expect(fromJSON, equals(myKey));
     });
 
@@ -115,7 +115,7 @@ void main() {
 
       var fromJSON = CLValueParsers.fromJSON(expectedJSON).unwrap() as CLKey;
 
-      expect(json.toJSON(), equals(expectedJSON));
+      expect(json.toJson(), equals(expectedJSON));
       expect(fromJSON, equals(myKey));
     });
 

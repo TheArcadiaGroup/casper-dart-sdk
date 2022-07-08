@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:oxidized/oxidized.dart';
@@ -82,14 +81,10 @@ class CLI32Type extends CLType {
   CLTypeTag get tag => CLTypeTag.I32;
 
   @override
-  toJSON() {
-    return '"$I32_ID"';
-  }
+  String toJson() => I32_ID;
 
   @override
-  String toString() {
-    return I32_ID;
-  }
+  String toString() => I32_ID;
 }
 
 class CLI32BytesParser extends NumericBytesParser {
@@ -131,14 +126,10 @@ class CLI64Type extends CLType {
   CLTypeTag get tag => CLTypeTag.I64;
 
   @override
-  toJSON() {
-    return '"$I64_ID"';
-  }
+  String toJson() => I64_ID;
 
   @override
-  String toString() {
-    return I64_ID;
-  }
+  String toString() => I64_ID;
 }
 
 class CLI64BytesParser extends NumericBytesParser {
@@ -179,14 +170,10 @@ class CLU8Type extends CLType {
   CLTypeTag get tag => CLTypeTag.U8;
 
   @override
-  toJSON() {
-    return '"$U8_ID"';
-  }
+  String toJson() => U8_ID;
 
   @override
-  String toString() {
-    return U8_ID;
-  }
+  String toString() => U8_ID;
 }
 
 class CLU8BytesParser extends NumericBytesParser {
@@ -221,14 +208,10 @@ class CLU32Type extends CLType {
   CLTypeTag get tag => CLTypeTag.U32;
 
   @override
-  toJSON() {
-    return '"$U32_ID"';
-  }
+  String toJson() => U32_ID;
 
   @override
-  String toString() {
-    return U32_ID;
-  }
+  String toString() => U32_ID;
 }
 
 class CLU32BytesParser extends NumericBytesParser {
@@ -268,14 +251,10 @@ class CLU64Type extends CLType {
   CLTypeTag get tag => CLTypeTag.U64;
 
   @override
-  toJSON() {
-    return '"$U64_ID"';
-  }
+  String toJson() => U64_ID;
 
   @override
-  String toString() {
-    return U64_ID;
-  }
+  String toString() => U64_ID;
 }
 
 class CLU64BytesParser extends NumericBytesParser {
@@ -315,9 +294,7 @@ class CLU128Type extends CLType {
   CLTypeTag get tag => CLTypeTag.U128;
 
   @override
-  toJSON() {
-    return '"$U128_ID"';
-  }
+  String toJson() => U128_ID;
 
   @override
   String toString() {
@@ -355,14 +332,10 @@ class CLU256Type extends CLType {
   CLTypeTag get tag => CLTypeTag.U256;
 
   @override
-  toJSON() {
-    return '"$U256_ID"';
-  }
+  String toJson() => U256_ID;
 
   @override
-  String toString() {
-    return U256_ID;
-  }
+  String toString() => U256_ID;
 }
 
 class CLU256BytesParser extends NumericBytesParser {
@@ -395,14 +368,10 @@ class CLU512Type extends CLType {
   CLTypeTag get tag => CLTypeTag.U512;
 
   @override
-  toJSON() {
-    return '"$U512_ID"';
-  }
+  String toJson() => U512_ID;
 
   @override
-  String toString() {
-    return U512_ID;
-  }
+  String toString() => U512_ID;
 }
 
 class CLU512BytesParser extends NumericBytesParser {

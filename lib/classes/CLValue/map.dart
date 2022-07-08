@@ -32,8 +32,10 @@ class CLMapType<K extends CLType, V extends CLType> extends CLType {
   }
 
   @override
-  String toJSON() {
-    return '{"$MAP_ID": {"key":"${innerKey.toString()}", "value":"${innerValue.toString()}"}}';
+  Map<String, dynamic> toJson() {
+    return {
+      MAP_ID: {"key": innerKey.toString(), "value": innerValue.toString()}
+    };
   }
 
   @override
@@ -188,10 +190,21 @@ class CLMap<K extends CLValue, V extends CLValue> extends CLValue {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-
     other as CLMap<CLValue, CLValue>;
-    Function eq = const ListEquality().equals;
-    return data.length == other.data.length && eq(data, other.data);
+
+    if (data.length != other.data.length) return false;
+
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].keys.first != other.data[i].keys.first) {
+        return false;
+      }
+
+      if (data[i].values.first != other.data[i].values.first) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   @override

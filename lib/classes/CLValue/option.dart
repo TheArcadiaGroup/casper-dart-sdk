@@ -43,9 +43,7 @@ class CLOptionType<T extends CLType> extends CLType {
   }
 
   @override
-  String toJSON() {
-    return '{"$OPTION_ID": ${inner!.toJSON()}}';
-  }
+  Map<String, dynamic> toJson() => {OPTION_ID: inner!.toJson()};
 }
 
 class CLOptionBytesParser extends CLValueBytesParsers {

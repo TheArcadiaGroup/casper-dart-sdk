@@ -44,7 +44,7 @@ void main() {
 
       var bytes2 = CLValueParsers.fromJSON(expectedJSON).unwrap();
 
-      expect(json.toJSON(), equals(expectedJSON));
+      expect(json.toJson(), equals(expectedJSON));
       expect(bytes2, equals(hash));
     });
 
@@ -54,7 +54,7 @@ void main() {
       var bytes = CLValueParsers.fromJSON(json).unwrap();
       var expectedJSON = CLValueParsers.toJSON(bytes).unwrap();
 
-      expect(expectedJSON.toJSON(), equals(json));
+      expect(expectedJSON.toJson(), equals(json));
     });
   });
 }

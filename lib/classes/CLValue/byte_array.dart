@@ -24,9 +24,7 @@ class CLByteArrayType extends CLType {
   }
 
   @override
-  toJSON() {
-    return '{"$BYTE_ARRAY_ID": $size}';
-  }
+  Map<String, dynamic> toJson() => <String, dynamic>{BYTE_ARRAY_ID: size};
 
   @override
   Uint8List toBytes() {

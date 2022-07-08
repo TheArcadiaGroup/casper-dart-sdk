@@ -38,10 +38,11 @@ class CLResultType<T extends CLType, E extends CLType> extends CLType {
   }
 
   @override
-  toJSON() {
-    return '{"$RESULT_ID":{"ok":${innerOk.toJSON()}, "err":${innerErr.toJSON()}}}';
-  }
+  Map<String, dynamic> toJson() => {
+        RESULT_ID: {"ok": innerOk.toJson(), "err": innerErr.toJson()}
+      };
 
+  @override
   Uint8List toBytes() {
     return Uint8List.fromList([
       ...Uint8List.fromList([tag.value]),

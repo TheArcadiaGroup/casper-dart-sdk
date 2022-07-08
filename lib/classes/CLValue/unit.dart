@@ -1,4 +1,4 @@
-import 'package:oxidized/src/result.dart';
+import 'package:oxidized/oxidized.dart';
 
 import 'dart:typed_data';
 
@@ -13,14 +13,10 @@ class CLUnitType extends CLType {
   CLTypeTag get tag => CLTypeTag.Unit;
 
   @override
-  String toString() {
-    return UNIT_ID;
-  }
+  String toString() => UNIT_ID;
 
   @override
-  String toJSON() {
-    return '"$UNIT_ID"';
-  }
+  String toJson() => UNIT_ID;
 }
 
 class CLUnitBytesParser extends CLValueBytesParsers {

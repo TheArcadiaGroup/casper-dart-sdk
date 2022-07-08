@@ -13,14 +13,10 @@ class CLBoolType extends CLType {
   CLTypeTag get tag => CLTypeTag.Bool;
 
   @override
-  String toString() {
-    return BOOL_ID;
-  }
+  String toString() => BOOL_ID;
 
   @override
-  String toJSON() {
-    return '"$BOOL_ID"';
-  }
+  String toJson() => BOOL_ID;
 }
 
 class CLBoolBytesParser extends CLValueBytesParsers {
