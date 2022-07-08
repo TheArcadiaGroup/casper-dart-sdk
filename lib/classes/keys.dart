@@ -308,6 +308,9 @@ class Secp256K1 extends AsymmetricKey {
 
   static Uint8List parsePrivateKey(Uint8List bytes,
       [String? originalFormat = 'der']) {
+    if (bytes.length == 32 && originalFormat == 'der') {
+      originalFormat = 'raw';
+    }
     Uint8List result = Uint8List.fromList(bytes);
     if (originalFormat == 'der') {
       var subBytes = bytes.sublist(7, 39);
@@ -318,6 +321,9 @@ class Secp256K1 extends AsymmetricKey {
 
   static Uint8List parsePublicKey(Uint8List bytes,
       [String? originalFormat = 'der']) {
+    if (bytes.length == 33 && originalFormat == 'der') {
+      originalFormat = 'raw';
+    }
     Uint8List result = Uint8List.fromList(bytes);
     if (originalFormat == 'der') {
       var subBytes = bytes.sublist(23, bytes.length);
