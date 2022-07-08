@@ -13,7 +13,7 @@ import 'package:test/test.dart';
 Deploy testDeploy() {
   var senderKey = Ed25519.newKey();
   var recipientKey = Ed25519.newKey();
-  var networkName = 'test-network';
+  var networkName = 'casper-test';
   var paymentAmount = 10000000000000;
   var transferAmount = 10;
   var transferId = 34;
@@ -39,7 +39,7 @@ void main() {
           10,
           Uint8List.fromList(List.filled(32, 42)),
           [Uint8List.fromList(List.filled(32, 2))],
-          'test-network');
+          '');
 
       var json = deployHeader.toJson();
       var deployHeader1 = DeployHeader.fromJson(json);
@@ -49,7 +49,7 @@ void main() {
     test('should allow to extract data from Transfer', () {
       var senderKey = Ed25519.newKey();
       var recipientKey = Ed25519.newKey();
-      var networkName = 'test-network';
+      var networkName = 'casper-test';
       var paymentAmount = 10000000000000;
       var transferAmount = 10;
       var id = 34;
@@ -94,7 +94,7 @@ void main() {
     test('should allow to add arg to Deploy', () {
       var senderKey = Ed25519.newKey();
       var recipientKey = Ed25519.newKey();
-      var networkName = 'test-network';
+      var networkName = 'casper-test';
       var paymentAmount = 10000000000000;
       var transferAmount = 10;
       var id = 34;
@@ -135,7 +135,7 @@ void main() {
     test('should not allow to add arg to a signed Deploy', () {
       var senderKey = Ed25519.newKey();
       var recipientKey = Ed25519.newKey();
-      var networkName = 'test-network';
+      var networkName = 'casper-test';
       var paymentAmount = 10000000000000;
       var transferAmount = 10;
       var id = 34;
@@ -164,7 +164,7 @@ void main() {
     test('should allow to extract additional args from Transfer.', () {
       var from = Secp256K1.newKey();
       var to = Ed25519.newKey();
-      var networkName = 'test-network';
+      var networkName = 'casper-test';
       var paymentAmount = 10000000000000;
       var transferAmount = 10;
       var id = 34;
@@ -259,7 +259,7 @@ void main() {
     test('newTransferToUniqAddress should construct proper deploy', () {
       var senderKey = Ed25519.newKey();
       var recipientKey = Ed25519.newKey();
-      var networkName = 'test-network';
+      var networkName = 'casper-test';
       var paymentAmount = 10000000000000;
       var transferAmount = 10;
       var transferId = 34;
@@ -321,7 +321,7 @@ void main() {
     test('Is possible to chain deploys using dependencies', () {
       var senderKey = Ed25519.newKey();
       var recipientKey = Ed25519.newKey();
-      var networkName = 'test-network';
+      var networkName = 'casper-test';
       var paymentAmount = 10000000000000;
       var transferAmount = 10;
       var transferId = 35;
