@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:casper_dart_sdk/classes/CLValue/numeric.dart';
 import 'package:casper_dart_sdk/classes/CLValue/option.dart';
 import 'package:duration/duration.dart';
@@ -286,6 +288,7 @@ List<List<dynamic>> serRA(RuntimeArgs ra) {
 @JsonSerializable(explicitToJson: true)
 class ModuleBytes extends ExecutableDeployItemInternal {
   @override
+  @JsonKey(ignore: true)
   int tag = 0;
 
   @JsonKey(
@@ -319,6 +322,7 @@ class ModuleBytes extends ExecutableDeployItemInternal {
 @JsonSerializable(explicitToJson: true)
 class StoredContractByHash extends ExecutableDeployItemInternal {
   @override
+  @JsonKey(ignore: true)
   int tag = 1;
 
   @JsonKey(fromJson: desRA, toJson: serRA)
@@ -353,6 +357,7 @@ class StoredContractByHash extends ExecutableDeployItemInternal {
 @JsonSerializable(explicitToJson: true)
 class StoredContractByName extends ExecutableDeployItemInternal {
   @override
+  @JsonKey(ignore: true)
   int tag = 2;
 
   late String name;
@@ -386,6 +391,7 @@ class StoredContractByName extends ExecutableDeployItemInternal {
 @JsonSerializable(explicitToJson: true)
 class StoredVersionedContractByName extends ExecutableDeployItemInternal {
   @override
+  @JsonKey(ignore: true)
   int tag = 4;
 
   late String name;
@@ -429,6 +435,7 @@ class StoredVersionedContractByName extends ExecutableDeployItemInternal {
 @JsonSerializable(explicitToJson: true)
 class StoredVersionedContractByHash extends ExecutableDeployItemInternal {
   @override
+  @JsonKey(ignore: true)
   int tag = 3;
 
   @JsonKey(fromJson: byteArrayJsonDeserializer, toJson: byteArrayJsonSerializer)
@@ -473,6 +480,7 @@ class StoredVersionedContractByHash extends ExecutableDeployItemInternal {
 @JsonSerializable(explicitToJson: true)
 class Transfer extends ExecutableDeployItemInternal {
   @override
+  @JsonKey(ignore: true)
   int tag = 5;
 
   @JsonKey(fromJson: desRA, toJson: serRA)
@@ -498,22 +506,22 @@ class Transfer extends ExecutableDeployItemInternal {
 
 @JsonSerializable(explicitToJson: true)
 class ExecutableDeployItem implements ToBytes {
-  @JsonKey(name: 'ModuleBytes')
+  @JsonKey(name: 'ModuleBytes', includeIfNull: false)
   ModuleBytes? moduleBytes;
 
-  @JsonKey(name: 'StoredContractByHash')
+  @JsonKey(name: 'StoredContractByHash', includeIfNull: false)
   StoredContractByHash? storedContractByHash;
 
-  @JsonKey(name: 'StoredContractByName')
+  @JsonKey(name: 'StoredContractByName', includeIfNull: false)
   StoredContractByName? storedContractByName;
 
-  @JsonKey(name: 'StoredVersionedContractByHash')
+  @JsonKey(name: 'StoredVersionedContractByHash', includeIfNull: false)
   StoredVersionedContractByHash? storedVersionedContractByHash;
 
-  @JsonKey(name: 'StoredVersionedContractByName')
+  @JsonKey(name: 'StoredVersionedContractByName', includeIfNull: false)
   StoredVersionedContractByName? storedVersionedContractByName;
 
-  @JsonKey(name: 'Transfer')
+  @JsonKey(name: 'Transfer', includeIfNull: false)
   Transfer? transfer;
 
   ExecutableDeployItem();

@@ -109,7 +109,7 @@ Map<String, dynamic> _$ExecutionResultBodyToJson(ExecutionResultBody instance) {
 
   writeNotNull('error_message', instance.errorMessage);
   val['transfers'] = instance.transfers;
-  val['effects'] = instance.effects;
+  writeNotNull('effects', instance.effects);
   return val;
 }
 
@@ -235,7 +235,7 @@ Map<String, dynamic> _$JsonModuleBytesToJson(JsonModuleBytes instance) =>
 JsonStoredContractByHash _$JsonStoredContractByHashFromJson(
         Map<String, dynamic> json) =>
     JsonStoredContractByHash(
-      json['hash'] as List<dynamic>,
+      json['hash'] as String,
       json['entry_point'] as String,
       json['args'] as List<dynamic>,
     );
@@ -254,7 +254,7 @@ JsonStoredContractByName _$JsonStoredContractByNameFromJson(
       json['name'] as String,
       json['entry_point'] as String,
       json['args'] as List<dynamic>,
-    )..hash = json['hash'] as List<dynamic>;
+    )..hash = json['hash'] as String;
 
 Map<String, dynamic> _$JsonStoredContractByNameToJson(
         JsonStoredContractByName instance) =>
@@ -286,7 +286,7 @@ Map<String, dynamic> _$JsonStoredVersionedContractByNameToJson(
 JsonStoredVersionedContractByHash _$JsonStoredVersionedContractByHashFromJson(
         Map<String, dynamic> json) =>
     JsonStoredVersionedContractByHash(
-      json['hash'] as List<dynamic>,
+      json['hash'] as String,
       json['version'] as num?,
       json['entry_point'] as String,
       json['args'] as List<dynamic>,

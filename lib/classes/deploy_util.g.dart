@@ -40,11 +40,10 @@ Map<String, dynamic> _$ApprovalToJson(Approval instance) => <String, dynamic>{
 ModuleBytes _$ModuleBytesFromJson(Map<String, dynamic> json) => ModuleBytes(
       byteArrayJsonDeserializer(json['module_bytes'] as String),
       desRA(json['args'] as List),
-    )..tag = json['tag'] as int;
+    );
 
 Map<String, dynamic> _$ModuleBytesToJson(ModuleBytes instance) =>
     <String, dynamic>{
-      'tag': instance.tag,
       'module_bytes': byteArrayJsonSerializer(instance.moduleBytes),
       'args': serRA(instance.args),
     };
@@ -55,12 +54,11 @@ StoredContractByHash _$StoredContractByHashFromJson(
       byteArrayJsonDeserializer(json['hash'] as String),
       json['entry_point'] as String,
       desRA(json['args'] as List),
-    )..tag = json['tag'] as int;
+    );
 
 Map<String, dynamic> _$StoredContractByHashToJson(
         StoredContractByHash instance) =>
     <String, dynamic>{
-      'tag': instance.tag,
       'args': serRA(instance.args),
       'hash': byteArrayJsonSerializer(instance.hash),
       'entry_point': instance.entryPoint,
@@ -72,12 +70,11 @@ StoredContractByName _$StoredContractByNameFromJson(
       json['name'] as String,
       json['entry_point'] as String,
       desRA(json['args'] as List),
-    )..tag = json['tag'] as int;
+    );
 
 Map<String, dynamic> _$StoredContractByNameToJson(
         StoredContractByName instance) =>
     <String, dynamic>{
-      'tag': instance.tag,
       'name': instance.name,
       'entry_point': instance.entryPoint,
       'args': serRA(instance.args),
@@ -90,12 +87,11 @@ StoredVersionedContractByName _$StoredVersionedContractByNameFromJson(
       json['version'] as num?,
       json['entry_point'] as String,
       desRA(json['args'] as List),
-    )..tag = json['tag'] as int;
+    );
 
 Map<String, dynamic> _$StoredVersionedContractByNameToJson(
         StoredVersionedContractByName instance) =>
     <String, dynamic>{
-      'tag': instance.tag,
       'name': instance.name,
       'version': instance.version,
       'entry_point': instance.entryPoint,
@@ -109,12 +105,11 @@ StoredVersionedContractByHash _$StoredVersionedContractByHashFromJson(
       json['version'] as num?,
       json['entry_point'] as String,
       desRA(json['args'] as List),
-    )..tag = json['tag'] as int;
+    );
 
 Map<String, dynamic> _$StoredVersionedContractByHashToJson(
         StoredVersionedContractByHash instance) =>
     <String, dynamic>{
-      'tag': instance.tag,
       'hash': byteArrayJsonSerializer(instance.hash),
       'version': instance.version,
       'entry_point': instance.entryPoint,
@@ -123,10 +118,9 @@ Map<String, dynamic> _$StoredVersionedContractByHashToJson(
 
 Transfer _$TransferFromJson(Map<String, dynamic> json) => Transfer(
       desRA(json['args'] as List),
-    )..tag = json['tag'] as int;
+    );
 
 Map<String, dynamic> _$TransferToJson(Transfer instance) => <String, dynamic>{
-      'tag': instance.tag,
       'args': serRA(instance.args),
     };
 
@@ -159,17 +153,25 @@ ExecutableDeployItem _$ExecutableDeployItemFromJson(
           : Transfer.fromJson(json['Transfer'] as Map<String, dynamic>);
 
 Map<String, dynamic> _$ExecutableDeployItemToJson(
-        ExecutableDeployItem instance) =>
-    <String, dynamic>{
-      'ModuleBytes': instance.moduleBytes?.toJson(),
-      'StoredContractByHash': instance.storedContractByHash?.toJson(),
-      'StoredContractByName': instance.storedContractByName?.toJson(),
-      'StoredVersionedContractByHash':
-          instance.storedVersionedContractByHash?.toJson(),
-      'StoredVersionedContractByName':
-          instance.storedVersionedContractByName?.toJson(),
-      'Transfer': instance.transfer?.toJson(),
-    };
+    ExecutableDeployItem instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ModuleBytes', instance.moduleBytes?.toJson());
+  writeNotNull('StoredContractByHash', instance.storedContractByHash?.toJson());
+  writeNotNull('StoredContractByName', instance.storedContractByName?.toJson());
+  writeNotNull('StoredVersionedContractByHash',
+      instance.storedVersionedContractByHash?.toJson());
+  writeNotNull('StoredVersionedContractByName',
+      instance.storedVersionedContractByName?.toJson());
+  writeNotNull('Transfer', instance.transfer?.toJson());
+  return val;
+}
 
 Deploy _$DeployFromJson(Map<String, dynamic> json) => Deploy(
       byteArrayJsonDeserializer(json['hash'] as String),

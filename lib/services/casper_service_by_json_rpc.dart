@@ -228,7 +228,7 @@ class JsonModuleBytes {
 
 @JsonSerializable(explicitToJson: true)
 class JsonStoredContractByHash {
-  late List<dynamic> hash;
+  late String hash;
 
   late List<dynamic> args;
 
@@ -245,7 +245,7 @@ class JsonStoredContractByHash {
 @JsonSerializable(explicitToJson: true)
 class JsonStoredContractByName {
   late String name;
-  late List<dynamic> hash;
+  late String hash;
 
   @JsonKey(name: 'entry_point')
   late String entryPoint;
@@ -282,7 +282,7 @@ class JsonStoredVersionedContractByName {
 
 @JsonSerializable(explicitToJson: true)
 class JsonStoredVersionedContractByHash {
-  late List hash;
+  late String hash;
 
   late num? version;
 
@@ -795,7 +795,6 @@ class CasperServiceByJsonRPC {
       throw Exception(
           'Deploy can not be send, because it\'s too large: $size bytes. Max size is 1 megabyte.');
     }
-
     return await _makeRPCCall('account_put_deploy', deployToJson(signedDeploy));
   }
 
