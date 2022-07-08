@@ -190,7 +190,7 @@ class NamedCLTypeArg {
   }
 
   static String _clTypeToJSON(CLType clType) {
-    return clType.toJSON();
+    return clType.toJson();
   }
 
   NamedCLTypeArg(this.name, this.clType);
@@ -218,7 +218,7 @@ class EntryPoint {
   }
 
   static String _clTypeToJSON(CLType clType) {
-    return clType.toJSON();
+    return clType.toJson();
   }
 
   EntryPoint(this.access, this.entryPointType, this.name, this.ret, this.args);
