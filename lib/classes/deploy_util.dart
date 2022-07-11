@@ -162,7 +162,8 @@ class DeployHeader implements ToBytes {
   }
 
   static String timestampToJson(int timestamp) {
-    return DateTime.fromMillisecondsSinceEpoch(timestamp).toIso8601String();
+    return DateTime.fromMillisecondsSinceEpoch(timestamp, isUtc: true)
+        .toIso8601String();
   }
 
   static List<Uint8List> dependenciesFromJson(List<dynamic> json) {
