@@ -186,9 +186,53 @@ void main() {
       deploy = signDeploy(deploy, senderKey);
       var res = await casperClient.putDeploy(deploy);
 
-      print(res);
+      expect(res, encodeBase16(deploy.hash));
     });
 
     // makeTransferDeploy
+    test('makeTransferDeploy', () async {
+      var publicKey = CLPublicKey.fromHex(
+          '02025d0f7d345c9863814ff3ccd934664bbd28fb911d8320b7cab9828f021341705d');
+      var privateKey = Secp256K1.readBase64WithPEM(
+          '-----BEGIN EC PRIVATE KEY-----\n'
+          'MHQCAQEEIPCR7Cs+AzPFATVPvp/K1zOBQX5ifxfGuCX1kzwy24uXoAcGBSuBBAAK\n'
+          'oUQDQgAEXQ99NFyYY4FP88zZNGZLvSj7kR2DILfKuYKPAhNBcF3ZZgQHUXxT0lb8\n'
+          'teHP8hv36fe9171dQuZZbo7V1Wej8A==\n'
+          '-----END EC PRIVATE KEY-----');
+
+      var senderKey = Secp256K1.parseKeyPair(publicKey.value(), privateKey);
+      // var rPublicKey = CLPublicKey.fromHex(
+      //     '0202f92c9b79232db38584ad558cf5becf5bfd23987e4e1d36d49166289ed8208f5f');
+      // var rPrivateKey = Secp256K1.readBase64WithPEM(
+      //     '-----BEGIN EC PRIVATE KEY-----\n'
+      //     'MHQCAQEEIFdwNR0N0/jzDapOxUyAogabZoo8Lrf2NchG6mbb/cZfoAcGBSuBBAAK\n'
+      //     'oUQDQgAE+SybeSMts4WErVWM9b7PW/0jmH5OHTbUkWYontggj19K4f0mxk8SHeaq\n'
+      //     '2+qhoeqk+tDN6XZ6YBvi01pPBGSkQA==\n'
+      //     '-----END EC PRIVATE KEY-----');
+      // var recipientKey =
+      //     Secp256K1.parseKeyPair(rPublicKey.value(), rPrivateKey);
+      var rPublicKey = CLPublicKey.fromHex(
+          '0164f74cb5134b1bafab03b60f6f1ec9ec8a7e68c90dcabadcb020ce27d3974b47');
+
+      var networkName = 'casper-test';
+      var paymentAmount = 1000000000;
+      var transferAmount = 2500000000;
+      var transferId = 1;
+
+      var deployParams = DeployParams(publicKey, networkName);
+      var session = ExecutableDeployItem.newTransfer(
+          BigNumber.from(transferAmount),
+          rPublicKey,
+          null,
+          BigNumber.from(transferId));
+
+      var payment = standardPayment(BigNumber.from(paymentAmount));
+      var transperDeploy =
+          casperClient.makeTransferDeploy(deployParams, session, payment);
+      transperDeploy = signDeploy(transperDeploy, senderKey);
+      var res = await casperClient.putDeploy(transperDeploy);
+
+      expect(res, encodeBase16(transperDeploy.hash));
+    });
   });
 }
