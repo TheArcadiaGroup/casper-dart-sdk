@@ -10,14 +10,14 @@ void main() {
   group('CLUref', () {
     const urefAddr =
         '2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a';
-    var RWExampleURef =
+    var exampleURef =
         CLURef(decodeBase16(urefAddr), AccessRights.READ_ADD_WRITE);
 
     const formattedStr =
         'uref-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff-007';
 
     test('Should be valid by construction', () {
-      expect(RWExampleURef, isA<CLURef>());
+      expect(exampleURef, isA<CLURef>());
 
       try {
         CLURef(decodeBase16('3a3a3a'), AccessRights.READ_ADD_WRITE);
@@ -28,11 +28,11 @@ void main() {
     });
 
     test('Should return proper clType()', () {
-      expect(RWExampleURef.clType().toString(), 'URef');
+      expect(exampleURef.clType().toString(), 'URef');
     });
 
     test('Should return proper value()', () {
-      expect(RWExampleURef.value(), {
+      expect(exampleURef.value(), {
         'data': decodeBase16(urefAddr),
         'accessRights': AccessRights.READ_ADD_WRITE
       });
@@ -60,20 +60,20 @@ void main() {
 
     test('toBytes() / fromBytes() proper values', () {
       var expectedBytes = Uint8List.fromList([...List.filled(32, 42), 7]);
-      var toBytes = CLValueParsers.toBytes(RWExampleURef).unwrap();
+      var toBytes = CLValueParsers.toBytes(exampleURef).unwrap();
       var fromBytes =
           CLValueParsers.fromBytes(expectedBytes, CLURefType()).unwrap();
 
       expect(toBytes, expectedBytes);
-      expect(fromBytes, RWExampleURef);
+      expect(fromBytes, exampleURef);
     });
 
     test('fromJSON() / toJSON()', () {
-      var json = CLValueParsers.toJSON(RWExampleURef).unwrap();
+      var json = CLValueParsers.toJSON(exampleURef).unwrap();
       var expectedJson = jsonDecode(
           '{"bytes":"2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a07","cl_type":"URef"}');
 
-      expect(CLValueParsers.fromJSON(expectedJson).unwrap(), RWExampleURef);
+      expect(CLValueParsers.fromJSON(expectedJson).unwrap(), exampleURef);
       expect(json.toJson(), expectedJson);
     });
   });

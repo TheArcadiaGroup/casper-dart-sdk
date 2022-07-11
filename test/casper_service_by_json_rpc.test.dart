@@ -47,7 +47,8 @@ void main() {
           '0ceb047bf0508a328e552ce0fc7ab04d85bb839ac5c54156b885540e0040a62d',
           'account-hash-e3f6bf7f868a25f7b84597009158a1c2cea8df9bbcb949e0405c55c1a2b55c0b',
           []);
-      // print(re);
+      expect(re.account?.accountHash,
+          'account-hash-e3f6bf7f868a25f7b84597009158a1c2cea8df9bbcb949e0405c55c1a2b55c0b');
     });
   });
 }

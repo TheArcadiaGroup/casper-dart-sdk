@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:casper_dart_sdk/classes/CLValue/numeric.dart';
 import 'package:casper_dart_sdk/classes/CLValue/option.dart';
 import 'package:duration/duration.dart';

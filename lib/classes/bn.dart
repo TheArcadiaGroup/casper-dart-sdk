@@ -2,8 +2,6 @@ import 'dart:ffi';
 import 'dart:math' as math;
 import 'dart:typed_data';
 
-import 'package:casper_dart_sdk/classes/bignumber.dart';
-
 enum ArrayType { list, buffer }
 
 class DivMod {
@@ -114,7 +112,7 @@ class BN {
     length = (number.length / 3).ceil();
     words = Uint8List.fromList(List.filled(length, 0));
 
-    var j, w;
+    int w;
     var off = 0;
     if (endian == 'be') {
       for (var i = number.length - 1, j = 0; i >= 0; i -= 3) {
@@ -174,12 +172,11 @@ class BN {
     var off = 0;
     var j = 0;
 
-    var w;
+    int w;
 
     if (endian == 'be') {
       for (var i = number.length - 1; i >= start; i -= 2) {
         w = parseHexByte(number, start, i) << off;
-        var a = parseHexByte(number, start, i);
         words[j] |= w & 0x3ffffff;
         if (off >= 18) {
           off -= 18;
@@ -444,7 +441,7 @@ class BN {
       padding = 1;
     }
 
-    var out;
+    String out;
     if (base == 16 || base == 'hex') {
       out = '';
       var off = 0;
@@ -543,14 +540,14 @@ class BN {
     strip();
 
     var littleEdian = endian == 'le';
-    var res;
+    dynamic res;
     if (arrayType == ArrayType.list) {
       res = List.filled(reqLength, 0);
     } else if (arrayType == ArrayType.buffer) {
       res = Uint8List(reqLength).buffer;
     }
 
-    var b, i;
+    int b, i;
     var q = clone();
     if (!littleEdian) {
       // Assume big-endian
@@ -688,7 +685,7 @@ class BN {
 
   BN iuand(BN other) {
     // b = min-length(num, this)
-    var b;
+    BN b;
     if (length > other.length) {
       b = other;
     } else {
@@ -722,8 +719,8 @@ class BN {
   // Xor `num` with `this` in-place
   BN iuxor(BN other) {
     // a.length > b.length
-    var a;
-    var b;
+    BN a;
+    BN b;
     if (length > other.length) {
       a = this;
       b = other;
@@ -732,7 +729,7 @@ class BN {
       b = this;
     }
 
-    var i;
+    int i;
 
     for (i = 0; i < b.length; i++) {
       words[i] = a.words[i] ^ b.words[i];
@@ -801,7 +798,7 @@ class BN {
 
   //setn
   BN iadd(BN other) {
-    var r;
+    dynamic r;
 
     // negative + positive
     if (negative != 0 && other.negative == 0) {
@@ -819,7 +816,7 @@ class BN {
     }
 
     // a.length > b.length
-    var a, b;
+    BN a, b;
     if (length > other.length) {
       a = this;
       b = other;
@@ -856,7 +853,7 @@ class BN {
   }
 
   BN add(BN other) {
-    var res;
+    BN res;
     if (other.negative != 0 && negative == 0) {
       other.negative = 0;
       res = sub(other);
@@ -876,7 +873,7 @@ class BN {
 
   BN isub(BN other) {
     // this - (-num) = this + num
-    var r;
+    dynamic r;
     if (other.negative != 0) {
       other.negative = 0;
       r = iadd(other);
@@ -903,7 +900,7 @@ class BN {
     }
 
     // a > b
-    var a, b;
+    BN a, b;
     if (_cmp > 0) {
       a = this;
       b = other;
@@ -1002,9 +999,9 @@ class BN {
     var b = number.words;
     var o = out.words;
     var c = 0;
-    var lo;
-    var mid;
-    var hi;
+    dynamic lo;
+    dynamic mid;
+    dynamic hi;
     var a0 = a[0] | 0;
     var al0 = a0 & 0x1fff;
     var ah0 = a0 >>> 13;
@@ -1827,7 +1824,7 @@ class BN {
   }
 
   BN mulTo(BN number, BN out) {
-    var res;
+    BN res;
     var len = length + number.length;
     if (length == 10 && number.length == 10) {
       res = comb10MulTo(this, number, out);
@@ -2167,11 +2164,11 @@ class BN {
 
   BN _ishlnsubmul(BN other, int mul, int shift) {
     var len = other.length + shift;
-    var i;
+    int i;
 
     _expand(len);
 
-    var w;
+    int w;
     var carry = 0;
     for (i = 0; i < other.length; i++) {
       w = (words[i + shift] | 0) + carry;
@@ -2283,7 +2280,7 @@ class BN {
       return DivMod(BN(0), BN(0));
     }
 
-    var div, mod, res;
+    dynamic div, mod, res;
     if (negative != 0 && num.negative == 0) {
       res = neg().divmod(num, mode);
 
@@ -2421,7 +2418,7 @@ class BN {
 
     strip();
 
-    var res;
+    int res;
     if (length > 1) {
       res = 1;
     } else {

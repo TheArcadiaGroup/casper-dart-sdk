@@ -606,6 +606,7 @@ class ValidatorsInfoResult extends RpcResult {
 
   factory ValidatorsInfoResult.fromJson(Map<String, dynamic> json) =>
       _$ValidatorsInfoResultFromJson(json);
+  @override
   Map<String, dynamic> toJson() => _$ValidatorsInfoResultToJson(this);
 }
 

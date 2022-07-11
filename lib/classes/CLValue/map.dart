@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 
 import 'package:oxidized/oxidized.dart';
-import 'package:collection/collection.dart';
 
 import 'abstract.dart';
 import 'constants.dart';

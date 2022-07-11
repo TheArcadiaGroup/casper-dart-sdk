@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:casper_dart_sdk/classes/CLValue/public_key.dart';
 import 'package:casper_dart_sdk/classes/bignumber.dart';
