@@ -138,8 +138,8 @@ void main() {
       var urefAddr =
           '2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a';
       var clVal = CLValueBuilder.uref(
-          decodeBase16(urefAddr), AccessRights.READ_ADD_WRITE);
-      var validBytes = decodeBase16(
+          base16Decode(urefAddr), AccessRights.READ_ADD_WRITE);
+      var validBytes = base16Decode(
           '022a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a07');
       var bytes = CLValueParsers.toBytes(CLValueBuilder.key(clVal)).unwrap();
 
@@ -194,7 +194,7 @@ void main() {
               .unwrap()
               .value()
               .data,
-          decodeBase16(urefAddr));
+          base16Decode(urefAddr));
       expect(
           CLValueParsers.fromBytes(bytes, CLTypeBuilder.key())
               .unwrap()
@@ -295,7 +295,7 @@ void main() {
     });
 
     test('should serialize DeployHash correctly', () {
-      var deployHash = decodeBase16(
+      var deployHash = base16Decode(
           '7e83be8eb783d4631c3239eee08e95f33396210e23893155b6fb734e9b7f0df7');
       var bytes = deployHash;
       expect(

@@ -136,7 +136,7 @@ class CLPublicKey extends CLValue {
   }
 
   String toHex() {
-    return '0${tag.value}${encodeBase16(data)}';
+    return '0${tag.value}${base16Encode(data)}';
   }
 
   Uint8List toAccountHash() {
@@ -158,7 +158,7 @@ class CLPublicKey extends CLValue {
 
   String toAccountHashStr() {
     var bytes = toAccountHash();
-    var hashHex = encodeBase16(bytes);
+    var hashHex = base16Encode(bytes);
     return 'account-hash-$hashHex';
   }
 
@@ -183,7 +183,7 @@ class CLPublicKey extends CLValue {
       throw Exception('Invalid public key');
     }
 
-    var publicKeyHexBytes = decodeBase16(publicKeyHex);
+    var publicKeyHexBytes = base16Decode(publicKeyHex);
 
     return CLPublicKey(publicKeyHexBytes.sublist(1), publicKeyHexBytes[0]);
   }

@@ -45,7 +45,7 @@ void main() {
     });
 
     test('should serialize empty NamedArgs correctly', () {
-      var truth = decodeBase16('00000000');
+      var truth = base16Decode('00000000');
       var runtimeArgs = RuntimeArgs.fromMap({});
       var bytes = runtimeArgs.toBytes().unwrap();
       expect(bytes, truth);

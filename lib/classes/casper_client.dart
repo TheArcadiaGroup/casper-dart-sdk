@@ -147,7 +147,7 @@ class CasperClient {
 
   /// Get the balance of public key
   Future<BigNumber> balanceOfByPublicKey(CLPublicKey publicKey) async {
-    return balanceOfByAccountHash(encodeBase16(publicKey.toAccountHash()));
+    return balanceOfByAccountHash(base16Encode(publicKey.toAccountHash()));
   }
 
   // /// Get the balance by account hash
@@ -193,7 +193,7 @@ class CasperClient {
       }
 
       var balanceUref = await nodeClient.getAccountBalanceUrefByPublicKeyHash(
-          stateRootHash, encodeBase16(publicKey.toAccountHash()));
+          stateRootHash, base16Encode(publicKey.toAccountHash()));
       return balanceUref;
     } catch (e) {
       rethrow;

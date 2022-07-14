@@ -19,7 +19,7 @@ Uint8List byteHash(Uint8List x) {
 }
 
 Uint8List contractHashToByteArray(String contractHash) {
-  return Uint8List.fromList(decodeBase16(contractHash));
+  return Uint8List.fromList(base16Decode(contractHash));
 }
 
 // ignore: non_constant_identifier_names

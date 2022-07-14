@@ -51,7 +51,7 @@ bool verifyMessageSignature(
   }
   if (key.isSecp256K1()) {
     var ec = elliptic.getSecp256k1();
-    var pk = elliptic.PublicKey.fromHex(ec, encodeBase16(key.value()));
+    var pk = elliptic.PublicKey.fromHex(ec, base16Encode(key.value()));
     var out = Uint8List.fromList(List.filled(32, 0, growable: true));
     TweetNaClExt.crypto_hash_sha256(out, messageWithHeader);
     var result = ecdsa.verify(pk, out, ecdsa.Signature.fromCompact(signature));

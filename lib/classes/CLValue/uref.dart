@@ -161,7 +161,7 @@ class CLURef extends CLValue {
       parts = parts.sublist(0, 2);
     }
 
-    var addr = decodeBase16(parts[0]);
+    var addr = base16Decode(parts[0]);
     var accessRights = AccessRights.values
         .firstWhere((e) => e.accessValue == int.parse(parts[1]));
 
@@ -171,7 +171,7 @@ class CLURef extends CLValue {
   String toFormattedStr() {
     return [
       FORMATTED_STRING_PREFIX,
-      encodeBase16(data),
+      base16Encode(data),
       padNum(accessRights.accessValue.toString(), 3)
     ].join('-');
   }

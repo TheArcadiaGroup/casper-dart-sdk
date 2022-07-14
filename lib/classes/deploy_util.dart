@@ -24,11 +24,11 @@ import 'runtime_args.dart';
 part 'deploy_util.g.dart';
 
 String byteArrayJsonSerializer(Uint8List bytes) {
-  return encodeBase16(bytes);
+  return base16Encode(bytes);
 }
 
 Uint8List byteArrayJsonDeserializer(String str) {
-  return decodeBase16(str);
+  return base16Decode(str);
 }
 
 class ShortEnDurationLocale extends EnglishDurationLocale {
@@ -859,8 +859,8 @@ Uint8List serializeApprovals(List<Approval> approvals) {
 
   for (var approval in approvals) {
     var list = Uint8List.fromList([
-      ...decodeBase16(approval.signer),
-      ...decodeBase16(approval.signature),
+      ...base16Decode(approval.signer),
+      ...base16Decode(approval.signature),
     ]);
 
     bytes.addAll(list);
@@ -915,8 +915,8 @@ class DeployParams {
           .where((d) =>
               dependencies
                   .where((t) =>
-                      encodeBase16(Uint8List.fromList(d)) ==
-                      encodeBase16(Uint8List.fromList(t)))
+                      base16Encode(Uint8List.fromList(d)) ==
+                      base16Encode(Uint8List.fromList(t)))
                   .toList()
                   .length <
               2)

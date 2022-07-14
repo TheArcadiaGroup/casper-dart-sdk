@@ -71,7 +71,7 @@ abstract class CLValue {
 class CLValueParsers {
   static Result<CLValue, String> fromJSON(dynamic json) {
     CLType clType = matchTypeToCLType(json['cl_type']);
-    Uint8List uint8Bytes = decodeBase16(json['bytes']);
+    Uint8List uint8Bytes = base16Decode(json['bytes']);
     CLValue clEntity = CLValueParsers.fromBytes(uint8Bytes, clType).unwrap();
     return Ok(clEntity);
   }
@@ -83,7 +83,7 @@ class CLValueParsers {
 
   static Result<CLJSONFormat, CLErrorCodes> toJSON(CLValue val) {
     var rawBytes = CLValueParsers.toBytes(val).unwrap();
-    var bytes = encodeBase16(rawBytes);
+    var bytes = base16Encode(rawBytes);
     var clType = val.clType().toJson();
 
     return Ok(CLJSONFormat(bytes, clType));

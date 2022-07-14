@@ -185,7 +185,7 @@ void main() {
       deploy = signDeploy(deploy, senderKey);
       var res = await casperClient.putDeploy(deploy);
 
-      expect(res, encodeBase16(deploy.hash));
+      expect(res, base16Encode(deploy.hash));
     });
 
     // makeTransferDeploy
@@ -231,7 +231,7 @@ void main() {
       transperDeploy = signDeploy(transperDeploy, senderKey);
       var res = await casperClient.putDeploy(transperDeploy);
 
-      expect(res, encodeBase16(transperDeploy.hash));
+      expect(res, base16Encode(transperDeploy.hash));
     });
   });
 }

@@ -12,7 +12,7 @@ void main() {
     test('calculates the account hash', () {
       var signKeyPair = Ed25519.newKey();
       var name = 'ED25519'.toLowerCase().codeUnits;
-      var sep = decodeBase16('00');
+      var sep = base16Decode('00');
       var bytes = Uint8List.fromList(
           [...name, ...sep, ...signKeyPair.publicKey.value()]);
       var hash = byteHash(bytes);
@@ -67,7 +67,7 @@ void main() {
     test('calculates the account hash', () {
       var signKeyPair = Secp256K1.newKey();
       var name = 'secp256k1'.toLowerCase().codeUnits;
-      var sep = decodeBase16('00');
+      var sep = base16Decode('00');
       var bytes = Uint8List.fromList(
           [...name, ...sep, ...signKeyPair.publicKey.value()]);
       var hash = byteHash(bytes);

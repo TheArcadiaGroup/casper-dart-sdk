@@ -73,8 +73,8 @@ class CasperHDKey {
   }
 
   String toJSON() {
-    var xpriv = encodeBase16(_hdKey.privateKey ?? Uint8List.fromList([]));
-    var xpub = encodeBase16(_hdKey.publicKey ?? Uint8List.fromList([]));
+    var xpriv = base16Encode(_hdKey.privateKey ?? Uint8List.fromList([]));
+    var xpub = base16Encode(_hdKey.publicKey ?? Uint8List.fromList([]));
     return '{"xpriv": $xpriv, "xpub": $xpub}';
   }
 }

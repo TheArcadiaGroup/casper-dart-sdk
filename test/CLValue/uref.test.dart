@@ -11,7 +11,7 @@ void main() {
     const urefAddr =
         '2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a';
     var exampleURef =
-        CLURef(decodeBase16(urefAddr), AccessRights.READ_ADD_WRITE);
+        CLURef(base16Decode(urefAddr), AccessRights.READ_ADD_WRITE);
 
     const formattedStr =
         'uref-ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff-007';
@@ -20,7 +20,7 @@ void main() {
       expect(exampleURef, isA<CLURef>());
 
       try {
-        CLURef(decodeBase16('3a3a3a'), AccessRights.READ_ADD_WRITE);
+        CLURef(base16Decode('3a3a3a'), AccessRights.READ_ADD_WRITE);
       } catch (e) {
         expect(e.toString(),
             Exception('The length of URefAddr should be 32').toString());
@@ -33,7 +33,7 @@ void main() {
 
     test('Should return proper value()', () {
       expect(exampleURef.value(), {
-        'data': decodeBase16(urefAddr),
+        'data': base16Decode(urefAddr),
         'accessRights': AccessRights.READ_ADD_WRITE
       });
     });

@@ -23,7 +23,7 @@ void main() {
     });
 
     test('Create with (CLUref) and test .value() / isURef()', () {
-      var uref = CLURef(decodeBase16(urefAddr), AccessRights.READ_ADD_WRITE);
+      var uref = CLURef(base16Decode(urefAddr), AccessRights.READ_ADD_WRITE);
       var myKey = CLKey(uref);
 
       expect(myKey.value(), equals(uref));
@@ -91,10 +91,10 @@ void main() {
     test('toBytes() / fromBytes() with CLURef', () {
       var urefAddr =
           '2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a';
-      var truth = decodeBase16(
+      var truth = base16Decode(
           '022a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a07');
 
-      var uref = CLURef(decodeBase16(urefAddr), AccessRights.READ_ADD_WRITE);
+      var uref = CLURef(base16Decode(urefAddr), AccessRights.READ_ADD_WRITE);
       var myKey = CLKey(uref);
       var bytes = CLValueParsers.toBytes(myKey).unwrap();
       var fromExpectedBytes =
@@ -107,7 +107,7 @@ void main() {
     test('toJSON() / fromJSON() with CLUref', () {
       var urefAddr =
           '2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a';
-      var uref = CLURef(decodeBase16(urefAddr), AccessRights.READ_ADD_WRITE);
+      var uref = CLURef(base16Decode(urefAddr), AccessRights.READ_ADD_WRITE);
       var myKey = CLKey(uref);
       var json = CLValueParsers.toJSON(myKey).unwrap();
       var expectedJSON = jsonDecode(

@@ -753,7 +753,7 @@ class CasperServiceByJsonRPC {
   Future<String?> getAccountBalanceUrefByPublicKey(
       String stateRootHash, CLPublicKey publicKey) async {
     return getAccountBalanceUrefByPublicKeyHash(
-        stateRootHash, encodeBase16(publicKey.toAccountHash()));
+        stateRootHash, base16Encode(publicKey.toAccountHash()));
   }
 
   Future<BigNumber> getAccountBalance(
