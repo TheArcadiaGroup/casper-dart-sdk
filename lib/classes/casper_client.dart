@@ -20,7 +20,7 @@ class CasperClient {
 
   /// Generate new key pair.
   /// @param algo Currently we support Ed25519 and Secp256K1.
-  AsymmetricKey newKeyPair(SignatureAlgorithm algo) {
+  static AsymmetricKey newKeyPair(SignatureAlgorithm algo) {
     switch (algo) {
       case SignatureAlgorithm.Ed25519:
         return Ed25519.newKey();
@@ -35,7 +35,7 @@ class CasperClient {
   ///
   /// @param path the path to the publicKey file
   /// @param algo the signature algorithm of the file
-  Uint8List loadPublicKeyFromFile(String path, SignatureAlgorithm algo) {
+  static Uint8List loadPublicKeyFromFile(String path, SignatureAlgorithm algo) {
     switch (algo) {
       case SignatureAlgorithm.Ed25519:
         return Ed25519.parsePublicKeyFile(path);
@@ -48,7 +48,8 @@ class CasperClient {
 
   /// Load private key
   /// @param path the path to the private key file
-  Uint8List loadPrivateKeyFromFile(String path, SignatureAlgorithm algo) {
+  static Uint8List loadPrivateKeyFromFile(
+      String path, SignatureAlgorithm algo) {
     switch (algo) {
       case SignatureAlgorithm.Ed25519:
         return Ed25519.parsePrivateKeyFile(path);
@@ -63,7 +64,7 @@ class CasperClient {
   ///
   /// @param path The path to the private key
   /// @param algo
-  AsymmetricKey loadKeyPairFromPrivateFile(
+  static AsymmetricKey loadKeyPairFromPrivateFile(
       String path, SignatureAlgorithm algo) {
     switch (algo) {
       case SignatureAlgorithm.Ed25519:
@@ -78,13 +79,14 @@ class CasperClient {
   /// Create a new hierarchical deterministic wallet, supporting bip32 protocol
   ///
   /// @param seed The seed buffer for parent key
-  CasperHDKey newHdWallet(Uint8List seed) {
+  static CasperHDKey newHdWallet(Uint8List seed) {
     return CasperHDKey.fromMasterSeed(seed);
   }
 
   /// Compute public key from private Key.
   /// @param privateKey
-  Uint8List privateToPublicKey(Uint8List privateKey, SignatureAlgorithm algo) {
+  static Uint8List privateToPublicKey(
+      Uint8List privateKey, SignatureAlgorithm algo) {
     switch (algo) {
       case SignatureAlgorithm.Ed25519:
         return Ed25519.privateToPublicKey(privateKey);
