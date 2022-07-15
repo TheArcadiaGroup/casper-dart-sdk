@@ -245,6 +245,7 @@ class Ed25519 extends AsymmetricKey {
   /// Derive public key from private key
   /// @param privateKey
   static Uint8List privateToPublicKey(Uint8List privateKey) {
+    privateKey = parsePrivateKey(privateKey);
     return SigningKey.fromSeed(privateKey).publicKey.toUint8List();
   }
 

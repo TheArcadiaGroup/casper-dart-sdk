@@ -61,6 +61,16 @@ void main() {
       var key3 = Ed25519.readBase64WithPEM(keyWithCRLF);
       expect(key3, key1);
     });
+
+    test('get publickey', () {
+      var base64 = '-----BEGIN PRIVATE KEY-----\n'
+          'MCowBQYDK2VwAyEA4PFXL2NuakBv3l7yrDg65HaYQtxKR+SCRTDI+lXBoM8=\n'
+          '-----END PRIVATE KEY-----\n';
+      var privateKey = Ed25519.readBase64WithPEM(base64);
+      var publicKey = Ed25519.privateToPublicKey(privateKey);
+      expect(Ed25519.accountHexStr(publicKey),
+          '01458a2f3c0885d329fced28b49e85f55a8fc3f16e78a2eaae172e3a5e9d057ddf');
+    });
   });
 
   group('Secp256k1', () {
