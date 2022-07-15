@@ -39,13 +39,13 @@ Map<String, dynamic> _$ApprovalToJson(Approval instance) => <String, dynamic>{
 
 ModuleBytes _$ModuleBytesFromJson(Map<String, dynamic> json) => ModuleBytes(
       byteArrayJsonDeserializer(json['module_bytes'] as String),
-      desRA(json['args'] as List),
+      desRuntimeArgs(json['args'] as List),
     );
 
 Map<String, dynamic> _$ModuleBytesToJson(ModuleBytes instance) =>
     <String, dynamic>{
       'module_bytes': byteArrayJsonSerializer(instance.moduleBytes),
-      'args': serRA(instance.args),
+      'args': serRuntimeArgs(instance.args),
     };
 
 StoredContractByHash _$StoredContractByHashFromJson(
@@ -53,13 +53,13 @@ StoredContractByHash _$StoredContractByHashFromJson(
     StoredContractByHash(
       byteArrayJsonDeserializer(json['hash'] as String),
       json['entry_point'] as String,
-      desRA(json['args'] as List),
+      desRuntimeArgs(json['args'] as List),
     );
 
 Map<String, dynamic> _$StoredContractByHashToJson(
         StoredContractByHash instance) =>
     <String, dynamic>{
-      'args': serRA(instance.args),
+      'args': serRuntimeArgs(instance.args),
       'hash': byteArrayJsonSerializer(instance.hash),
       'entry_point': instance.entryPoint,
     };
@@ -69,7 +69,7 @@ StoredContractByName _$StoredContractByNameFromJson(
     StoredContractByName(
       json['name'] as String,
       json['entry_point'] as String,
-      desRA(json['args'] as List),
+      desRuntimeArgs(json['args'] as List),
     );
 
 Map<String, dynamic> _$StoredContractByNameToJson(
@@ -77,7 +77,7 @@ Map<String, dynamic> _$StoredContractByNameToJson(
     <String, dynamic>{
       'name': instance.name,
       'entry_point': instance.entryPoint,
-      'args': serRA(instance.args),
+      'args': serRuntimeArgs(instance.args),
     };
 
 StoredVersionedContractByName _$StoredVersionedContractByNameFromJson(
@@ -86,7 +86,7 @@ StoredVersionedContractByName _$StoredVersionedContractByNameFromJson(
       json['name'] as String,
       json['version'] as num?,
       json['entry_point'] as String,
-      desRA(json['args'] as List),
+      desRuntimeArgs(json['args'] as List),
     );
 
 Map<String, dynamic> _$StoredVersionedContractByNameToJson(
@@ -95,7 +95,7 @@ Map<String, dynamic> _$StoredVersionedContractByNameToJson(
       'name': instance.name,
       'version': instance.version,
       'entry_point': instance.entryPoint,
-      'args': serRA(instance.args),
+      'args': serRuntimeArgs(instance.args),
     };
 
 StoredVersionedContractByHash _$StoredVersionedContractByHashFromJson(
@@ -104,7 +104,7 @@ StoredVersionedContractByHash _$StoredVersionedContractByHashFromJson(
       byteArrayJsonDeserializer(json['hash'] as String),
       json['version'] as num?,
       json['entry_point'] as String,
-      desRA(json['args'] as List),
+      desRuntimeArgs(json['args'] as List),
     );
 
 Map<String, dynamic> _$StoredVersionedContractByHashToJson(
@@ -113,15 +113,15 @@ Map<String, dynamic> _$StoredVersionedContractByHashToJson(
       'hash': byteArrayJsonSerializer(instance.hash),
       'version': instance.version,
       'entry_point': instance.entryPoint,
-      'args': serRA(instance.args),
+      'args': serRuntimeArgs(instance.args),
     };
 
 Transfer _$TransferFromJson(Map<String, dynamic> json) => Transfer(
-      desRA(json['args'] as List),
+      desRuntimeArgs(json['args'] as List),
     );
 
 Map<String, dynamic> _$TransferToJson(Transfer instance) => <String, dynamic>{
-      'args': serRA(instance.args),
+      'args': serRuntimeArgs(instance.args),
     };
 
 ExecutableDeployItem _$ExecutableDeployItemFromJson(

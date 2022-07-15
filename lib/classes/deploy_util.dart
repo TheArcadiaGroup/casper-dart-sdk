@@ -260,7 +260,7 @@ abstract class ExecutableDeployItemInternal implements ToBytes {
   }
 }
 
-RuntimeArgs desRA(List<dynamic> data) {
+RuntimeArgs desRuntimeArgs(List<dynamic> data) {
   List<List<dynamic>> list = [];
   for (var item in data) {
     List<dynamic> subList = [];
@@ -272,7 +272,7 @@ RuntimeArgs desRA(List<dynamic> data) {
   return RuntimeArgs.fromJson({'args': list});
 }
 
-List<List<dynamic>> serRA(RuntimeArgs ra) {
+List<List<dynamic>> serRuntimeArgs(RuntimeArgs ra) {
   List<List<dynamic>> result = List.empty(growable: true);
   var raSerialzier = ra.args;
   for (var arg in raSerialzier.entries) {
@@ -296,7 +296,7 @@ class ModuleBytes extends ExecutableDeployItemInternal {
       toJson: byteArrayJsonSerializer)
   late Uint8List moduleBytes;
 
-  @JsonKey(fromJson: desRA, toJson: serRA)
+  @JsonKey(fromJson: desRuntimeArgs, toJson: serRuntimeArgs)
   @override
   late RuntimeArgs args;
 
@@ -324,7 +324,7 @@ class StoredContractByHash extends ExecutableDeployItemInternal {
   @JsonKey(ignore: true)
   int tag = 1;
 
-  @JsonKey(fromJson: desRA, toJson: serRA)
+  @JsonKey(fromJson: desRuntimeArgs, toJson: serRuntimeArgs)
   @override
   late RuntimeArgs args;
 
@@ -364,7 +364,7 @@ class StoredContractByName extends ExecutableDeployItemInternal {
   @JsonKey(name: 'entry_point')
   late String entryPoint;
 
-  @JsonKey(fromJson: desRA, toJson: serRA)
+  @JsonKey(fromJson: desRuntimeArgs, toJson: serRuntimeArgs)
   @override
   late RuntimeArgs args;
 
@@ -400,7 +400,7 @@ class StoredVersionedContractByName extends ExecutableDeployItemInternal {
   @JsonKey(name: 'entry_point')
   late String entryPoint;
 
-  @JsonKey(fromJson: desRA, toJson: serRA)
+  @JsonKey(fromJson: desRuntimeArgs, toJson: serRuntimeArgs)
   @override
   late RuntimeArgs args;
 
@@ -445,7 +445,7 @@ class StoredVersionedContractByHash extends ExecutableDeployItemInternal {
   @JsonKey(name: 'entry_point')
   late String entryPoint;
 
-  @JsonKey(fromJson: desRA, toJson: serRA)
+  @JsonKey(fromJson: desRuntimeArgs, toJson: serRuntimeArgs)
   @override
   late RuntimeArgs args;
 
@@ -482,7 +482,7 @@ class Transfer extends ExecutableDeployItemInternal {
   @JsonKey(ignore: true)
   int tag = 5;
 
-  @JsonKey(fromJson: desRA, toJson: serRA)
+  @JsonKey(fromJson: desRuntimeArgs, toJson: serRuntimeArgs)
   @override
   late RuntimeArgs args;
 

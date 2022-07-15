@@ -45,6 +45,14 @@ Uint8List accountHashHelper(
   }
 }
 
+String normalizePrivateKey(String str) {
+  return str
+      .split(RegExp(r'\r?\n'))
+      .where((x) => !x.startsWith('---'))
+      .join('')
+      .trim();
+}
+
 /// Get rid of PEM frames, skips header `-----BEGIN PUBLIC KEY-----`
 /// and footer `-----END PUBLIC KEY-----`
 ///
@@ -58,11 +66,7 @@ Uint8List accountHashHelper(
 /// ```
 ///
 Uint8List readBase64Content(String content) {
-  var base64Str = content
-      .split(RegExp(r'\r?\n'))
-      .where((x) => !x.startsWith('---'))
-      .join('')
-      .trim();
+  var base64Str = normalizePrivateKey(content);
 
   return base64Decode(base64Str);
 }
