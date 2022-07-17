@@ -15,16 +15,16 @@ void main() {
     test(
         'should generate new Ed25519 key pair, and compute public key from private key',
         () {
-      var edKeyPair = casperClient.newKeyPair(SignatureAlgorithm.Ed25519);
+      var edKeyPair = CasperClient.newKeyPair(SignatureAlgorithm.Ed25519);
       var publicKey = edKeyPair.publicKey.value();
       var privateKey = edKeyPair.privateKey;
-      var convertFromPrivateKey = casperClient.privateToPublicKey(
+      var convertFromPrivateKey = CasperClient.privateToPublicKey(
           privateKey, SignatureAlgorithm.Ed25519);
       expect(convertFromPrivateKey, publicKey);
     });
 
     test('should generate PEM file for Ed25519 correctly', () {
-      var edKeyPair = casperClient.newKeyPair(SignatureAlgorithm.Ed25519);
+      var edKeyPair = CasperClient.newKeyPair(SignatureAlgorithm.Ed25519);
       var publicKeyInPem = edKeyPair.exportPublicKeyInPem();
       var privateKeyInPem = edKeyPair.exportPrivateKeyInPem();
 
@@ -35,9 +35,9 @@ void main() {
       file1.writeAsStringSync(publicKeyInPem);
       file2.writeAsStringSync(privateKeyInPem);
 
-      var publicKeyFromFile = casperClient.loadPublicKeyFromFile(
+      var publicKeyFromFile = CasperClient.loadPublicKeyFromFile(
           tempDir.path + '/public.pem', SignatureAlgorithm.Ed25519);
-      var privateKeyFromFile = casperClient.loadPublicKeyFromFile(
+      var privateKeyFromFile = CasperClient.loadPublicKeyFromFile(
           tempDir.path + '/private.pem', SignatureAlgorithm.Ed25519);
 
       var keyPairFromFile =
@@ -47,7 +47,7 @@ void main() {
       expect(keyPairFromFile.privateKey, edKeyPair.privateKey);
 
       // load the keypair from pem file of private key
-      var loadedKeyPair = casperClient.loadKeyPairFromPrivateFile(
+      var loadedKeyPair = CasperClient.loadKeyPairFromPrivateFile(
           tempDir.path + '/private.pem', SignatureAlgorithm.Ed25519);
       expect(loadedKeyPair.publicKey.value(), edKeyPair.publicKey.value());
       expect(loadedKeyPair.privateKey, edKeyPair.privateKey);
@@ -56,10 +56,10 @@ void main() {
     test(
         'should generate new Secp256K1 key pair, and compute public key from private key',
         () {
-      var edKeyPair = casperClient.newKeyPair(SignatureAlgorithm.Secp256K1);
+      var edKeyPair = CasperClient.newKeyPair(SignatureAlgorithm.Secp256K1);
       var publicKey = edKeyPair.publicKey.value();
       var privateKey = edKeyPair.privateKey;
-      var convertFromPrivateKey = casperClient.privateToPublicKey(
+      var convertFromPrivateKey = CasperClient.privateToPublicKey(
           privateKey, SignatureAlgorithm.Secp256K1);
       expect(convertFromPrivateKey, publicKey);
     });
@@ -67,7 +67,7 @@ void main() {
     test(
         'should generate PEM file for Secp256K1 and restore the key pair from PEM file correctly',
         () {
-      var edKeyPair = casperClient.newKeyPair(SignatureAlgorithm.Secp256K1);
+      var edKeyPair = CasperClient.newKeyPair(SignatureAlgorithm.Secp256K1);
       var publicKeyInPem = edKeyPair.exportPublicKeyInPem();
       var privateKeyInPem = edKeyPair.exportPrivateKeyInPem();
 
@@ -78,9 +78,9 @@ void main() {
       file1.writeAsStringSync(publicKeyInPem);
       file2.writeAsStringSync(privateKeyInPem);
 
-      var publicKeyFromFile = casperClient.loadPublicKeyFromFile(
+      var publicKeyFromFile = CasperClient.loadPublicKeyFromFile(
           tempDir.path + '/public.pem', SignatureAlgorithm.Secp256K1);
-      var privateKeyFromFile = casperClient.loadPrivateKeyFromFile(
+      var privateKeyFromFile = CasperClient.loadPrivateKeyFromFile(
           tempDir.path + '/private.pem', SignatureAlgorithm.Secp256K1);
 
       var keyPairFromFile =
@@ -90,7 +90,7 @@ void main() {
       expect(keyPairFromFile.privateKey, edKeyPair.privateKey);
 
       // load the keypair from pem file of private key
-      var loadedKeyPair = casperClient.loadKeyPairFromPrivateFile(
+      var loadedKeyPair = CasperClient.loadKeyPairFromPrivateFile(
           tempDir.path + '/private.pem', SignatureAlgorithm.Secp256K1);
       expect(loadedKeyPair.publicKey.value(), edKeyPair.publicKey.value());
       expect(loadedKeyPair.privateKey, edKeyPair.privateKey);
