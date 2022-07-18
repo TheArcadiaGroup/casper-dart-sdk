@@ -204,7 +204,6 @@ class CasperClient {
   }
 
   Future<BigNumber> getTotalStake(CLPublicKey publicKey) async {
-    print('==getTotalStake==');
     var totalStake = zeroBN;
     var auctionResult = await nodeClient.getAunctionStateInfo();
     try {
