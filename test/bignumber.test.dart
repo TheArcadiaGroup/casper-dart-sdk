@@ -24,11 +24,12 @@ void main() {
     });
 
     test('fromWei', () {
-      var a = BigNumber.from(1000000000000);
+      // var a = BigNumber.from(1000000000000);
+      var a = BigNumber.from(16984023806);
       var b = BigNumber.from(10).pow(BigNumber.from(9));
       var c = a.div(b);
 
-      expect(c, BigNumber.from(1000));
+      expect(c.toString(), '16.984023806');
     });
 
     test('mul', () {

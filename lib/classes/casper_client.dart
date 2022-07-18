@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'dart:math' as math;
 
 import 'package:casper_dart_sdk/services/casper_service_by_json_rpc.dart';
 import 'package:oxidized/oxidized.dart';
@@ -202,11 +203,11 @@ class CasperClient {
     }
   }
 
-  static BigNumber fromWei(BigNumber number, [int decimals = 9]) {
-    return number.div(BigNumber.from(10).pow(BigNumber.from(decimals)));
+  static num fromWei(BigNumber number, [int decimals = 9]) {
+    return number.toNumber() / math.pow(10, decimals);
   }
 
-  static BigNumber toWei(BigNumber number, [int decimals = 9]) {
-    return number.mul(BigNumber.from(10).pow(BigNumber.from(decimals)));
+  static num toWei(BigNumber number, [int decimals = 9]) {
+    return number.toNumber() * math.pow(10, decimals);
   }
 }
