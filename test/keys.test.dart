@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:casper_dart_sdk/classes/CLValue/clvalue.dart';
 import 'package:casper_dart_sdk/classes/contracts.dart';
 import 'package:casper_dart_sdk/classes/conversions.dart';
 import 'package:casper_dart_sdk/classes/keys.dart';
@@ -109,6 +110,19 @@ void main() {
       var msg = Uint8List.fromList(('hello world').codeUnits);
       var signature = keyPair.sign(msg);
       expect(keyPair.verify(signature, msg), true);
+    });
+
+    test('get publickey', () {
+      var base64_2 = '-----BEGIN EC PRIVATE KEY-----\n'
+          'MHQCAQEEIPCR7Cs+AzPFATVPvp/K1zOBQX5ifxfGuCX1kzwy24uXoAcGBSuBBAAK\n'
+          'oUQDQgAEXQ99NFyYY4FP88zZNGZLvSj7kR2DILfKuYKPAhNBcF3ZZgQHUXxT0lb8\n'
+          'teHP8hv36fe9171dQuZZbo7V1Wej8A==\n'
+          '-----END EC PRIVATE KEY-----';
+      var privateKey2 =
+          Secp256K1.parsePrivateKey(Secp256K1.readBase64WithPEM(base64_2));
+      var publicKey2 = Secp256K1.privateToPublicKey(privateKey2);
+      expect(Secp256K1.accountHexStr(publicKey2),
+          '02025d0f7d345c9863814ff3ccd934664bbd28fb911d8320b7cab9828f021341705d');
     });
   });
 }

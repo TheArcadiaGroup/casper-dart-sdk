@@ -407,8 +407,7 @@ class Secp256K1 extends AsymmetricKey {
   /// @param privateKey
   static Uint8List privateToPublicKey(Uint8List privateKey) {
     var ec = elliptic.getSecp256k1();
-    var pubKey =
-        elliptic.PrivateKey.fromHex(ec, base16Encode(privateKey)).publicKey;
+    var pubKey = elliptic.PrivateKey.fromBytes(ec, privateKey).publicKey;
     return base16Decode(pubKey.toCompressedHex());
   }
 
