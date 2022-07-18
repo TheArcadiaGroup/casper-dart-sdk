@@ -514,7 +514,7 @@ class Bid {
   @JsonKey(name: 'delegation_rate')
   late num delegationRate;
 
-  late String reward;
+  late String? reward;
   late List<Delegators> delegators;
 
   Bid(this.bondingPurse, this.stakedAmount, this.delegationRate, this.reward,
@@ -898,6 +898,17 @@ class CasperServiceByJsonRPC {
       var storedValueJson = res['stored_value'];
       var storedValue = StoredValue.fromJson(storedValueJson);
       return storedValue;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<AuctionState> getAunctionStateInfo() async {
+    var res = await _makeRPCCall('state_get_auction_info');
+    try {
+      var auctionState = AuctionState.fromJson(res['auction_state']);
+      print(auctionState);
+      return auctionState;
     } catch (e) {
       rethrow;
     }

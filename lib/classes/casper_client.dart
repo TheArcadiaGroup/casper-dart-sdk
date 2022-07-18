@@ -203,6 +203,37 @@ class CasperClient {
     }
   }
 
+  Future<BigNumber> getTotalStake(CLPublicKey publicKey) async {
+    print('==getTotalStake==');
+    var totalStake = zeroBN;
+    var auctionResult = await nodeClient.getAunctionStateInfo();
+    try {
+      if (auctionResult.bids.isNotEmpty) {
+        var publicKeyHex = publicKey.toHex().toLowerCase();
+        var bids = auctionResult.bids;
+        for (var i = 0; i < bids.length; i++) {
+          if (bids[i].publicKey.toLowerCase() == publicKeyHex) {
+            totalStake =
+                totalStake.add(BigNumber.from(bids[i].bid.stakedAmount));
+          }
+
+          var delegators = bids[i].bid.delegators;
+          if (delegators.isNotEmpty) {
+            for (var j = 0; j < delegators.length; j++) {
+              if (delegators[j].publicKey == publicKeyHex) {
+                totalStake =
+                    totalStake.add(BigNumber.from(delegators[j].stakedAmount));
+              }
+            }
+          }
+        }
+      }
+      return totalStake;
+    } catch (e) {
+      return zeroBN;
+    }
+  }
+
   static num fromWei(BigNumber number, [int decimals = 9]) {
     return number.toNumber() / math.pow(10, decimals);
   }

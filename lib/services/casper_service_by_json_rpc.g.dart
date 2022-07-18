@@ -500,7 +500,7 @@ Bid _$BidFromJson(Map<String, dynamic> json) => Bid(
       json['bonding_purse'] as String,
       json['staked_amount'] as String,
       json['delegation_rate'] as num,
-      json['reward'] as String,
+      json['reward'] as String?,
       (json['delegators'] as List<dynamic>)
           .map((e) => Delegators.fromJson(e as Map<String, dynamic>))
           .toList(),
