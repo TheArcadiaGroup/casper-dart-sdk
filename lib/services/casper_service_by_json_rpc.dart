@@ -907,7 +907,6 @@ class CasperServiceByJsonRPC {
     var res = await _makeRPCCall('state_get_auction_info');
     try {
       var auctionState = AuctionState.fromJson(res['auction_state']);
-      print(auctionState);
       return auctionState;
     } catch (e) {
       rethrow;
