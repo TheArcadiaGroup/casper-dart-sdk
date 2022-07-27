@@ -13,89 +13,89 @@ void main() {
     // var casperClient = CasperClient('https://testnet.casper-node.tor.us');
     var casperClient = CasperClient('https://casper-node.tor.us');
 
-    test(
-        'should generate new Ed25519 key pair, and compute public key from private key',
-        () {
-      var edKeyPair = CasperClient.newKeyPair(SignatureAlgorithm.Ed25519);
-      var publicKey = edKeyPair.publicKey.value();
-      var privateKey = edKeyPair.privateKey;
-      var convertFromPrivateKey = CasperClient.privateToPublicKey(
-          privateKey, SignatureAlgorithm.Ed25519);
-      expect(convertFromPrivateKey, publicKey);
-    });
+    // test(
+    //     'should generate new Ed25519 key pair, and compute public key from private key',
+    //     () {
+    //   var edKeyPair = CasperClient.newKeyPair(SignatureAlgorithm.Ed25519);
+    //   var publicKey = edKeyPair.publicKey.value();
+    //   var privateKey = edKeyPair.privateKey;
+    //   var convertFromPrivateKey = CasperClient.privateToPublicKey(
+    //       privateKey, SignatureAlgorithm.Ed25519);
+    //   expect(convertFromPrivateKey, publicKey);
+    // });
 
-    test('should generate PEM file for Ed25519 correctly', () {
-      var edKeyPair = CasperClient.newKeyPair(SignatureAlgorithm.Ed25519);
-      var publicKeyInPem = edKeyPair.exportPublicKeyInPem();
-      var privateKeyInPem = edKeyPair.exportPrivateKeyInPem();
+    // test('should generate PEM file for Ed25519 correctly', () {
+    //   var edKeyPair = CasperClient.newKeyPair(SignatureAlgorithm.Ed25519);
+    //   var publicKeyInPem = edKeyPair.exportPublicKeyInPem();
+    //   var privateKeyInPem = edKeyPair.exportPrivateKeyInPem();
 
-      var tempDir = Directory.systemTemp;
-      var file1 = File(tempDir.path + '/public.pem');
-      var file2 = File(tempDir.path + '/private.pem');
+    //   var tempDir = Directory.systemTemp;
+    //   var file1 = File(tempDir.path + '/public.pem');
+    //   var file2 = File(tempDir.path + '/private.pem');
 
-      file1.writeAsStringSync(publicKeyInPem);
-      file2.writeAsStringSync(privateKeyInPem);
+    //   file1.writeAsStringSync(publicKeyInPem);
+    //   file2.writeAsStringSync(privateKeyInPem);
 
-      var publicKeyFromFile = CasperClient.loadPublicKeyFromFile(
-          tempDir.path + '/public.pem', SignatureAlgorithm.Ed25519);
-      var privateKeyFromFile = CasperClient.loadPublicKeyFromFile(
-          tempDir.path + '/private.pem', SignatureAlgorithm.Ed25519);
+    //   var publicKeyFromFile = CasperClient.loadPublicKeyFromFile(
+    //       tempDir.path + '/public.pem', SignatureAlgorithm.Ed25519);
+    //   var privateKeyFromFile = CasperClient.loadPublicKeyFromFile(
+    //       tempDir.path + '/private.pem', SignatureAlgorithm.Ed25519);
 
-      var keyPairFromFile =
-          Ed25519.parseKeyPair(publicKeyFromFile, privateKeyFromFile);
+    //   var keyPairFromFile =
+    //       Ed25519.parseKeyPair(publicKeyFromFile, privateKeyFromFile);
 
-      expect(keyPairFromFile.publicKey.value(), edKeyPair.publicKey.value());
-      expect(keyPairFromFile.privateKey, edKeyPair.privateKey);
+    //   expect(keyPairFromFile.publicKey.value(), edKeyPair.publicKey.value());
+    //   expect(keyPairFromFile.privateKey, edKeyPair.privateKey);
 
-      // load the keypair from pem file of private key
-      var loadedKeyPair = CasperClient.loadKeyPairFromPrivateFile(
-          tempDir.path + '/private.pem', SignatureAlgorithm.Ed25519);
-      expect(loadedKeyPair.publicKey.value(), edKeyPair.publicKey.value());
-      expect(loadedKeyPair.privateKey, edKeyPair.privateKey);
-    });
+    //   // load the keypair from pem file of private key
+    //   var loadedKeyPair = CasperClient.loadKeyPairFromPrivateFile(
+    //       tempDir.path + '/private.pem', SignatureAlgorithm.Ed25519);
+    //   expect(loadedKeyPair.publicKey.value(), edKeyPair.publicKey.value());
+    //   expect(loadedKeyPair.privateKey, edKeyPair.privateKey);
+    // });
 
-    test(
-        'should generate new Secp256K1 key pair, and compute public key from private key',
-        () {
-      var edKeyPair = CasperClient.newKeyPair(SignatureAlgorithm.Secp256K1);
-      var publicKey = edKeyPair.publicKey.value();
-      var privateKey = edKeyPair.privateKey;
-      var convertFromPrivateKey = CasperClient.privateToPublicKey(
-          privateKey, SignatureAlgorithm.Secp256K1);
-      expect(convertFromPrivateKey, publicKey);
-    });
+    // test(
+    //     'should generate new Secp256K1 key pair, and compute public key from private key',
+    //     () {
+    //   var edKeyPair = CasperClient.newKeyPair(SignatureAlgorithm.Secp256K1);
+    //   var publicKey = edKeyPair.publicKey.value();
+    //   var privateKey = edKeyPair.privateKey;
+    //   var convertFromPrivateKey = CasperClient.privateToPublicKey(
+    //       privateKey, SignatureAlgorithm.Secp256K1);
+    //   expect(convertFromPrivateKey, publicKey);
+    // });
 
-    test(
-        'should generate PEM file for Secp256K1 and restore the key pair from PEM file correctly',
-        () {
-      var edKeyPair = CasperClient.newKeyPair(SignatureAlgorithm.Secp256K1);
-      var publicKeyInPem = edKeyPair.exportPublicKeyInPem();
-      var privateKeyInPem = edKeyPair.exportPrivateKeyInPem();
+    // test(
+    //     'should generate PEM file for Secp256K1 and restore the key pair from PEM file correctly',
+    //     () {
+    //   var edKeyPair = CasperClient.newKeyPair(SignatureAlgorithm.Secp256K1);
+    //   var publicKeyInPem = edKeyPair.exportPublicKeyInPem();
+    //   var privateKeyInPem = edKeyPair.exportPrivateKeyInPem();
 
-      var tempDir = Directory.systemTemp;
-      var file1 = File(tempDir.path + '/public.pem');
-      var file2 = File(tempDir.path + '/private.pem');
+    //   var tempDir = Directory.systemTemp;
+    //   var file1 = File(tempDir.path + '/public.pem');
+    //   var file2 = File(tempDir.path + '/private.pem');
 
-      file1.writeAsStringSync(publicKeyInPem);
-      file2.writeAsStringSync(privateKeyInPem);
+    //   file1.writeAsStringSync(publicKeyInPem);
+    //   file2.writeAsStringSync(privateKeyInPem);
 
-      var publicKeyFromFile = CasperClient.loadPublicKeyFromFile(
-          tempDir.path + '/public.pem', SignatureAlgorithm.Secp256K1);
-      var privateKeyFromFile = CasperClient.loadPrivateKeyFromFile(
-          tempDir.path + '/private.pem', SignatureAlgorithm.Secp256K1);
+    //   var publicKeyFromFile = CasperClient.loadPublicKeyFromFile(
+    //       tempDir.path + '/public.pem', SignatureAlgorithm.Secp256K1);
+    //   var privateKeyFromFile = CasperClient.loadPrivateKeyFromFile(
+    //       tempDir.path + '/private.pem', SignatureAlgorithm.Secp256K1);
 
-      var keyPairFromFile =
-          Secp256K1.parseKeyPair(publicKeyFromFile, privateKeyFromFile, 'raw');
+    //   var keyPairFromFile =
+    //       Secp256K1.parseKeyPair(publicKeyFromFile, privateKeyFromFile, 'raw');
 
-      expect(keyPairFromFile.publicKey.value(), edKeyPair.publicKey.value());
-      expect(keyPairFromFile.privateKey, edKeyPair.privateKey);
+    //   expect(keyPairFromFile.publicKey.value(), edKeyPair.publicKey.value());
+    //   expect(keyPairFromFile.privateKey, edKeyPair.privateKey);
 
-      // load the keypair from pem file of private key
-      var loadedKeyPair = CasperClient.loadKeyPairFromPrivateFile(
-          tempDir.path + '/private.pem', SignatureAlgorithm.Secp256K1);
-      expect(loadedKeyPair.publicKey.value(), edKeyPair.publicKey.value());
-      expect(loadedKeyPair.privateKey, edKeyPair.privateKey);
-    });
+    //   // load the keypair from pem file of private key
+    //   var loadedKeyPair = CasperClient.loadKeyPairFromPrivateFile(
+    //       tempDir.path + '/private.pem', SignatureAlgorithm.Secp256K1);
+    //   expect(loadedKeyPair.publicKey.value(), edKeyPair.publicKey.value());
+    //   expect(loadedKeyPair.privateKey, edKeyPair.privateKey);
+    // });
 
     // test('should create a HK wallet and derive child account correctly', () {
     //   var seed =
@@ -137,13 +137,13 @@ void main() {
     //       'uref-06f0da0c9284f0a59fbaed773bd411b2370350225407af6d0db08ebd90077250-007');
     // });
 
-    // test('getDeploy', () async {
-    //   var deployHash =
-    //       'd9a7a80869d31bba809bc3fa9eebb5cb4408b34a63d26133a342a6b57b345575';
-    //   var res = await casperClient.getDeploy(deployHash);
-    //   expect(res, isNotNull);
-    //   expect(encodeBase16(res.keys.first.hash), deployHash);
-    // });
+    test('getDeploy', () async {
+      var deployHash =
+          '2ed9521992e102eedfd3a0da7cd7904f23b0595db81b8cd4d8526a7e10d3a8dc';
+      var res = await casperClient.getDeploy(deployHash);
+      expect(res, isNotNull);
+      expect(base16Encode(res.keys.first.hash), deployHash);
+    });
 
     // test('putDeploy', () async {
     //   var publicKey = CLPublicKey.fromHex(
@@ -235,11 +235,11 @@ void main() {
     //   expect(res, base16Encode(transperDeploy.hash));
     // });
 
-    test('get total stake', () async {
-      var publicKey = CLPublicKey.fromHex(
-          '0202f92c9b79232db38584ad558cf5becf5bfd23987e4e1d36d49166289ed8208f5f');
-      var totalStake = await casperClient.getTotalStake(publicKey);
-      print(CasperClient.fromWei(totalStake));
-    });
+    // test('get total stake', () async {
+    //   var publicKey = CLPublicKey.fromHex(
+    //       '0202f92c9b79232db38584ad558cf5becf5bfd23987e4e1d36d49166289ed8208f5f');
+    //   var totalStake = await casperClient.getTotalStake(publicKey);
+    //   print(CasperClient.fromWei(totalStake));
+    // });
   });
 }

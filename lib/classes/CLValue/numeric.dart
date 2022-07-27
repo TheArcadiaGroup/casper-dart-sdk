@@ -412,7 +412,7 @@ ResultAndRemainder<CLValue, CLErrorCodes> fromBytesBigInt(
 
   var bigIntBytes = n == 0 ? [0] : rawBytes.sublist(1, 1 + n);
   var remainder = rawBytes.sublist(1 + n);
-  var value = BigNumber.from(bigIntBytes.reversed.toList()).toNumber();
+  var value = BigNumber.from(bigIntBytes.reversed.toList());
 
   if (bitSize == 128) {
     return resultHelper(Ok(CLU128(value, rawBytes)), remainder);
