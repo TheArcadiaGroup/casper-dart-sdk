@@ -93,7 +93,7 @@ ExecutionResultBody _$ExecutionResultBodyFromJson(Map<String, dynamic> json) =>
       json['cost'] as String,
       json['error_message'] as String?,
       (json['transfers'] as List<dynamic>).map((e) => e as String).toList(),
-      json['effects'] as Map<String, dynamic>?,
+      json['effect'] as Map<String, dynamic>?,
     );
 
 Map<String, dynamic> _$ExecutionResultBodyToJson(ExecutionResultBody instance) {
@@ -109,7 +109,7 @@ Map<String, dynamic> _$ExecutionResultBodyToJson(ExecutionResultBody instance) {
 
   writeNotNull('error_message', instance.errorMessage);
   val['transfers'] = instance.transfers;
-  writeNotNull('effects', instance.effects);
+  writeNotNull('effect', instance.effect);
   return val;
 }
 

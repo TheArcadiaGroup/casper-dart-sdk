@@ -107,10 +107,10 @@ class ExecutionResultBody {
   late List<String> transfers;
 
   @JsonKey(includeIfNull: false)
-  late Map<String, dynamic>? effects;
+  late Map<String, dynamic>? effect;
 
   ExecutionResultBody(
-      this.cost, this.errorMessage, this.transfers, this.effects);
+      this.cost, this.errorMessage, this.transfers, this.effect);
 
   factory ExecutionResultBody.fromJson(Map<String, dynamic> json) =>
       _$ExecutionResultBodyFromJson(json);
