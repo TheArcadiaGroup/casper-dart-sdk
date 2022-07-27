@@ -99,6 +99,18 @@ class GetStateRootHashResult extends RpcResult {
 }
 
 @JsonSerializable(explicitToJson: true)
+class EffectJson {
+  late List<Map<String, dynamic>> operations;
+  late List<Map<String, dynamic>> transforms;
+
+  EffectJson(this.operations, this.transforms);
+
+  factory EffectJson.fromJson(Map<String, dynamic> json) =>
+      _$EffectJsonFromJson(json);
+  Map<String, dynamic> toJson() => _$EffectJsonToJson(this);
+}
+
+@JsonSerializable(explicitToJson: true)
 class ExecutionResultBody {
   late String cost;
 
@@ -107,7 +119,7 @@ class ExecutionResultBody {
   late List<String> transfers;
 
   @JsonKey(includeIfNull: false)
-  late Map<String, dynamic>? effect;
+  late EffectJson? effect;
 
   ExecutionResultBody(
       this.cost, this.errorMessage, this.transfers, this.effect);

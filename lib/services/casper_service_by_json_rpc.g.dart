@@ -88,12 +88,29 @@ Map<String, dynamic> _$GetStateRootHashResultToJson(
       'state_root_hash': instance.stateRootHash,
     };
 
+EffectJson _$EffectJsonFromJson(Map<String, dynamic> json) => EffectJson(
+      (json['operations'] as List<dynamic>)
+          .map((e) => e as Map<String, dynamic>)
+          .toList(),
+      (json['transforms'] as List<dynamic>)
+          .map((e) => e as Map<String, dynamic>)
+          .toList(),
+    );
+
+Map<String, dynamic> _$EffectJsonToJson(EffectJson instance) =>
+    <String, dynamic>{
+      'operations': instance.operations,
+      'transforms': instance.transforms,
+    };
+
 ExecutionResultBody _$ExecutionResultBodyFromJson(Map<String, dynamic> json) =>
     ExecutionResultBody(
       json['cost'] as String,
       json['error_message'] as String?,
       (json['transfers'] as List<dynamic>).map((e) => e as String).toList(),
-      json['effect'] as Map<String, dynamic>?,
+      json['effect'] == null
+          ? null
+          : EffectJson.fromJson(json['effect'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ExecutionResultBodyToJson(ExecutionResultBody instance) {
@@ -109,7 +126,7 @@ Map<String, dynamic> _$ExecutionResultBodyToJson(ExecutionResultBody instance) {
 
   writeNotNull('error_message', instance.errorMessage);
   val['transfers'] = instance.transfers;
-  writeNotNull('effect', instance.effect);
+  writeNotNull('effect', instance.effect?.toJson());
   return val;
 }
 
