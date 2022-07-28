@@ -7,15 +7,17 @@ import 'CLValue/abstract.dart';
 Function(dynamic val) toBytesNumber(int bitSize, bool signed) {
   Uint8List nestedFunction(dynamic val) {
     var valBN = BigNumber.from(val);
-    var maxUintValue = maxUint256BN.mask(bitSize);
+    var maxUintValue = BigNumber.MAXUINT256.mask(bitSize);
 
     if (signed) {
       var bounds = maxUintValue.mask(bitSize - 1);
 
-      if (valBN.gt(bounds) || val.lt(bounds.add(oneBN).mul(negativeOneBN))) {
+      if (valBN.gt(bounds) ||
+          val.lt(bounds.add(BigNumber.ONE).mul(BigNumber.NEGATIVE_ONE))) {
         throw Exception('value out-of-bounds, value: ' + val.toString());
       }
-    } else if (valBN.lt(zeroBN) || valBN.gt(maxUintValue.mask(bitSize))) {
+    } else if (valBN.lt(BigNumber.ZERO) ||
+        valBN.gt(maxUintValue.mask(bitSize))) {
       throw Exception('value out-of-bounds, value: ' + val.toString());
     }
 
@@ -23,11 +25,11 @@ Function(dynamic val) toBytesNumber(int bitSize, bool signed) {
 
     var bytes = hexToUint8List(valTwos.toHexString());
 
-    if (valTwos.gte(zeroBN)) {
+    if (valTwos.gte(BigNumber.ZERO)) {
       // for positive number, we had to deal with paddings
       if (bitSize > 64) {
         // if zero just return zero
-        if (valTwos.eq(zeroBN)) {
+        if (valTwos.eq(BigNumber.ZERO)) {
           return bytes;
         }
 

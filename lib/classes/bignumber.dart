@@ -1,16 +1,11 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:typed_data';
 
 import 'bn.dart';
 
 const maxSafe = 0x1fffffffffffff;
 const _constructorGuard = {};
-
-BigNumber negativeOneBN = BigNumber.from(-1);
-BigNumber zeroBN = BigNumber.from(0);
-BigNumber oneBN = BigNumber.from(1);
-BigNumber twoBN = BigNumber.from(2);
-BigNumber maxUint256BN = BigNumber.from(
-    '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
 
 ///
 /// BigNumber
@@ -20,6 +15,13 @@ BigNumber maxUint256BN = BigNumber.from(
 ///
 class BigNumber {
   String _hex = '';
+
+  static final NEGATIVE_ONE = BigNumber.from(-1);
+  static final ZERO = BigNumber.from(0);
+  static final ONE = BigNumber.from(1);
+  static final TWO = BigNumber.from(2);
+  static final MAXUINT256 = BigNumber.from(
+      '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
 
   BigNumber(dynamic constructorGuard, String hex) {
     if (constructorGuard != _constructorGuard) {

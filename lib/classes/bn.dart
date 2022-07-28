@@ -1973,7 +1973,7 @@ class BN {
     }
 
     int r = bits % 26;
-    int s = math.min(((bits - r) / 26) as int, length);
+    int s = math.min(((bits - r) ~/ 26), length);
     int mask = 0x3ffffff ^ ((0x3ffffff >>> r) << r);
     var maskedWords = extended;
 

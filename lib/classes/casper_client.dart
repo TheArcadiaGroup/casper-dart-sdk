@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 import 'dart:math' as math;
 
+import 'package:casper_dart_sdk/classes/classes.dart';
 import 'package:casper_dart_sdk/services/casper_service_by_json_rpc.dart';
 import 'package:oxidized/oxidized.dart';
 
@@ -204,7 +205,7 @@ class CasperClient {
   }
 
   Future<BigNumber> getTotalStake(CLPublicKey publicKey) async {
-    var totalStake = zeroBN;
+    var totalStake = BigNumber.ZERO;
     var auctionResult = await nodeClient.getAunctionStateInfo();
     try {
       if (auctionResult.bids.isNotEmpty) {
@@ -229,15 +230,103 @@ class CasperClient {
       }
       return totalStake;
     } catch (e) {
-      return zeroBN;
+      return BigNumber.ZERO;
     }
   }
 
-  static num fromWei(BigNumber number, [int decimals = 9]) {
-    return number.toNumber() / math.pow(10, decimals);
+  static String fromWei(String value, [int decimals = 9]) {
+    var multiplier = BigNumber.from(10).pow(BigNumber.from(decimals));
+    var valueBN = BigNumber.from(value);
+    var negative = valueBN.lt(BigNumber.ZERO);
+
+    if (negative) {
+      valueBN = valueBN.mul(BigNumber.NEGATIVE_ONE);
+    }
+    var wei = BN(value.toString());
+    var base = BN(multiplier.toString(), 10);
+    var baseLength = multiplier.toString().length - 1 > 0
+        ? multiplier.toString().length - 1
+        : 1;
+    var fraction = wei.mod(base).toString(10);
+
+    while (fraction.length < baseLength) {
+      fraction = '0$fraction';
+    }
+
+    var fractionReg = RegExp(r'^([0-9]*[1-9]|0)(0*)');
+    var match = fractionReg.firstMatch(fraction)!;
+    fraction = match[0].toString();
+
+    var whole = wei.div(base).toString(10);
+
+    var result = whole + (fraction == '0' ? '' : '.$fraction');
+
+    if (negative) {
+      result = '-$result';
+    }
+    return result;
   }
 
-  static num toWei(BigNumber number, [int decimals = 9]) {
-    return number.toNumber() * math.pow(10, decimals);
+  static String toWei(String value, [int decimals = 9]) {
+    var multiplier = BigNumber.from(10).pow(BigNumber.from(decimals));
+    var base = BN(multiplier.toString(), 10);
+    var baseLength = multiplier.toString().length - 1 > 0
+        ? multiplier.toString().length - 1
+        : 1;
+
+    var negative = (value.substring(0, 1) == "-");
+    if (negative) {
+      value = value.substring(1);
+    }
+
+    if (value == ".") {
+      throw Exception('Invalid value: $value');
+    }
+
+    // Split it into a whole and fractional part
+    var comps = value.split(".");
+    if (comps.length > 2) {
+      throw Exception('Too many decimal points $value');
+    }
+
+    var whole = comps[0];
+    var fraction = comps[1];
+
+    if (whole.isEmpty) {
+      whole = '0';
+    }
+
+    if (fraction.isEmpty) {
+      fraction = '0';
+    }
+
+    // Trim trailing zeros
+    while (fraction[fraction.length - 1] == "0") {
+      fraction = fraction.substring(0, fraction.length - 1);
+    }
+
+    // Check the fraction doesn't exceed our decimals size
+    if (fraction.length > baseLength) {
+      throw Exception('Too many decimal places $value');
+    }
+
+    if (fraction.isEmpty) {
+      fraction = '0';
+    }
+
+    // Fully pad the string with zeros to get to wei
+    while (fraction.length < baseLength) {
+      fraction += '0';
+    }
+
+    var wholeBN = BN(whole);
+    var fractionBN = BN(fraction);
+    var wei = (wholeBN.mul(base).add(fractionBN));
+
+    if (negative) {
+      wei = wei.mul(toBN(BigNumber.NEGATIVE_ONE));
+    }
+
+    return wei.toString();
   }
 }
