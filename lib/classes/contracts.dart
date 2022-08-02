@@ -78,7 +78,7 @@ class Contract {
   }
 
   Future<StoredValue> queryContractData(List<String> path,
-      CasperClient? casperClient, String? stateRootHash) async {
+      [CasperClient? casperClient, String? stateRootHash]) async {
     var client = casperClient ?? this.casperClient;
 
     if (client == null) {
