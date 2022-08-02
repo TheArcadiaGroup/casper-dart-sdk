@@ -1,8 +1,5 @@
 import 'dart:convert';
-import 'package:casper_dart_sdk/classes/keys.dart';
-
-import 'package:casper_dart_sdk/classes/contracts.dart';
-import 'package:casper_dart_sdk/classes/conversions.dart';
+import 'package:casper_dart_sdk/casper_dart_sdk.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -39,6 +36,15 @@ void main() {
           '1babb50ad05f179985295654e2f1b31ef0b15637efbca7cc8b6601158e67811bc1aa0e4ee30271a6e68ec658495f2f2360b67bea733baec97e63b960efe9b00c';
       expect(signature.length, 64);
       expect(signatureHex, expectedHex);
+    });
+    test('read entry point', () async {
+      var casperClient = CasperClient('https://casper-node.tor.us');
+      var contract = Contract(casperClient);
+      contract.setContractHash(
+          'hash-012f8f3689ddf5c7a92ddeb54a311afb660051bb5fab3568dbb3d796809be8c6');
+
+      var name = await contract.queryContractData(['name'], casperClient);
+      expect(name, 'ETH Wrapped (Casper)');
     });
   });
 }

@@ -281,26 +281,27 @@ Map<String, dynamic> _$ContractPackageJsonToJson(
     };
 
 StoredValue _$StoredValueFromJson(Map<String, dynamic> json) => StoredValue(
-      StoredValue._getCLValue(json['CLValue'] as String?),
-      json['Account'] == null
+      clValue:
+          StoredValue._getCLValue(json['CLValue'] as Map<String, dynamic>?),
+      account: json['Account'] == null
           ? null
           : AccountJson.fromJson(json['Account'] as Map<String, dynamic>),
-      json['ContractWASM'] as String?,
-      json['Contract'] == null
+      contractWASM: json['ContractWASM'] as String?,
+      contract: json['Contract'] == null
           ? null
           : ContractMetadataJson.fromJson(
               json['Contract'] as Map<String, dynamic>),
-      json['ContractPackage'] == null
+      contractPackage: json['ContractPackage'] == null
           ? null
           : ContractPackageJson.fromJson(
               json['ContractPackage'] as Map<String, dynamic>),
-      json['Transfer'] == null
+      transfer: json['Transfer'] == null
           ? null
           : TransferJson.fromJson(json['Transfer'] as Map<String, dynamic>),
-      json['DeployInfo'] == null
+      deployInfo: json['DeployInfo'] == null
           ? null
           : DeployInfoJson.fromJson(json['DeployInfo'] as Map<String, dynamic>),
-      json['EraInfoJson'] == null
+      eraInfo: json['EraInfoJson'] == null
           ? null
           : EraInfoJson.fromJson(json['EraInfoJson'] as Map<String, dynamic>),
     );

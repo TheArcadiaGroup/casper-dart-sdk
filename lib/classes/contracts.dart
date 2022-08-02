@@ -91,8 +91,8 @@ class Contract {
     var contractData = await client.nodeClient
         .getBlockState(stateRootHashToUse.toString(), contractHash!, path);
 
-    if (contractData.clValue?.isCLValue != null) {
-      return contractData.clValue?.value();
+    if (contractData.clValue?.isCLValue ?? false) {
+      return StoredValue(clValue: contractData.clValue);
     } else {
       throw Exception('Invalid stored value');
     }

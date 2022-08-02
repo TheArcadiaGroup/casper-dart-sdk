@@ -797,7 +797,7 @@ class CasperServiceByJsonRPC {
       var storedValue = StoredValue.fromJson(storedValueJson);
       return storedValue;
     } catch (e) {
-      return StoredValue(null, null, null, null, null, null, null, null);
+      rethrow;
     }
   }
 

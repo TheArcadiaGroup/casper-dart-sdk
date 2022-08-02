@@ -354,8 +354,8 @@ class StoredValue {
   @JsonKey(name: 'EraInfoJson')
   late EraInfoJson? eraInfo;
 
-  static CLValue? _getCLValue(String? json) {
-    if (json == null || json == '') {
+  static CLValue? _getCLValue(Map<String, dynamic>? json) {
+    if (json == null) {
       return null;
     }
     return CLValueParsers.fromJSON(json).unwrap();
@@ -365,8 +365,16 @@ class StoredValue {
     return clValue != null ? clValue.toString() : '';
   }
 
-  StoredValue(this.clValue, this.account, this.contractWASM, this.contract,
-      this.contractPackage, this.transfer, this.deployInfo, this.eraInfo);
+  StoredValue({
+    this.clValue,
+    this.account,
+    this.contractWASM,
+    this.contract,
+    this.contractPackage,
+    this.transfer,
+    this.deployInfo,
+    this.eraInfo,
+  });
 
   factory StoredValue.fromJson(Map<String, dynamic> json) =>
       _$StoredValueFromJson(json);
