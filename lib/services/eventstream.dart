@@ -55,7 +55,7 @@ class EventSubscription {
 class EventParseResult {
   String? id;
   StreamErrors? err;
-  dynamic? body;
+  dynamic body;
 
   EventParseResult({
     this.id,
@@ -102,12 +102,12 @@ class EventStream {
   }
 
   void runEventsLoop(EventParseResult result) {
-    subscribedTo.forEach((element) {
+    for (var element in subscribedTo) {
       if (result.body != null &&
           (result.body?.containsKey(element.eventName) ?? false)) {
         element.eventHandlerFn(result);
       }
-    });
+    }
   }
 
   void onData(List<int> buf) {
