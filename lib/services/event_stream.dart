@@ -107,7 +107,7 @@ class EventStream {
   }
 
   void onData(List<int> buf) {
-    var result = parseEvent(String.fromCharCodes(buf));
+    var result = esParseEvent(String.fromCharCodes(buf));
     if (result.err == null) {
       runEventsLoop(result);
     }
@@ -121,7 +121,7 @@ class EventStream {
       pendingDeployString += result.body;
       pendingDeployString += '\nid:${result.id}';
 
-      var newResult = parseEvent(pendingDeployString);
+      var newResult = esParseEvent(pendingDeployString);
       if (newResult.err == null) {
         pendingDeployString = '';
       }
@@ -146,7 +146,7 @@ class EventStream {
   }
 }
 
-EventParseResult parseEvent(String eventString) {
+EventParseResult esParseEvent(String eventString) {
   if (eventString.startsWith('data')) {
     var splitted = eventString.split('\n');
     var id = splitted[1].isNotEmpty && splitted[1].startsWith('id:')

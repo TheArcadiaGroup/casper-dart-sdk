@@ -1,5 +1,4 @@
 import 'package:casper_dart_sdk/casper_dart_sdk.dart';
-import 'package:casper_dart_sdk/contract-client/helpers/lib.dart';
 
 import 'package:casper_dart_sdk/contract-client/helpers/utils.dart' as utils;
 import 'types.dart';
