@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:casper_dart_sdk/classes/contracts.dart';
+import 'package:casper_dart_sdk/classes/CLValue/utils.dart';
 import 'package:casper_dart_sdk/classes/conversions.dart';
 import 'package:casper_dart_sdk/classes/keys.dart';
 import 'package:test/test.dart';

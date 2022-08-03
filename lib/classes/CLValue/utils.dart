@@ -3,6 +3,7 @@
 import 'dart:typed_data';
 
 import 'package:oxidized/oxidized.dart';
+import 'package:pinenacl/digests.dart';
 
 import 'abstract.dart';
 import 'bool.dart';
@@ -370,4 +371,9 @@ String padNum(String v, [int n = 1]) {
     str = arr2.substring(arr2.length - (n | 2));
   }
   return str + v;
+}
+
+Uint8List byteHash(Uint8List x) {
+  var hasher = Hash.blake2b;
+  return hasher(x, digestSize: 32);
 }

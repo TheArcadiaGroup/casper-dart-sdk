@@ -1,26 +1,14 @@
 import 'dart:typed_data';
 import 'package:casper_dart_sdk/classes/CLValue/abstract.dart';
 import 'package:casper_dart_sdk/classes/bignumber.dart';
-import 'package:pinenacl/digests.dart';
+import 'package:casper_dart_sdk/contract-client/helpers/utils.dart';
 
 import '../classes/CLValue/public_key.dart';
 import '../classes/casper_client.dart';
 import '../classes/deploy_util.dart';
 import '../classes/keys.dart';
 import '../classes/runtime_args.dart';
-import 'CLValue/builders.dart';
-import 'CLValue/map.dart';
-import 'conversions.dart';
 import 'stored_value.dart';
-
-Uint8List byteHash(Uint8List x) {
-  var hasher = Hash.blake2b;
-  return hasher(x, digestSize: 32);
-}
-
-Uint8List contractHashToByteArray(String contractHash) {
-  return Uint8List.fromList(base16Decode(contractHash));
-}
 
 // ignore: non_constant_identifier_names
 String NO_CLIENT_ERR =
@@ -121,26 +109,4 @@ class Contract {
       throw Exception('Invalid stored value');
     }
   }
-}
-
-CLMap<CLValue, CLValue> toCLMap(Map<String, String> map) {
-  var clMap = CLValueBuilder.mapfromMap(
-      {CLTypeBuilder.string(): CLTypeBuilder.string()});
-
-  for (var entry in map.entries) {
-    clMap.set(
-        CLValueBuilder.string(entry.key), CLValueBuilder.string(entry.value));
-  }
-
-  return clMap;
-}
-
-Map<CLValue, CLValue> fromCLMap(List<Map<CLValue, CLValue>> map) {
-  Map<CLValue, CLValue> clMap = {};
-
-  for (var item in map) {
-    clMap[item.keys.first.value()] = item.values.first.value();
-  }
-
-  return clMap;
 }

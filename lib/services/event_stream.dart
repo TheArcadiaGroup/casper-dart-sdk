@@ -75,9 +75,7 @@ class EventStream {
 
   Result<bool, String> subscribe(
       EventName eventName, EventHandlerFn eventHandlerFn) {
-    if (subscribedTo
-        .where((element) => element.eventName == eventName)
-        .isNotEmpty) {
+    if (subscribedTo.every((element) => element.eventName == eventName)) {
       return Err('Already subscribed to this event');
     }
     subscribedTo.add(EventSubscription(
@@ -88,9 +86,7 @@ class EventStream {
   }
 
   Result<bool, String> unsubscribe(EventName eventName) {
-    if (subscribedTo
-        .where((element) => element.eventName == eventName)
-        .isEmpty) {
+    if (subscribedTo.every((element) => element.eventName == eventName)) {
       return Err('Cannot find provided subscription');
     }
 

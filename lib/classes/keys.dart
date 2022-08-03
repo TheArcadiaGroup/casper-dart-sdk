@@ -10,8 +10,8 @@ import 'package:elliptic/elliptic.dart' as elliptic;
 import 'package:pinenacl/tweetnacl.dart';
 
 import 'CLValue/public_key.dart';
+import 'CLValue/utils.dart';
 import 'casper_hdkey.dart';
-import 'contracts.dart';
 import 'conversions.dart';
 
 const PEM_SECRET_KEY_TAG = 'PRIVATE KEY';

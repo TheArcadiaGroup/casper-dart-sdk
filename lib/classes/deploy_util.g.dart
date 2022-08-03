@@ -27,10 +27,9 @@ Map<String, dynamic> _$DeployHeaderToJson(DeployHeader instance) =>
       'chain_name': instance.chainName,
     };
 
-Approval _$ApprovalFromJson(Map<String, dynamic> json) => Approval(
-      json['signer'] as String,
-      json['signature'] as String,
-    );
+Approval _$ApprovalFromJson(Map<String, dynamic> json) => Approval()
+  ..signer = json['signer'] as String
+  ..signature = json['signature'] as String;
 
 Map<String, dynamic> _$ApprovalToJson(Approval instance) => <String, dynamic>{
       'signer': instance.signer,

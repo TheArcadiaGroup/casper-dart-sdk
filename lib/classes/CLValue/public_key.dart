@@ -6,11 +6,11 @@ import 'package:oxidized/oxidized.dart';
 import 'package:collection/collection.dart';
 
 import 'constants.dart';
-import '../contracts.dart';
 import '../conversions.dart';
 
 import '../keys.dart';
 import 'abstract.dart';
+import 'utils.dart';
 
 const ED25519_LENGTH = 32;
 const SECP256K1_LENGTH = 33;

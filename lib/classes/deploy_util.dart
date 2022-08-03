@@ -236,7 +236,7 @@ class Approval {
   late String signer;
   late String signature;
 
-  Approval(this.signer, this.signature);
+  Approval();
 
   factory Approval.fromJson(Map<String, dynamic> json) =>
       _$ApprovalFromJson(json);
@@ -953,19 +953,17 @@ Deploy makeDeploy(DeployParams deployParams, ExecutableDeployItem session,
 /// @param deploy
 /// @param signingKey the keyPair to sign deploy
 Deploy signDeploy(Deploy deploy, keys.AsymmetricKey signingKey) {
-  var signer = signingKey.accountHex();
   var signatureBytes = signingKey.sign(deploy.hash);
-  var signature = '';
-
+  var approval = Approval();
+  approval.signer = signingKey.accountHex();
   switch (signingKey.signatureAlgorithm) {
     case keys.SignatureAlgorithm.Ed25519:
-      signature = keys.Ed25519.accountHexStr(signatureBytes);
+      approval.signature = keys.Ed25519.accountHexStr(signatureBytes);
       break;
     case keys.SignatureAlgorithm.Secp256K1:
-      signature = keys.Secp256K1.accountHexStr(signatureBytes);
+      approval.signature = keys.Secp256K1.accountHexStr(signatureBytes);
       break;
   }
-  var approval = Approval(signer, signature);
   deploy.approvals.add(approval);
 
   return deploy;
@@ -977,17 +975,17 @@ Deploy signDeploy(Deploy deploy, keys.AsymmetricKey signingKey) {
 /// @param sig the Ed25519 signature
 /// @param publicKey the public key used to generate the Ed25519 signature
 Deploy setSignature(Deploy deploy, Uint8List sig, CLPublicKey publicKey) {
-  var signer = publicKey.toHex();
-  var signature = '';
+  var approval = Approval();
+  approval.signer = publicKey.toHex();
 
   // TBD: Make sure it is proper
   if (publicKey.isEd25519()) {
-    signature = keys.Ed25519.accountHexStr(sig);
+    approval.signature = keys.Ed25519.accountHexStr(sig);
   }
   if (publicKey.isSecp256K1()) {
-    signature = keys.Secp256K1.accountHexStr(sig);
+    approval.signature = keys.Secp256K1.accountHexStr(sig);
   }
-  var approval = Approval(signer, signature);
+
   deploy.approvals.add(approval);
   return deploy;
 }
