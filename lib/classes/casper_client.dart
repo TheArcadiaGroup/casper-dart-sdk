@@ -226,7 +226,7 @@ class CasperClient {
     }
   }
 
-  static String fromWei(String value, [int decimals = 9]) {
+  static String fromMotes(String value, [int decimals = 9]) {
     var multiplier = BigNumber.from(10).pow(BigNumber.from(decimals));
     var valueBN = BigNumber.from(value);
     var negative = valueBN.lt(BigNumber.ZERO);
@@ -259,7 +259,7 @@ class CasperClient {
     return result;
   }
 
-  static String toWei(String value, [int decimals = 9]) {
+  static String toMotes(String value, [int decimals = 9]) {
     var multiplier = BigNumber.from(10).pow(BigNumber.from(decimals));
     var base = BN(multiplier.toString(), 10);
     var baseLength = multiplier.toString().length - 1 > 0

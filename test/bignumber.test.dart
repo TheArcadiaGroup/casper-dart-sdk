@@ -25,7 +25,7 @@ void main() {
 
     test('fromWei', () {
       var a = BigNumber.from(16984023806);
-      var b = CasperClient.fromWei(a.toString());
+      var b = CasperClient.fromMotes(a.toString());
 
       expect(b, '16.984023806');
     });
@@ -33,7 +33,7 @@ void main() {
     test('toWei', () {
       // var a = BigNumber.from(1000000000000);
       var a = '16.984023806';
-      var b = CasperClient.toWei(a);
+      var b = CasperClient.toMotes(a);
 
       expect(b, '16984023806');
     });
