@@ -165,7 +165,7 @@ Map<String, dynamic> _$EraInfoJsonToJson(EraInfoJson instance) =>
 NamedCLTypeArg _$NamedCLTypeArgFromJson(Map<String, dynamic> json) =>
     NamedCLTypeArg(
       json['name'] as String,
-      NamedCLTypeArg._getCLType(json['cl_type'] as String),
+      NamedCLTypeArg._getCLType(json['cl_type']),
     );
 
 Map<String, dynamic> _$NamedCLTypeArgToJson(NamedCLTypeArg instance) =>

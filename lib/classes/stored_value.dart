@@ -185,7 +185,7 @@ class NamedCLTypeArg {
   @JsonKey(name: 'cl_type', fromJson: _getCLType, toJson: _clTypeToJSON)
   late CLType clType;
 
-  static CLType _getCLType(String clType) {
+  static CLType _getCLType(dynamic clType) {
     return matchTypeToCLType(clType);
   }
 
