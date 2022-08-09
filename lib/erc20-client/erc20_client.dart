@@ -21,8 +21,6 @@ class ERC20Client extends ContractClient {
   ERC20Client(String nodeAddress, String chainName, String eventStreamAddress)
       : super(nodeAddress, chainName, eventStreamAddress);
 
-  NameKeys? _namedKeys;
-
   /// Installs the ERC20 contract.
   ///
   /// @param keys AsymmetricKey that will be used to install the contract.
@@ -66,35 +64,33 @@ class ERC20Client extends ContractClient {
   ///
   /// @param hash Contract hash (raw hex string as well as `hash-` prefixed format is supported).
   Future<void> setContractHash(String hash) async {
-    var properHash = hash.startsWith("hash-") ? hash.substring(5) : hash;
+    var properHash = hash.startsWith('hash-') ? hash.substring(5) : hash;
     var client =
-        await setClient(nodeAddress, properHash, ["balances", "allowances"]);
-    contractHash = hash;
+        await setClient(nodeAddress, properHash, ['balances', 'allowances']);
+    contractHash = properHash;
     contractPackageHash = client['contractPackageHash'];
-    _namedKeys = NameKeys(
-        allowances: client['namedKeys']['allowances'],
-        balances: client['namedKeys']['balances']);
+    namedKeys = client['namedKeys'];
   }
 
   /// Returns the name of the ERC20 token.
   Future<String> name() async {
-    return await contractSimpleGetter(nodeAddress, contractHash!, ["name"]);
+    return await contractSimpleGetter(nodeAddress, contractHash!, ['name']);
   }
 
   /// Returns the symbol of the ERC20 token.
   Future<String> symbol() async {
-    return await contractSimpleGetter(nodeAddress, contractHash!, ["symbol"]);
+    return await contractSimpleGetter(nodeAddress, contractHash!, ['symbol']);
   }
 
   /// Returns the decimals of the ERC20 token.
-  Future<String> decimals() async {
-    return await contractSimpleGetter(nodeAddress, contractHash!, ["decimals"]);
+  Future<BigNumber> decimals() async {
+    return await contractSimpleGetter(nodeAddress, contractHash!, ['decimals']);
   }
 
   /// Returns the total supply of the ERC20 token.
-  Future<String> totalSupply() async {
+  Future<BigNumber> totalSupply() async {
     return await contractSimpleGetter(
-        nodeAddress, contractHash!, ["total_supply"]);
+        nodeAddress, contractHash!, ['total_supply']);
   }
 
   /// Transfers an amount of tokens from the direct caller to a recipient.
@@ -117,7 +113,7 @@ class ERC20Client extends ContractClient {
 
     var params = ContractClientCallParams(
       keys: keys,
-      entryPoint: "transfer",
+      entryPoint: 'transfer',
       runtimeArgs: runtimeArgs,
       paymentAmount: paymentAmount,
       callback: (deployHash) =>
@@ -149,7 +145,7 @@ class ERC20Client extends ContractClient {
 
     var params = ContractClientCallParams(
       keys: keys,
-      entryPoint: "transfer_from",
+      entryPoint: 'transfer_from',
       runtimeArgs: runtimeArgs,
       paymentAmount: paymentAmount,
       callback: (deployHash) =>
@@ -179,7 +175,7 @@ class ERC20Client extends ContractClient {
 
     var params = ContractClientCallParams(
       keys: keys,
-      entryPoint: "approve",
+      entryPoint: 'approve',
       runtimeArgs: runtimeArgs,
       paymentAmount: paymentAmount,
       callback: (deployHash) =>
@@ -195,13 +191,16 @@ class ERC20Client extends ContractClient {
   /// @param account Account address (it supports CLPublicKey, CLAccountHash and CLByteArray).
   ///
   /// @returns Balance of an account.
-  Future<String> balanceOf(CLValue account) async {
+  Future<BigNumber> balanceOf(CLValue account) async {
     var key = createRecipientAddress(account);
     var keyBytes = CLValueParsers.toBytes(key).unwrap();
     var itemKey = base64Encode(keyBytes);
     var result = await contractDictionaryGetter(
-        nodeAddress, itemKey, _namedKeys!.balances);
-    return result.toString();
+        nodeAddress, itemKey, namedKeys['Balances']);
+    if (result is BigNumber) {
+      return result;
+    }
+    return BigNumber.ZERO;
   }
 
   /// Returns the amount of owner’s tokens allowed to be spent by spender.
@@ -221,7 +220,7 @@ class ERC20Client extends ContractClient {
     var encodedBytes = base64Encode(blaked);
 
     var result = await contractDictionaryGetter(
-        nodeAddress, encodedBytes, _namedKeys!.allowances);
+        nodeAddress, encodedBytes, namedKeys['allowances']);
 
     return result.toString();
   }

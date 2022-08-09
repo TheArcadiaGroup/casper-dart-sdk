@@ -282,7 +282,7 @@ class CasperClient {
     }
 
     var whole = comps[0];
-    var fraction = comps[1];
+    var fraction = comps.length == 2 ? comps[1] : '';
 
     if (whole.isEmpty) {
       whole = '0';
@@ -293,8 +293,10 @@ class CasperClient {
     }
 
     // Trim trailing zeros
-    while (fraction[fraction.length - 1] == "0") {
-      fraction = fraction.substring(0, fraction.length - 1);
+    if (fraction.length == 2) {
+      while (fraction[fraction.length - 1] == "0") {
+        fraction = fraction.substring(0, fraction.length - 1);
+      }
     }
 
     // Check the fraction doesn't exceed our decimals size

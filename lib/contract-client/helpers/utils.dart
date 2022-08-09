@@ -63,7 +63,7 @@ Future<StoredValue> getContractData(String nodeAddress, String stateRootHash,
   return blockState;
 }
 
-Future<CLValue> contractDictionaryGetter(
+Future<dynamic> contractDictionaryGetter(
     String nodeAddress, String dictionaryItemKey, String seedUref) async {
   var stateRootHash = await getStateRootHash(nodeAddress);
   var client = CasperServiceByJsonRPC(nodeAddress);

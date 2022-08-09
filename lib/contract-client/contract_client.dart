@@ -8,7 +8,7 @@ export './helpers/helpers.dart';
 class ContractClient {
   String? contractHash;
   String? contractPackageHash;
-  dynamic _namedKeys;
+  Map<String, dynamic> namedKeys = {};
   bool _isListening = false;
   List<PendingDeploy> pendingDeploys = List.empty(growable: true);
 
@@ -124,7 +124,7 @@ class ContractClient {
       var parsedEvent = utils.parseEvent(
         contractPackageHash!,
         eventNames,
-        _namedKeys!['events'],
+        namedKeys['events'],
         value,
       );
 
