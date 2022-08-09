@@ -3,12 +3,19 @@ import 'package:casper_dart_sdk/contract-client/types.dart';
 import 'package:pinenacl/ed25519.dart';
 
 CLKey createRecipientAddress(CLValue recipient) {
-  if (recipient.clType().toString() == PUBLIC_KEY_ID) {
-    return CLKey(
-      CLAccountHash((recipient as CLPublicKey).toAccountHash()),
-    );
+  if (recipient is CLPublicKey ||
+      recipient is CLAccountHash ||
+      recipient is CLByteArray) {
+    if (recipient.clType().toString() == PUBLIC_KEY_ID) {
+      return CLKey(
+        CLAccountHash((recipient as CLPublicKey).toAccountHash()),
+      );
+    } else {
+      return CLKey(recipient);
+    }
   } else {
-    return CLKey(recipient);
+    throw Exception(
+        'Invalid recipient type: ${recipient.clType()}. Recipient type is should be CLPublicKey, CLAccountHash or CLByteArray');
   }
 }
 
