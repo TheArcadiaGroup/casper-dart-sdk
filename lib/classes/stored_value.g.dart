@@ -175,10 +175,10 @@ Map<String, dynamic> _$NamedCLTypeArgToJson(NamedCLTypeArg instance) =>
     };
 
 EntryPoint _$EntryPointFromJson(Map<String, dynamic> json) => EntryPoint(
-      json['access'] as String,
+      json['access'],
       json['entry_point_type'] as String,
       json['name'] as String,
-      EntryPoint._getCLType(json['ret'] as String),
+      EntryPoint._getCLType(json['ret']),
       (json['args'] as List<dynamic>)
           .map((e) => NamedCLTypeArg.fromJson(e as Map<String, dynamic>))
           .toList(),

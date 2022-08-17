@@ -203,17 +203,17 @@ class NamedCLTypeArg {
 /// Entry point metadata
 @JsonSerializable(explicitToJson: true)
 class EntryPoint {
-  late String access;
+  late dynamic access;
 
   @JsonKey(name: 'entry_point_type')
   late String entryPointType;
   late String name;
 
   @JsonKey(name: 'ret', fromJson: _getCLType, toJson: _clTypeToJSON)
-  late CLType ret;
+  late dynamic ret;
   late List<NamedCLTypeArg> args;
 
-  static CLType _getCLType(String clType) {
+  static CLType _getCLType(dynamic clType) {
     return matchTypeToCLType(clType);
   }
 
