@@ -234,7 +234,7 @@ class CasperClient {
     if (negative) {
       valueBN = valueBN.mul(BigNumber.NEGATIVE_ONE);
     }
-    var wei = BN(value.toString());
+    var wei = BN(valueBN.toString());
     var base = BN(multiplier.toString(), 10);
     var baseLength = multiplier.toString().length - 1 > 0
         ? multiplier.toString().length - 1

@@ -63,16 +63,16 @@ void main() {
       expect(balanceMotes, '0.000118397173589323');
     });
 
-    // test('transfer', () async {
-    //   var transferAmount = CasperClient.toMotes('0.000118397173589323', 18);
-    //   var paymentAmount = '400000000';
-    //   var hash = await erc20Client.transfer(
-    //     senderKey,
-    //     recipient,
-    //     transferAmount,
-    //     paymentAmount,
-    //   );
-    //   print(hash);
-    // });
+    test('transfer', () async {
+      var transferAmount = CasperClient.toMotes('0.000118397173589323', 18);
+      var paymentAmount = '400000000';
+      var hash = await erc20Client.transfer(
+        senderKey,
+        recipient,
+        transferAmount,
+        paymentAmount,
+      );
+      print(hash);
+    });
   });
 }
