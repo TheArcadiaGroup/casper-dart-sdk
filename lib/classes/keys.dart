@@ -357,7 +357,12 @@ class Secp256K1 extends AsymmetricKey {
     choice.add(ASN1ObjectIdentifier.fromComponentString('1.3.132.0.10'));
 
     var pubKey = ASN1Sequence(tag: 0xA1);
-    var subjectPublicKey = ASN1BitString(publicKey.toHex().codeUnits);
+
+    var ec = elliptic.getSecp256k1();
+    var rawPublicKey = elliptic.PrivateKey.fromHex(ec, base16Encode(privateKey))
+        .publicKey
+        .toHex();
+    var subjectPublicKey = ASN1BitString(base16Decode(rawPublicKey));
     pubKey.add(subjectPublicKey);
 
     outer.add(version);
