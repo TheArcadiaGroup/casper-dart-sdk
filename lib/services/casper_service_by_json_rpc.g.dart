@@ -517,6 +517,7 @@ Bid _$BidFromJson(Map<String, dynamic> json) => Bid(
       json['bonding_purse'] as String,
       json['staked_amount'] as String,
       json['delegation_rate'] as num,
+      json['inactive'] as bool,
       json['reward'] as String?,
       (json['delegators'] as List<dynamic>)
           .map((e) => Delegators.fromJson(e as Map<String, dynamic>))
@@ -527,6 +528,7 @@ Map<String, dynamic> _$BidToJson(Bid instance) => <String, dynamic>{
       'bonding_purse': instance.bondingPurse,
       'staked_amount': instance.stakedAmount,
       'delegation_rate': instance.delegationRate,
+      'inactive': instance.inactive,
       'reward': instance.reward,
       'delegators': instance.delegators.map((e) => e.toJson()).toList(),
     };

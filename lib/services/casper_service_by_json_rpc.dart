@@ -526,11 +526,12 @@ class Bid {
   @JsonKey(name: 'delegation_rate')
   late num delegationRate;
 
+  late bool inactive;
   late String? reward;
   late List<Delegators> delegators;
 
-  Bid(this.bondingPurse, this.stakedAmount, this.delegationRate, this.reward,
-      this.delegators);
+  Bid(this.bondingPurse, this.stakedAmount, this.delegationRate, this.inactive,
+      this.reward, this.delegators);
 
   factory Bid.fromJson(Map<String, dynamic> json) => _$BidFromJson(json);
   Map<String, dynamic> toJson() => _$BidToJson(this);
