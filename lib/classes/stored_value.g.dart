@@ -221,7 +221,7 @@ ContractVersionJson _$ContractVersionJsonFromJson(Map<String, dynamic> json) =>
     ContractVersionJson(
       json['protocol_version_major'] as int,
       json['contract_version'] as int,
-      json['contract_hash'] as int,
+      json['contract_hash'] as String,
     );
 
 Map<String, dynamic> _$ContractVersionJsonToJson(

@@ -264,7 +264,7 @@ class ContractVersionJson {
   late int contractVersion;
 
   @JsonKey(name: 'contract_hash')
-  late int contractHash;
+  late String contractHash;
 
   ContractVersionJson(
       this.protocolVersionMajor, this.contractVersion, this.contractHash);
