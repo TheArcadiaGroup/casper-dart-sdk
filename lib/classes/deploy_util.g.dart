@@ -10,7 +10,7 @@ DeployHeader _$DeployHeaderFromJson(Map<String, dynamic> json) => DeployHeader(
       DeployHeader.fromHex(json['account'] as String),
       DeployHeader.timestampFromJson(json['timestamp'] as String),
       dehumanizerTTL(json['ttl'] as String),
-      (json['gas_price'] as num).toDouble(),
+      json['gas_price'] as int,
       byteArrayJsonDeserializer(json['body_hash'] as String),
       DeployHeader.dependenciesFromJson(json['dependencies'] as List),
       json['chain_name'] as String,
