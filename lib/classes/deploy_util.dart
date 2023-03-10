@@ -719,7 +719,7 @@ class ExecutableDeployItem implements ToBytes {
       BigNumber paymentAmount,
       String chainName,
       CLURef? sourcePurse,
-      [double gasPrice = 1,
+      [double gasPrice = 2.5,
       ttl = 1800000]) {
     var deployParams = DeployParams(
         source, chainName, gasPrice, ttl, List.empty(growable: true));
@@ -893,7 +893,7 @@ extension ContractTypeExtension on ContractType {
 class DeployParams {
   late CLPublicKey accountPublicKey;
   late String chainName;
-  late double gasPrice = 1;
+  late double gasPrice = 2.5;
   late int ttl = 1800000;
   late List<Uint8List> dependencies;
   int? timestamp;
@@ -924,6 +924,7 @@ class DeployParams {
     } else {
       this.dependencies = [];
     }
+    this.gasPrice = gasPrice ?? 2.5;
     this.timestamp = timestamp ?? DateTime.now().millisecondsSinceEpoch;
   }
 }
