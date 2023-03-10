@@ -133,7 +133,7 @@ class DeployHeader implements ToBytes {
   late int ttl;
 
   @JsonKey(name: 'gas_price')
-  late int gasPrice;
+  late double gasPrice;
 
   @JsonKey(
       name: 'body_hash',
@@ -719,7 +719,7 @@ class ExecutableDeployItem implements ToBytes {
       BigNumber paymentAmount,
       String chainName,
       CLURef? sourcePurse,
-      [int gasPrice = 1,
+      [double gasPrice = 1,
       ttl = 1800000]) {
     var deployParams = DeployParams(
         source, chainName, gasPrice, ttl, List.empty(growable: true));
@@ -893,7 +893,7 @@ extension ContractTypeExtension on ContractType {
 class DeployParams {
   late CLPublicKey accountPublicKey;
   late String chainName;
-  late int gasPrice = 1;
+  late double gasPrice = 1;
   late int ttl = 1800000;
   late List<Uint8List> dependencies;
   int? timestamp;
@@ -906,7 +906,7 @@ class DeployParams {
   /// @param dependencies Hex-encoded `Deploy` hashes of deploys which must be executed before this one.
   /// @param timestamp  If `timestamp` is empty, the current time will be used. Note that timestamp is UTC, not local.
   DeployParams(this.accountPublicKey, this.chainName,
-      [int? gasPrice,
+      [double? gasPrice,
       int? ttl,
       List<Uint8List>? dependencies,
       int? timestamp]) {

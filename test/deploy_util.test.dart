@@ -337,7 +337,7 @@ void main() {
       var firstDeploy = makeDeploy(firstDeployParams, session, payment);
 
       // Build second deploy with the first one as a dependency.
-      var gasPrice = 1;
+      var gasPrice = 2.5;
       var ttl = 1800000;
       var dependencies = [firstDeploy.hash];
       var secondDeployParams = DeployParams(
