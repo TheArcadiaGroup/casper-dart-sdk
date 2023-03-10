@@ -925,6 +925,7 @@ class DeployParams {
       this.dependencies = [];
     }
     this.gasPrice = gasPrice ?? 2.5;
+    this.ttl = ttl ?? 1800000;
     this.timestamp = timestamp ?? DateTime.now().millisecondsSinceEpoch;
   }
 }
