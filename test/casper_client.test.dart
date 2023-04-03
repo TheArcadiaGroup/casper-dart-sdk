@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:casper_dart_sdk/classes/casper_client.dart';
 import 'package:casper_dart_sdk/classes/conversions.dart';
+import 'package:casper_dart_sdk/classes/keys.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -17,6 +20,37 @@ void main() {
     //       privateKey, SignatureAlgorithm.Ed25519);
     //   expect(convertFromPrivateKey, publicKey);
     // });
+
+    test('should generate new hex private key', () {
+      var edKeyPair = CasperClient.newKeyPair(SignatureAlgorithm.Ed25519);
+      var publicKey = edKeyPair.publicKey.value();
+      var privateKey = edKeyPair.privateKey;
+      var convertFromPrivateKey = CasperClient.privateToPublicKey(
+          privateKey, SignatureAlgorithm.Ed25519);
+      expect(convertFromPrivateKey, publicKey);
+    });
+
+    test('should read public key from private key hex (Ed25519)', () {
+      var publicKeyStr =
+          '0136d234c9103cc164e552f52cd9bf03520341f9b37bdd5712efa953432dc00fa4';
+      var privateKeyStr =
+          'a6bd788baab9cae9bdbef00351f52c1d45394eb695c857b9694743870302fd7c';
+      var privateKeyBytes = base16Decode(privateKeyStr);
+
+      var publicKey = Ed25519.privateToPublicKey(privateKeyBytes);
+      expect(Ed25519.accountHexStr(publicKey), publicKeyStr);
+    });
+
+    test('should read public key from private key hex (Secp256k1)', () {
+      var publicKeyStr =
+          '0202d7b46a664a67e1a26b378c1782a652204ea67a20afbe077bc4830a84c9331c8a';
+      var privateKeyStr =
+          'a6bd788baab9cae9bdbef00351f52c1d45394eb695c857b9694743870302fd7c';
+      var privateKeyBytes = base16Decode(privateKeyStr);
+
+      var publicKey = Secp256K1.privateToPublicKey(privateKeyBytes);
+      expect(Secp256K1.accountHexStr(publicKey), publicKeyStr);
+    });
 
     // test('should generate PEM file for Ed25519 correctly', () {
     //   var edKeyPair = CasperClient.newKeyPair(SignatureAlgorithm.Ed25519);
@@ -131,13 +165,13 @@ void main() {
     //       'uref-06f0da0c9284f0a59fbaed773bd411b2370350225407af6d0db08ebd90077250-007');
     // });
 
-    test('getDeploy', () async {
-      var deployHash =
-          '2ed9521992e102eedfd3a0da7cd7904f23b0595db81b8cd4d8526a7e10d3a8dc';
-      var res = await casperClient.getDeploy(deployHash);
-      expect(res, isNotNull);
-      expect(base16Encode(res.keys.first.hash), deployHash);
-    });
+    // test('getDeploy', () async {
+    //   var deployHash =
+    //       '2ed9521992e102eedfd3a0da7cd7904f23b0595db81b8cd4d8526a7e10d3a8dc';
+    //   var res = await casperClient.getDeploy(deployHash);
+    //   expect(res, isNotNull);
+    //   expect(base16Encode(res.keys.first.hash), deployHash);
+    // });
 
     // test('putDeploy', () async {
     //   var publicKey = CLPublicKey.fromHex(

@@ -103,6 +103,11 @@ abstract class AsymmetricKey {
   ///Expect the key encoded in pem
   String exportPrivateKeyInPem();
 
+  ///Expect the key encoded in hex
+  String exportPrivateKeyHex() {
+    return base16Encode(privateKey);
+  }
+
   /// Sign the message by using the keyPair
   /// @param msg
   Uint8List sign(Uint8List msg);
