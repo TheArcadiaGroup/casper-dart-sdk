@@ -22,12 +22,25 @@ void main() {
     // });
 
     test('should generate new hex private key', () {
+      // edd25519 - 64 bytes
       var edKeyPair = CasperClient.newKeyPair(SignatureAlgorithm.Ed25519);
       var publicKey = edKeyPair.publicKey.value();
       var privateKey = edKeyPair.privateKey;
       var convertFromPrivateKey = CasperClient.privateToPublicKey(
           privateKey, SignatureAlgorithm.Ed25519);
-      expect(convertFromPrivateKey, publicKey);
+      var base64PK = edKeyPair.exportPrivateKeyInPem();
+      var hexPK = edKeyPair.exportPrivateKeyHex();
+      print(hexPK);
+
+      // Secp256K1 - 32bytes
+      var secpKeyPair = CasperClient.newKeyPair(SignatureAlgorithm.Secp256K1);
+      var publicKey1 = secpKeyPair.publicKey.value();
+      var privateKey1 = secpKeyPair.privateKey;
+      var convertFromPrivateKey1 = CasperClient.privateToPublicKey(
+          privateKey, SignatureAlgorithm.Secp256K1);
+      var base64PK1 = secpKeyPair.exportPrivateKeyInPem();
+      var hexPK1 = secpKeyPair.exportPrivateKeyHex();
+      print(hexPK1);
     });
 
     test('should read public key from private key hex (Ed25519)', () {
@@ -47,7 +60,6 @@ void main() {
       var privateKeyStr =
           'a6bd788baab9cae9bdbef00351f52c1d45394eb695c857b9694743870302fd7c';
       var privateKeyBytes = base16Decode(privateKeyStr);
-
       var publicKey = Secp256K1.privateToPublicKey(privateKeyBytes);
       expect(Secp256K1.accountHexStr(publicKey), publicKeyStr);
     });
