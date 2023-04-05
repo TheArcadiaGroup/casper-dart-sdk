@@ -60,6 +60,7 @@ void main() {
       var publicKey2 = Ed25519.privateToPublicKey(base64Bytes);
 
       expect(publicKey, publicKey2);
+      expect(Ed25519.accountHexStr(publicKey), publicKeyStr);
     });
 
     test('should read public key from private key hex (Secp256k1)', () {
