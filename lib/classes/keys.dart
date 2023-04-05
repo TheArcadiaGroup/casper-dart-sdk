@@ -220,9 +220,16 @@ class Ed25519 extends AsymmetricKey {
         [48, 46, 2, 1, 0, 48, 5, 6, 3, 43, 101, 112, 4, 34, 4, 32]);
     var encoded = base64Encode(Uint8List.fromList([
       ...derPrefix,
-      ...Uint8List.fromList(Ed25519.parsePrivateKey(privateKey))
+      ...privateKey,
     ]));
     return toPem(PEM_SECRET_KEY_TAG, encoded);
+  }
+
+  @override
+  String exportPrivateKeyHex() {
+    var encoded =
+        base16Encode(Uint8List.fromList([...privateKey, ...publicKey.value()]));
+    return encoded;
   }
 
   @override

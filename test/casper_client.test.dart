@@ -30,35 +30,43 @@ void main() {
           privateKey, SignatureAlgorithm.Ed25519);
       var base64PK = edKeyPair.exportPrivateKeyInPem();
       var hexPK = edKeyPair.exportPrivateKeyHex();
-      print(hexPK);
+      // print(edKeyPair.publicKey.toHex());
+      // print('base64PK: ${base64PK}');
 
       // Secp256K1 - 32bytes
-      var secpKeyPair = CasperClient.newKeyPair(SignatureAlgorithm.Secp256K1);
-      var publicKey1 = secpKeyPair.publicKey.value();
-      var privateKey1 = secpKeyPair.privateKey;
-      var convertFromPrivateKey1 = CasperClient.privateToPublicKey(
-          privateKey, SignatureAlgorithm.Secp256K1);
-      var base64PK1 = secpKeyPair.exportPrivateKeyInPem();
-      var hexPK1 = secpKeyPair.exportPrivateKeyHex();
-      print(hexPK1);
+      // var secpKeyPair = CasperClient.newKeyPair(SignatureAlgorithm.Secp256K1);
+      // var publicKey1 = secpKeyPair.publicKey.value();
+      // var privateKey1 = secpKeyPair.privateKey;
+      // var convertFromPrivateKey1 = CasperClient.privateToPublicKey(
+      //     privateKey, SignatureAlgorithm.Secp256K1);
+      // var base64PK1 = secpKeyPair.exportPrivateKeyInPem();
+      // var hexPK1 = secpKeyPair.exportPrivateKeyHex();
+      // // print(base64PK1);
+      // print(hexPK1);
     });
 
+    // 9bbadffd8b9911f7b3416732b924b24554475851a8ba4733c79c737760dcfde15d90f8a52f154a4a634fefa03a54b261b17dd8099e684f30e4893cbca6b3fdd0
     test('should read public key from private key hex (Ed25519)', () {
       var publicKeyStr =
-          '0136d234c9103cc164e552f52cd9bf03520341f9b37bdd5712efa953432dc00fa4';
+          '015d90f8a52f154a4a634fefa03a54b261b17dd8099e684f30e4893cbca6b3fdd0';
       var privateKeyStr =
-          'a6bd788baab9cae9bdbef00351f52c1d45394eb695c857b9694743870302fd7c';
-      var privateKeyBytes = base16Decode(privateKeyStr);
+          '9bbadffd8b9911f7b3416732b924b24554475851a8ba4733c79c737760dcfde15d90f8a52f154a4a634fefa03a54b261b17dd8099e684f30e4893cbca6b3fdd0';
+      var bytes = base16Decode(privateKeyStr);
+      var publicKey = Ed25519.privateToPublicKey(bytes);
 
-      var publicKey = Ed25519.privateToPublicKey(privateKeyBytes);
-      expect(Ed25519.accountHexStr(publicKey), publicKeyStr);
+      var base64PK =
+          'MC4CAQAwBQYDK2VwBCIEIJu63/2LmRH3s0FnMrkkskVUR1hRqLpHM8ecc3dg3P3h';
+      var base64Bytes = base64Decode(base64PK);
+      var publicKey2 = Ed25519.privateToPublicKey(base64Bytes);
+
+      expect(publicKey, publicKey2);
     });
 
     test('should read public key from private key hex (Secp256k1)', () {
       var publicKeyStr =
-          '0202d7b46a664a67e1a26b378c1782a652204ea67a20afbe077bc4830a84c9331c8a';
+          '020341d8034c070a8fff654c83f070aa4f636431c3b110d1bdb2e85d6f74983f06ed';
       var privateKeyStr =
-          'a6bd788baab9cae9bdbef00351f52c1d45394eb695c857b9694743870302fd7c';
+          '2b7289542e66f93df24d03f0581fd88dd381b08375a6101e0eb3af586860e666';
       var privateKeyBytes = base16Decode(privateKeyStr);
       var publicKey = Secp256K1.privateToPublicKey(privateKeyBytes);
       expect(Secp256K1.accountHexStr(publicKey), publicKeyStr);
