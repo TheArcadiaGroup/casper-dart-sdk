@@ -5,9 +5,9 @@ import 'dart:io';
 
 import 'package:asn1lib/asn1lib.dart';
 import 'package:pinenacl/ed25519.dart';
-import 'package:ecdsa/ecdsa.dart' as ecdsa;
 import 'package:elliptic/elliptic.dart' as elliptic;
 import 'package:pinenacl/tweetnacl.dart';
+import 'package:secp256k1/secp256k1.dart' as secp256k1;
 
 import 'CLValue/public_key.dart';
 import 'CLValue/utils.dart';
@@ -402,21 +402,22 @@ class Secp256K1 extends AsymmetricKey {
 
   @override
   Uint8List sign(Uint8List msg) {
-    var ec = elliptic.getSecp256k1();
-    var priv = elliptic.PrivateKey.fromBytes(ec, privateKey);
+    var priv = secp256k1.PrivateKey.fromHex(base16Encode(privateKey));
     var out = Uint8List.fromList(List.filled(32, 0, growable: true));
     TweetNaClExt.crypto_hash_sha256(out, msg);
-    var sig = ecdsa.signature(priv, out);
-    return Uint8List.fromList(sig.toCompact());
+    var sig = priv.signature(base16Encode(out));
+    return Uint8List.fromList(base16Decode(sig.toRawHex()));
   }
 
   @override
   bool verify(Uint8List signature, Uint8List msg) {
-    var ec = elliptic.getSecp256k1();
-    var pk = elliptic.PublicKey.fromHex(ec, base16Encode(publicKey.value()));
+    var priv = secp256k1.PrivateKey.fromHex(base16Encode(privateKey));
     var out = Uint8List.fromList(List.filled(32, 0, growable: true));
     TweetNaClExt.crypto_hash_sha256(out, msg);
-    var result = ecdsa.verify(pk, out, ecdsa.Signature.fromCompact(signature));
+    var sig = priv.signature(base16Encode(out));
+    var result = sig.verify(
+        secp256k1.PublicKey.fromCompressedHex(base16Encode(publicKey.value())),
+        base16Encode(out));
     return result;
   }
 

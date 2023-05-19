@@ -16,6 +16,7 @@ dependencies:
   json_serializable: ^6.2.0
   oxidized: ^5.2.0
   pinenacl: ^0.3.4
+  secp256k1: ^0.3.0
 
 dev_dependencies:
   lints: ^1.0.0

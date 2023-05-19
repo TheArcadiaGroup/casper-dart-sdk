@@ -42,6 +42,7 @@ void main() {
 
       var msg = Uint8List.fromList(('hello world').codeUnits);
       var signature = keyPair.sign(msg);
+      print('signature: ' + base16Encode(signature));
       expect(keyPair.verify(signature, msg), true);
     });
 

@@ -1,14 +1,17 @@
 import 'dart:convert';
 
+import 'package:casper_dart_sdk/classes/CLValue/public_key.dart';
+import 'package:casper_dart_sdk/classes/bignumber.dart';
 import 'package:casper_dart_sdk/classes/casper_client.dart';
 import 'package:casper_dart_sdk/classes/conversions.dart';
+import 'package:casper_dart_sdk/classes/deploy_util.dart';
 import 'package:casper_dart_sdk/classes/keys.dart';
 import 'package:test/test.dart';
 
 void main() {
   group('CasperClient', () {
-    // var casperClient = CasperClient('https://testnet.casper-node.tor.us');
-    var casperClient = CasperClient('https://casper-node.tor.us');
+    var casperClient = CasperClient('https://testnet.casper-node.tor.us');
+    // var casperClient = CasperClient('https://casper-node.tor.us');
 
     // test(
     //     'should generate new Ed25519 key pair, and compute public key from private key',
@@ -239,50 +242,85 @@ void main() {
     // });
 
     // makeTransferDeploy
-    // test('makeTransferDeploy', () async {
-    //   var publicKey = CLPublicKey.fromHex(
-    //       '02025d0f7d345c9863814ff3ccd934664bbd28fb911d8320b7cab9828f021341705d');
-    //   var privateKey = Secp256K1.readBase64WithPEM(
-    //       '-----BEGIN EC PRIVATE KEY-----\n'
-    //       'MHQCAQEEIPCR7Cs+AzPFATVPvp/K1zOBQX5ifxfGuCX1kzwy24uXoAcGBSuBBAAK\n'
-    //       'oUQDQgAEXQ99NFyYY4FP88zZNGZLvSj7kR2DILfKuYKPAhNBcF3ZZgQHUXxT0lb8\n'
-    //       'teHP8hv36fe9171dQuZZbo7V1Wej8A==\n'
-    //       '-----END EC PRIVATE KEY-----');
+    test('makeTransferDeploy', () async {
+      var publicKey1 = CLPublicKey.fromHex(
+          '0164f74cb5134b1bafab03b60f6f1ec9ec8a7e68c90dcabadcb020ce27d3974b47');
+      var privateKey1 = Secp256K1.readBase64WithPEM(
+          '-----BEGIN PRIVATE KEY-----\n'
+          'MC4CAQAwBQYDK2VwBCIEIMETiRtNoIHRUQenbj2SxaJWVVToaKw/xLKSvo+pS9Fj\n'
+          '-----END PRIVATE KEY-----');
+      
+      var publicKey2 = CLPublicKey.fromHex(
+          '02025d0f7d345c9863814ff3ccd934664bbd28fb911d8320b7cab9828f021341705d');
+      var privateKey2 = Secp256K1.readBase64WithPEM(
+          '-----BEGIN EC PRIVATE KEY-----\n'
+          'MHQCAQEEIPCR7Cs+AzPFATVPvp/K1zOBQX5ifxfGuCX1kzwy24uXoAcGBSuBBAAK\n'
+          'oUQDQgAEXQ99NFyYY4FP88zZNGZLvSj7kR2DILfKuYKPAhNBcF3ZZgQHUXxT0lb8\n'
+          'teHP8hv36fe9171dQuZZbo7V1Wej8A==\n'
+          '-----END EC PRIVATE KEY-----');
 
-    //   var senderKey = Secp256K1.parseKeyPair(publicKey.value(), privateKey);
-    //   // var rPublicKey = CLPublicKey.fromHex(
-    //   //     '0202f92c9b79232db38584ad558cf5becf5bfd23987e4e1d36d49166289ed8208f5f');
-    //   // var rPrivateKey = Secp256K1.readBase64WithPEM(
-    //   //     '-----BEGIN EC PRIVATE KEY-----\n'
-    //   //     'MHQCAQEEIDpnUqsnv+AL1x+SYTVRsELPireo3FfeMWcCP1y09SMfoAcGBSuBBAAK\n'
-    //   //     'oUQDQgAE8FqNVHqbed1ecbK+S3NLA9eYXyzqVHDqVJjZ04w33ebGhwVAsdfsY7UK\n'
-    //   //     'fgSuGSxCLw6dmx8h2Eo+fl0M1iDCEQ==\n'
-    //   //     '-----END EC PRIVATE KEY-----');
-    //   // var recipientKey =
-    //   //     Secp256K1.parseKeyPair(rPublicKey.value(), rPrivateKey);
-    //   var rPublicKey = CLPublicKey.fromHex(
-    //       '0164f74cb5134b1bafab03b60f6f1ec9ec8a7e68c90dcabadcb020ce27d3974b47');
+      var senderKey1 = Ed25519.parseKeyPair(publicKey1.value(), privateKey1);
+      var senderKey2 = Secp256K1.parseKeyPair(publicKey2.value(), privateKey2);
+      
+      var rPublicKey1 = CLPublicKey.fromHex(
+          '02025d0f7d345c9863814ff3ccd934664bbd28fb911d8320b7cab9828f021341705d');
+      var rPublicKey2 = CLPublicKey.fromHex(
+          '0164f74cb5134b1bafab03b60f6f1ec9ec8a7e68c90dcabadcb020ce27d3974b47');
 
-    //   var networkName = 'casper-test';
-    //   var paymentAmount = 1000000000;
-    //   var transferAmount = 2500000000;
-    //   var transferId = 1;
+      var networkName = 'casper-test';
+      var paymentAmount = 1000000000;
+      var transferAmount = 2500000000;
+      var transferId = 1;
 
-    //   var deployParams = DeployParams(publicKey, networkName);
-    //   var session = ExecutableDeployItem.newTransfer(
-    //       BigNumber.from(transferAmount),
-    //       rPublicKey,
-    //       null,
-    //       BigNumber.from(transferId));
+      var deployParams1 = DeployParams(publicKey1, networkName);
+      var session1 = ExecutableDeployItem.newTransfer(
+          BigNumber.from(transferAmount),
+          rPublicKey1,
+          null,
+          BigNumber.from(transferId));
 
-    //   var payment = standardPayment(BigNumber.from(paymentAmount));
-    //   var transperDeploy =
-    //       casperClient.makeTransferDeploy(deployParams, session, payment);
-    //   transperDeploy = signDeploy(transperDeploy, senderKey);
-    //   var res = await casperClient.putDeploy(transperDeploy);
+      var payment = standardPayment(BigNumber.from(paymentAmount));
+      var transperDeploy1 =
+          casperClient.makeTransferDeploy(deployParams1, session1, payment);
+      transperDeploy1 = signDeploy(transperDeploy1, senderKey1);
 
-    //   expect(res, base16Encode(transperDeploy.hash));
-    // });
+      var tryTimes = 5;
+      while (tryTimes > 0) {
+        try {
+          var res = await casperClient.putDeploy(transperDeploy1);
+          expect(res, base16Encode(transperDeploy1.hash));
+          print(base16Encode(transperDeploy1.hash));
+          break;
+        } catch (e) {
+          tryTimes--;
+          print(e);
+        }
+      }
+
+      var deployParams2 = DeployParams(publicKey2, networkName);
+      var session2 = ExecutableDeployItem.newTransfer(
+          BigNumber.from(transferAmount),
+          rPublicKey2,
+          null,
+          BigNumber.from(transferId));
+
+      var transperDeploy2 =
+          casperClient.makeTransferDeploy(deployParams2, session2, payment);
+      transperDeploy2 = signDeploy(transperDeploy2, senderKey2);
+
+      var tryTimes2 = 5;
+      while (tryTimes2 > 0) {
+        try {
+          var res = await casperClient.putDeploy(transperDeploy2);
+          expect(res, base16Encode(transperDeploy2.hash));
+          print(base16Encode(transperDeploy2.hash));
+          break;
+        } catch (e) {
+          tryTimes2--;
+          print(e);
+        }
+      }
+    });
 
     // test('get total stake', () async {
     //   var publicKey = CLPublicKey.fromHex(
