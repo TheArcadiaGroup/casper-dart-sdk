@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:asn1lib/asn1lib.dart';
+import 'package:ecdsa/ecdsa.dart' as ecdsa;
 import 'package:pinenacl/ed25519.dart';
 import 'package:elliptic/elliptic.dart' as elliptic;
 import 'package:pinenacl/tweetnacl.dart';
@@ -405,8 +406,9 @@ class Secp256K1 extends AsymmetricKey {
     var priv = secp256k1.PrivateKey.fromHex(base16Encode(privateKey));
     var out = Uint8List.fromList(List.filled(32, 0, growable: true));
     TweetNaClExt.crypto_hash_sha256(out, msg);
-    var sig = priv.signature(base16Encode(out));
-    return Uint8List.fromList(base16Decode(sig.toRawHex()));
+    var out_2 = out.map((e) => e.toInt()).toList();
+    var sig = ecdsa.deterministicSign(elliptic.PrivateKey.fromHex(elliptic.getSecp256k1(), priv.toHex()), out_2);
+    return Uint8List.fromList(base16Decode(sig.toCompactHex()));
   }
 
   @override
