@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:casper_dart_sdk/classes/classes.dart';
 import 'package:casper_dart_sdk/contract-client/contract_client.dart';
 import 'package:casper_dart_sdk/contract-client/types.dart';
+import 'package:dart_bignumber/dart_bignumber.dart';
 
 import 'constants.dart';
 

@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:casper_dart_sdk/classes/CLValue/public_key.dart';
-import 'package:casper_dart_sdk/classes/bignumber.dart';
 import 'package:casper_dart_sdk/classes/casper_client.dart';
 import 'package:casper_dart_sdk/classes/conversions.dart';
 import 'package:casper_dart_sdk/classes/deploy_util.dart';
 import 'package:casper_dart_sdk/classes/keys.dart';
+import 'package:dart_bignumber/dart_bignumber.dart';
 import 'package:test/test.dart';
 
 void main() {

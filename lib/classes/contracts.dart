@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 import 'package:casper_dart_sdk/classes/CLValue/abstract.dart';
-import 'package:casper_dart_sdk/classes/bignumber.dart';
 import 'package:casper_dart_sdk/contract-client/helpers/utils.dart';
+import 'package:dart_bignumber/dart_bignumber.dart';
 
 import '../classes/CLValue/public_key.dart';
 import '../classes/casper_client.dart';

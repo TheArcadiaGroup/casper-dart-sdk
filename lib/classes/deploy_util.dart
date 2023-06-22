@@ -1,5 +1,6 @@
 import 'package:casper_dart_sdk/classes/CLValue/numeric.dart';
 import 'package:casper_dart_sdk/classes/CLValue/option.dart';
+import 'package:dart_bignumber/dart_bignumber.dart';
 import 'package:duration/duration.dart';
 import 'package:duration/locale.dart';
 import 'package:collection/collection.dart';
@@ -14,7 +15,6 @@ import 'CLValue/builders.dart';
 import 'CLValue/constants.dart';
 import 'CLValue/public_key.dart';
 import 'CLValue/uref.dart';
-import 'bignumber.dart';
 import 'byte_converters.dart';
 import 'casper_client.dart';
 import 'conversions.dart';

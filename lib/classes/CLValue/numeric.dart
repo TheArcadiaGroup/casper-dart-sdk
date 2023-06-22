@@ -5,7 +5,7 @@ import 'package:collection/collection.dart';
 
 import 'abstract.dart';
 import 'constants.dart';
-import '../bignumber.dart';
+import 'package:dart_bignumber/dart_bignumber.dart';
 import '../byte_converters.dart';
 
 abstract class NumericBytesParser extends CLValueBytesParsers {

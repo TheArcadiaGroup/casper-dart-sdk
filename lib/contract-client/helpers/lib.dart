@@ -1,5 +1,6 @@
 import 'package:casper_dart_sdk/casper_dart_sdk.dart';
 import 'package:casper_dart_sdk/contract-client/types.dart';
+import 'package:dart_bignumber/dart_bignumber.dart';
 import 'package:pinenacl/ed25519.dart';
 
 CLKey createRecipientAddress(CLValue recipient) {

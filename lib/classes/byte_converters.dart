@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'bignumber.dart';
+import 'package:dart_bignumber/dart_bignumber.dart';
 import 'CLValue/abstract.dart';
 
 Function(dynamic val) toBytesNumber(int bitSize, bool signed) {

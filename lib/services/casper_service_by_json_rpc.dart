@@ -1,10 +1,10 @@
 import 'dart:convert';
 
+import 'package:dart_bignumber/dart_bignumber.dart';
 import 'package:http/http.dart' as http;
 import 'package:json_annotation/json_annotation.dart';
 
 import '../classes/CLValue/public_key.dart';
-import '../classes/bignumber.dart';
 import '../classes/conversions.dart';
 import '../classes/deploy_util.dart';
 import '../classes/stored_value.dart';

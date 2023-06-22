@@ -3,6 +3,7 @@ import 'dart:typed_data';
 
 import 'package:casper_dart_sdk/classes/classes.dart';
 import 'package:casper_dart_sdk/services/services.dart';
+import 'package:dart_bignumber/dart_bignumber.dart';
 
 String camelCased(String str) => str.replaceAllMapped(RegExp(r'^([a-z])|[A-Z]'),
     (Match m) => m[1] == null ? ' ${m[0]}' : m[1]!.toUpperCase());

@@ -2,6 +2,8 @@ import 'dart:typed_data';
 
 import 'package:casper_dart_sdk/classes/classes.dart';
 import 'package:casper_dart_sdk/services/casper_service_by_json_rpc.dart';
+import 'package:dart_bignumber/bn.dart';
+import 'package:dart_bignumber/dart_bignumber.dart';
 import 'package:oxidized/oxidized.dart';
 import 'deploy_util.dart' as deploy_util;
 

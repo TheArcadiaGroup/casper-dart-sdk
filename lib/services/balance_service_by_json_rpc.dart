@@ -1,6 +1,6 @@
 import 'package:casper_dart_sdk/classes/CLValue/public_key.dart';
-import 'package:casper_dart_sdk/classes/bignumber.dart';
 import 'package:casper_dart_sdk/services/casper_service_by_json_rpc.dart';
+import 'package:dart_bignumber/dart_bignumber.dart';
 
 class BalanceServiceByJsonRPC {
   late Map<String, String> balanceUrefs;
