@@ -11,7 +11,7 @@ dependencies:
   asn1lib: ^1.1.0
   build_runner: ^2.1.11
   dart_bignumber:
-    git: https://github.com/hoangkianh/dart-bignumber.git
+    git: https://github.com/TheArcadiaGroup/dart-bignumber.git
   duration: ^3.0.11
   ecdsa: ^0.0.4
   hdkey: ^0.0.1
