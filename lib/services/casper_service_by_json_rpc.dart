@@ -782,7 +782,8 @@ class CasperServiceByJsonRPC {
 
   Future<String> getStateRootHash([String? blockHashBase16]) async {
     var res = await _makeRPCCall(
-        'chain_get_state_root_hash', {'block_hash': blockHashBase16});
+        'chain_get_state_root_hash',
+        blockHashBase16 != null ? {'block_hash': blockHashBase16} : {});
 
     var data = GetStateRootHashResult.fromJson(res);
     return data.stateRootHash;
